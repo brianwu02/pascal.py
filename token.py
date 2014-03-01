@@ -96,3 +96,8 @@ class TK_EOF(Token):
     """TK_EOF End of Line, End of File Token"""
     def __init__(self):
         pass
+
+class TK_COMMENT(Token):
+    """Comment Token"""
+    def __init__(self):
+        pass
