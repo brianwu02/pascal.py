@@ -23,7 +23,7 @@ TOKEN:
 use LL parser style.
 """
 
-class Token():
+class Token:
     """ A token object"""
     def __init__(self):
         self.value = value
@@ -37,37 +37,37 @@ class Token():
 
     def value(self):
         """returns the value of the token"""
-        pass
+        return str(self.value)
 
     def __repr__(self):
         pass
 
-class Integer_Token(Token):
-    """Integer Token"""
+class TK_INTLIT(Token):
+    """Integer Literal Token"""
     def __init__(self):
         pass
 
-class RealNum_Token(Token):
-    """Real Number token"""
+class TK_REALLIT(Token):
+    """Real Literal token"""
     def __init__(self):
         pass
 
-class String_Token(Token):
-    """String Token"""
+class TK_STRLIT(Token):
+    """String Literal Token"""
     def __init__(self):
         pass
 
-class Keyword_Token(Token):
+class TK_KEYWORD(Token):
     """Keyword Token"""
     def __init__(self):
         pass
 
-class Identifier_Token(Token):
-    """Identifier Token"""
+class TK_ID(Token):
+    """TK_ID Identifier Token"""
     def __init__(self):
         pass
 
-class EOL_EOF_Token(Token):
-    """End of Line, End of File Token"""
+class TK_EOF(Token):
+    """TK_EOF End of Line, End of File Token"""
     def __init__(self):
         pass
