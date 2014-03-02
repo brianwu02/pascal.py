@@ -9,7 +9,7 @@ class Scanner():
         cur_index: keeps track of current position in file array
         last_index: keeps track of last element in the array
         """
-        self.cur_index = 0
+        self.current_index = 0
         self.last_index = len(src_file)
         self.src_file = src_file
         pass
