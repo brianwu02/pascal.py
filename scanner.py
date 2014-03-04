@@ -3,7 +3,6 @@ class Scanner():
     Should be able to be called recursively
     Scanner should tokenize 
     """
-    
     def __init__(self, src_file):
         """
         cur_index: keeps track of current position in file array
@@ -11,6 +10,9 @@ class Scanner():
         """
         self.current_index = 0
         self.last_index = len(src_file)
+        self.current_line = 1
+        self.current_column = 0
+
         self.src_file = src_file
         pass
     
@@ -32,10 +34,3 @@ class Scanner():
     def print_src(self):
         for c in self.src_file:
             print('%s %s') % (c, ord(c))
-    
-    
-
-
-
-
-
