@@ -1,12 +1,12 @@
-#
-# generator that spits out characters until end of line
+from constants import SYMBOLS, RESERVED_WORDS
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
 
     def __init__(self):
-        self.source_file = self.open_file()
+        self.source_file = self.open_file('sample.ps')
         self.current_index = 0
+        self.current_line = 1
         self.times_called_next = 0
 
     def __iter__(self):
@@ -21,9 +21,7 @@ class Tokenizer:
             self.current_index += 1
             print(self.current_index)
         self.current_index += 1
-
         print('you called next() %s times') % (self.times_called_next)
-
         return token
     """
 
@@ -53,8 +51,8 @@ class Tokenizer:
         return c
 
 
-    def open_file(self):
-        with open('sample_text_file', 'r') as f:
+    def open_file(self, file_name):
+        with open(file_name, 'r') as f:
             return f.read()
 
     def print_string(self):
