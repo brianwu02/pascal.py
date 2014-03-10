@@ -29,7 +29,12 @@ class Tokenizer:
         token = ''
         while True:
             next_char = self.get_next_character()
-
+ 
+    def get_next_character(self):
+        """returns the next character"""
+        c = self.source_file[self.current_index]
+        self.current_index += 1
+        return c
 
     def is_operator(self, character):
         """returns T/F whether or not character is an operator"""
@@ -43,14 +48,7 @@ class Tokenizer:
         """returns boolean for input token"""
         pass
 
-    
-    def get_next_character(self):
-        """returns the next character"""
-        c = self.source_file[self.current_index]
-        self.current_index += 1
-        return c
-
-
+   
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
             return f.read()
