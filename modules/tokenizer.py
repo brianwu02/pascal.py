@@ -16,6 +16,7 @@ class Tokenizer:
         self.current_line = 1
         self.times_called_next = 0
         self.token_list = []
+        self.current_token = ''
 
     def __iter__(self):
         return self
@@ -34,21 +35,21 @@ class Tokenizer:
     """
 
     def next(self):
-        token = ''
+        token = '|'
+
         while True:
             char = self.get_next_character()
 
             if self.is_EOF(char):
                 # end of line or file, we are done here.
-                pass
+                raise StopIteration
 
             if self.is_identifier(char):
                 # character is an identifier, so return token
-                token = char
+                token += char
                 break
 
             if self.is_whitespace(char):
-                # 
                 break
 
             if self.is_newline(char):
@@ -61,9 +62,12 @@ class Tokenizer:
 
             else:
                 # not identifier, whitespace, or newline
-                print("this isn't suppose to happen yet, figure out why")
+                print("The else condition in next() method, should not occur yet.")
                 pass
+        self.current_token = token
         return token
+
+
  
     def is_EOF(self, char):
         # remember to fix this.
@@ -74,39 +78,46 @@ class Tokenizer:
         m = re.search("[a-zA-Z]", char)
         if m:
             return True
-        else:
-            return False
+        return False
 
     def is_number(self, char):
         m = re.search("[0-9]", char)
         if m:
             return True
-        else:
-            return False
+        return False
 
     def is_identifier(self, char):
         """returns boolean for input token"""
         if char in IDENTIFIERS:
             return True
-        else:
-            return False
+        return False
 
     def is_whitespace(self, char):
         """boolean. returns true if next_char is whitespace"""
         if char == " ":
             return True
-        else:
-            return False
+        return False
 
     def is_newline(self, char):
         """Boolean. returns true if next_char is newline character"""
-        pass
+        if char == "\n":
+            return True
+        return False
 
     def get_next_character(self):
         """returns the next character"""
-        c = self.source_file[self.current_index]
+        if self.is_done():
+            raise StopIteration
+
+        char = self.source_file[self.current_index]
         self.current_index += 1
-        return c
+        return char
+
+    def is_done(self):
+        """will cause a StopIteration to occur"""
+        if self.current_index >= len(self.source_file):
+            return True
+        return False
    
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
@@ -116,11 +127,14 @@ class Tokenizer:
         print self.source_file
 
     def __repr__(self):
-        pass
+        return """line number: %s, index: %s, character: %s
+        """ % (self.current_line, self.current_index, self.current_token)
 
 
 if __name__ == "__main__":
     s = Tokenizer()
     s.print_string()
-    iter(s)
-    print next(s)
+    #iter(s)
+    #print next(s)
+    for char in s:
+        print char
