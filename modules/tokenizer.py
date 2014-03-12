@@ -1,4 +1,5 @@
 from constants import IDENTIFIERS
+import re
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
@@ -43,7 +44,7 @@ class Tokenizer:
 
             if is_identifier(char):
                 # character is an identifier, so return token
-                token = next_char
+                token = char
                 break
 
             if is_whitespace(char):
@@ -53,9 +54,14 @@ class Tokenizer:
             if is_newline(char):
 
                 break
-            
+
+            if is_character(char):
+                token += char
+                continue
+
             else:
                 # not identifier, whitespace, or newline
+                print("this isn't suppose to happen yet, figure out why")
                 pass
         return token
  
@@ -64,6 +70,13 @@ class Tokenizer:
         c = self.source_file[self.current_index]
         self.current_index += 1
         return c
+
+    def is_character(self, char):
+        m = re.search("[a-z]", char)
+        if m:
+            return True
+        else:
+            return False
 
     def is_reserved_word(self, token):
         """returns boolean for input token"""
