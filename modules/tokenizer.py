@@ -65,14 +65,17 @@ class Tokenizer:
                 pass
         return token
  
-    def get_next_character(self):
-        """returns the next character"""
-        c = self.source_file[self.current_index]
-        self.current_index += 1
-        return c
+
 
     def is_character(self, char):
-        m = re.search("[a-z]", char)
+        m = re.search("[a-zA-Z]", char)
+        if m:
+            return True
+        else:
+            return False
+
+    def is_number(self, char):
+        m = re.search("[0-9]", char)
         if m:
             return True
         else:
@@ -88,12 +91,20 @@ class Tokenizer:
 
     def is_whitespace(self, char):
         """boolean. returns true if next_char is whitespace"""
-        pass
+        if char == " ":
+            return True
+        else:
+            return False
 
     def is_newline(self, char):
         """Boolean. returns true if next_char is newline character"""
         pass
 
+    def get_next_character(self):
+        """returns the next character"""
+        c = self.source_file[self.current_index]
+        self.current_index += 1
+        return c
    
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
