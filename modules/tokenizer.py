@@ -1,4 +1,4 @@
-from constants import SYMBOLS, RESERVED_WORDS
+from constants import IDENTIFIERS
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
@@ -35,24 +35,35 @@ class Tokenizer:
     def next(self):
         token = ''
         while True:
-            next_char = self.get_next_character()
-            
-            if is_operator(next_char):
-                # do something since it should be tokenized.
+            char = self.get_next_character()
 
+            if is_EOF(char):
+                # end of line or file, we are done here.
                 pass
+
+            if is_identifier(char):
+                # character is an identifier, so return token
+                token = next_char
+                break
+
+            if is_whitespace(char):
+                # 
+                break
+
+            if is_newline(char):
+
+                break
+            
+            else:
+                # not identifier, whitespace, or newline
+                pass
+        return token
  
     def get_next_character(self):
         """returns the next character"""
         c = self.source_file[self.current_index]
         self.current_index += 1
         return c
-
-    
-
-    def is_operator(self, token):
-        """returns T/F whether or not character is an operator"""
-        pass
 
     def is_reserved_word(self, token):
         """returns boolean for input token"""
@@ -62,15 +73,28 @@ class Tokenizer:
         """returns boolean for input token"""
         pass
 
+    def is_whitespace(self, char):
+        """boolean. returns true if next_char is whitespace"""
+        pass
+
+    def is_newline(self, char):
+        """Boolean. returns true if next_char is newline character"""
+        pass
+
    
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
             return f.read()
 
     def print_string(self):
-        print self.file
+        print self.source_file
+
+    def __repr__(self):
+        pass
 
 
 if __name__ == "__main__":
-    s = StringIter()
+    s = Tokenizer()
     s.print_string()
+    iter(s)
+    print next(s)
