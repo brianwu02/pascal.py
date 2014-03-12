@@ -4,10 +4,17 @@ class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
 
     def __init__(self):
+        """
+        self.source_file: holds the source file as a String
+        self.current_index: current index of source_file
+        self.current_line: current line
+        self.token_list: holds list of all the tokens
+        """
         self.source_file = self.open_file('sample.ps')
         self.current_index = 0
         self.current_line = 1
         self.times_called_next = 0
+        self.token_list = []
 
     def __iter__(self):
         return self
@@ -29,6 +36,11 @@ class Tokenizer:
         token = ''
         while True:
             next_char = self.get_next_character()
+            
+            if is_operator(next_char):
+                # do something since it should be tokenized.
+
+                pass
  
     def get_next_character(self):
         """returns the next character"""
@@ -36,7 +48,9 @@ class Tokenizer:
         self.current_index += 1
         return c
 
-    def is_operator(self, character):
+    
+
+    def is_operator(self, token):
         """returns T/F whether or not character is an operator"""
         pass
 
