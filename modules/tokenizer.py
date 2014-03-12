@@ -1,4 +1,4 @@
-from constants import IDENTIFIERS
+from constants import IDENTIFIERS 
 import re
 
 class Tokenizer:
@@ -84,10 +84,12 @@ class Tokenizer:
         else:
             return False
 
-
-    def is_identifier(self, token):
+    def is_identifier(self, char):
         """returns boolean for input token"""
-        pass
+        if char in IDENTIFIERS:
+            return True
+        else:
+            return False
 
     def is_whitespace(self, char):
         """boolean. returns true if next_char is whitespace"""
