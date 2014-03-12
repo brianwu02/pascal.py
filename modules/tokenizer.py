@@ -38,24 +38,24 @@ class Tokenizer:
         while True:
             char = self.get_next_character()
 
-            if is_EOF(char):
+            if self.is_EOF(char):
                 # end of line or file, we are done here.
                 pass
 
-            if is_identifier(char):
+            if self.is_identifier(char):
                 # character is an identifier, so return token
                 token = char
                 break
 
-            if is_whitespace(char):
+            if self.is_whitespace(char):
                 # 
                 break
 
-            if is_newline(char):
+            if self.is_newline(char):
 
                 break
 
-            if is_character(char):
+            if self.is_character(char):
                 token += char
                 continue
 
@@ -65,6 +65,9 @@ class Tokenizer:
                 pass
         return token
  
+    def is_EOF(self, char):
+        # remember to fix this.
+        return False
 
 
     def is_character(self, char):
@@ -81,9 +84,6 @@ class Tokenizer:
         else:
             return False
 
-    def is_reserved_word(self, token):
-        """returns boolean for input token"""
-        pass
 
     def is_identifier(self, token):
         """returns boolean for input token"""
