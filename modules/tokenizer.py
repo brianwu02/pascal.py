@@ -44,10 +44,19 @@ class Tokenizer:
                 # end of line or file, we are done here.
                 raise StopIteration
 
+            if self.is_quote(char):
+                # need to do something...
+                token = self.handle_quote(char)
+                break
+
             if self.is_identifier(char):
                 # character is an identifier, so return token
                 token += char
                 break
+
+            if self.is_number(char):
+                # need to handle digits used in strings etc.
+                token = char
 
             if self.is_whitespace(char):
                 break
@@ -67,12 +76,21 @@ class Tokenizer:
         self.current_token = token
         return token
 
+    def handle_quote(self, char):
+        """this occurs when a quote is detected. should keep retrieving
+        characters until another quote is detected."""
+        current_string = char
+        while True:
+            # until another quote is detected... keep going
+            char = self.get_next_character()
+            current_string += char
+            if self.is_quote(char):
+                break
+        return current_string
 
- 
     def is_EOF(self, char):
         # remember to fix this.
         return False
-
 
     def is_character(self, char):
         m = re.search("[a-zA-Z]", char)
@@ -89,6 +107,11 @@ class Tokenizer:
     def is_identifier(self, char):
         """returns boolean for input token"""
         if char in IDENTIFIERS:
+            return True
+        return False
+
+    def is_quote(self, char):
+        if char == "\'":
             return True
         return False
 
