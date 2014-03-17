@@ -71,6 +71,9 @@ class Tokenizer:
                 else:
                     msg = "\nthree symbols in a row or more detected\n"
                     self.handle_exception(c, word, msg)
+                word += symbol
+                break
+
             else:
                 # if this happens, it means that a case is not being handled.
                 self.handle_exception(c, word)
@@ -121,10 +124,23 @@ class Tokenizer:
         symbol = ''
         while True:
             if c.is_current_symbol() and c.is_next_symbol():
-                symbol += c.get_current_char()
-                symbol += c.get_current_char()
-                break
-        return symbol
+                sym1 = c.get_char_ahead_by(0)
+                sym2 = c.get_char_ahead_by(1)
+                sym = sym1 + sym2
+                if sym not in DOUBLE_SYMBOLS:
+                    # parse as a single symbol
+                    symbol += c.get_current_char()
+                    break
+                else:
+                    symbol += c.get_current_char()
+                    symbol += c.get_current_char()
+                    
+                    if symbol not in DOUBLE_SYMBOLS:
+                        msg = "double symbol detected is not in DOUBLE_SYMBOL list"
+                        self.handle_exception(c, symbol, msg)
+                    break
+        return symbol 
+
 
     def handle_word(self, c):
         """current character is alphabet"""
