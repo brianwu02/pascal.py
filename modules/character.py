@@ -26,6 +26,17 @@ class Character(object):
         #return (c, i, l)
         return c
 
+    def get_char_ahead_by(self, i):
+        """returns the character i positions ahead of the current char.
+        0: 0 character ahead, current character
+        1: 1 character ahead, same as get_next_char()
+        2: 2 characters ahead. equivalent to self.data[index + 2]
+        """
+        current_index = self.current_index
+        c = self.data[current_index + i]
+        return c
+
+
     def next_char(self):
         """returns the next next character. does not increment index count."""
         c = self.data[self.current_index + 1]
@@ -136,7 +147,7 @@ class Character(object):
         #    data = "\\t"
         
 
-        return """LINE: (%s) INDEX: (%s) CHAR: ( %s ) ASCII: (%s)""" % (
+        return """LINE:%s  INDEX:%s  CHAR: ( %s ) ASCII:%s""" % (
                 self.current_line,
                 self.current_index,
                 data,
