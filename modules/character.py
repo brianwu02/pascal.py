@@ -8,6 +8,7 @@ class Character(object):
         
         self.current_index = 0
         self.current_line = 1
+        self.current_line_index = 0
         self.data = self.src
 
     def current_char(self):
@@ -16,15 +17,26 @@ class Character(object):
         return c
 
     def get_current_char(self):
-        """return a tuple of (char, index, line_index)"""
+        """return a tuple of (char, index, line_index)
+        c: single character
+        l: current line
+        cli: current index with respect to current line
+        i: current index
+        returns tuple: (c, l, cli, i)
+        """
         if self.is_done():
             return 'EOF'
         i = self.current_index
         l = self.current_line
+        cli = self.current_line_index
         self.current_index += 1
+        self.current_line_index += 1
         c = self.data[i]
         #return (c, i, l)
         return c
+
+    def get_current_line(self):
+        return self.current_line
 
     def get_char_ahead_by(self, i):
         """returns the character i positions ahead of the current char.
@@ -68,6 +80,13 @@ class Character(object):
 
     def is_current_symbol(self):
         if self.data[self.current_index] in SYMBOLS:
+            return True
+        return False
+    
+    def ahead_by_is_symbol(self, i):
+        """checks if ith ahead of current character is a symbol."""
+        index = self.current_index + i
+        if self.data[index] in SYMBOLS:
             return True
         return False
 
