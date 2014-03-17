@@ -20,13 +20,15 @@ class Tokenizer:
 
     def __iter__(self):
         return self
-
     
     def next(self):
         c = self.char
         token = ''
         while True:
-            print("---current char: %s") % (c)
+            print("---%s") % (c)
+
+            if c.is_done():
+                raise StopIteration
 
             if c.is_current_whitespace():
                 c.increment_index()
@@ -41,6 +43,11 @@ class Tokenizer:
                 token = word
                 break
 
+            if c.is_current_num():
+                number = self.handle_number(c)
+                token = number
+                break
+
             if c.is_current_quote():
                 quote = self.handle_quote(c)
                 token = quote
@@ -53,11 +60,22 @@ class Tokenizer:
 
         return token
 
+    def handle_number(self, c):
+        """As of now, this will only handle integers and not floats"""
+        number = ''
+        while True:
+            if c.is_current_num():
+                number += c.get_current_char()
+            else:
+                break
+        return number
+
     def handle_symbol(self, c):
         symbol = ''
         while True:
             if c.is_current_symbol():
                 symbol += c.get_current_char()
+            else:
                 break
         return symbol
 
@@ -69,78 +87,19 @@ class Tokenizer:
                 word += c.get_current_char()
             else:
                 break
-        print("In handle_world state")
+        print("---In handle_world state---")
         return word
 
     def handle_quote(self, c):
+        """this event occurs when a ' is detected. it will continue
+        retrieving characters until another ' is detected"""
         quote = ''
         while True:
             quote += c.get_current_char()
             if c.is_current_quote():
                 quote += c.get_current_char()
                 break
-        return word
-
-
-
-    def handle_quote(self, char):
-        """this occurs when a quote is detected. should keep retrieving
-        characters until another quote is detected."""
-        current_string = char
-        while True:
-            # until another quote is detected... keep going
-            char = self.get_next_character()
-            current_string += char
-            if self.is_quote(char):
-                break
-        return current_string
-
-    """
-    def next(self):
-        token = ''
-
-        while True:
-            char = self.get_next_character()
-
-            if self.is_quote(char):
-                token = self.handle_quote(char)
-                break
-
-            if self.is_identifier(char):
-                # character is an identifier, so return token
-                token += char
-                break
-
-            if self.is_num(char):
-                # need to handle digits used in strings etc.
-                token = char
-                nxt_char = self.lookahead_char()
-                while self.is_num(nxt_char):
-                    token += char
-                break
-
-            if self.is_whitespace(char):
-                break
-
-            if self.is_newline(char):
-                self.current_line += 1
-                continue
-
-            if self.is_character(char):
-                token += char
-                continue
-
-            else:
-                # not identifier, whitespace, or newline
-                print("The else condition in next() method, should not occur yet.")
-                print("the char: %s") % (char)
-                pass
-
-        self.current_token = token
-
-        return token
-    """
-
+        return quote
 
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
@@ -160,4 +119,4 @@ if __name__ == "__main__":
     #iter(s)
     #print next(s)
     for char in s:
-        print char
+        print char 

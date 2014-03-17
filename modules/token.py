@@ -37,28 +37,28 @@ class Token:
 
         pass
 
-    def typeof(self):
+    def get_typeof(self):
         """returns the type of token"""
         pass
 
-    def current_value(self):
+    def get_current_val(self):
         """returns the value of the token"""
         return str(self.current_value)
 
-    def current_name(self):
+    def get_current_name(self):
         """returns the current name of the token"""
         return str(self.current_name)
 
-    def current_file(self):
+    def get_current_file(self):
         """returns the current file the token is in.
         does not make sense yet. multiple files i guess?"""
         return str(self.current_file)
 
-    def current_line(self):
+    def get_current_line(self):
         """returns the line of the token"""
         return str(self.current_line)
 
-    def current_column(self):
+    def get_current_column(self):
         """returns the current column of the token"""
         return str(self.current_column)
 

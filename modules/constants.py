@@ -7,7 +7,7 @@
 # constants: numerical or character constants used to denote actual values. 
 
 SYMBOLS = [
-        '+', '-', '*', '/' ,'=' '<', '>',
+        '+', '-', '*', '/' ,'=', '<', '>',
         '[' , ']', '.', ',', '(', ')', ':',
         '^', '@', '{', '}', '$', '#', '&',
         '%', '<<' ,'>>','**', '<>', '><', 

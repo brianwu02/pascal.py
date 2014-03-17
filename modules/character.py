@@ -33,6 +33,8 @@ class Character(object):
 
     def is_current_alpha(self):
         c = self.data[self.current_index]
+        if c == '_':
+            return True
         return c.isalpha()
 
     def is_next_alpha(self):
@@ -75,6 +77,7 @@ class Character(object):
 
     def is_current_newline(self):
         if self.data[self.current_index] == "\n":
+            self.current_line += 1
             return True
         return False
 
@@ -99,7 +102,7 @@ class Character(object):
         return False
 
     def is_done(self):
-        if self.current_index >= len(self.src):
+        if self.current_index >= len(self.src) -1:
             return True
         return False
     
@@ -119,7 +122,9 @@ class Character(object):
         #return ("char: %s\n ASCII: %s\n index: %s\n line: %s") % (
         #        self.val, self.val, self.current_index, self. current_line
         #        )
-        return "char: %s ASCII: %s" % (
+        return """line: %s index: %s char: %s ASCII: %s""" % (
+                self.current_line,
+                self.current_index,
                 self.data[self.current_index], 
                 ord(self.data[self.current_index])
                 )

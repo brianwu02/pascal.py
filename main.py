@@ -2,7 +2,7 @@
 # Pascal Compiler
 # Main File
 import sys
-from Scanner import *
+from modules import *
 
 
 def read_source(source_file):
