@@ -17,6 +17,7 @@ class Tokenizer:
         self.token_list = []
         self.current_token = ''
         self.char = Character()
+        self.list_of_words = []
 
     def __iter__(self):
         return self
@@ -58,17 +59,24 @@ class Tokenizer:
                 break
 
             else:
+                # if this happens, it means that a case is not being handled.
                 line = c.current_line
                 index = c.current_index
                 char = c.data[index]
                 word = word
+                low = self.list_of_words
                 msg = """
-                Error while parsing:
+                Error! something bad has happened while trying to parse a char.
                 line number : %s
                 index number : %s
-                character : %s
-                current_word : %s""" % (line, index, char, word)
-                #raise Exception(msg)
+                character : ( %s ) ASCII: %s
+                current_word : ( %s )
+                list of words parsed: %s
+                """ % (line, index, char, ord(char), word, low)
+                raise Exception(msg)
+
+        # used for Exception catching
+        self.list_of_words.append(word)
 
         # pass word to token object that will return a new token object
         # token = Token(token)
