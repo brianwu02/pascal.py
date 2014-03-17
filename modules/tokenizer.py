@@ -1,4 +1,6 @@
 from constants import SYMBOLS
+from character import Character
+from token import Token
 import re
 
 class Tokenizer:
@@ -12,15 +14,88 @@ class Tokenizer:
         self.token_list: holds list of all the tokens
         """
         self.source_file = self.open_file('sample.ps')
-        self.current_index = 0
-        self.current_line = 1
-        self.times_called_next = 0
         self.token_list = []
         self.current_token = ''
+        self.char = Character()
 
     def __iter__(self):
         return self
 
+    
+    def next(self):
+        c = self.char
+        token = ''
+        while True:
+            print("---current char: %s") % (c)
+
+            if c.is_current_whitespace():
+                c.increment_index()
+                continue
+
+            if c.is_current_newline():
+                c.increment_index()
+                continue
+
+            if c.is_current_alpha():
+                word = self.handle_word(c)
+                token = word
+                break
+
+            if c.is_current_quote():
+                quote = self.handle_quote(c)
+                token = quote
+                break
+
+            if c.is_current_symbol():
+                symbol = self.handle_symbol(c)
+                token = symbol 
+                break
+
+        return token
+
+    def handle_symbol(self, c):
+        symbol = ''
+        while True:
+            if c.is_current_symbol():
+                symbol += c.get_current_char()
+                break
+        return symbol
+
+    def handle_word(self, c):
+        """current character is alphabet"""
+        word = ''
+        while True:
+            if c.is_current_alpha():
+                word += c.get_current_char()
+            else:
+                break
+        print("In handle_world state")
+        return word
+
+    def handle_quote(self, c):
+        quote = ''
+        while True:
+            quote += c.get_current_char()
+            if c.is_current_quote():
+                quote += c.get_current_char()
+                break
+        return word
+
+
+
+    def handle_quote(self, char):
+        """this occurs when a quote is detected. should keep retrieving
+        characters until another quote is detected."""
+        current_string = char
+        while True:
+            # until another quote is detected... keep going
+            char = self.get_next_character()
+            current_string += char
+            if self.is_quote(char):
+                break
+        return current_string
+
+    """
     def next(self):
         token = ''
 
@@ -64,76 +139,9 @@ class Tokenizer:
         self.current_token = token
 
         return token
+    """
 
-    def get_next_character(self):
-        """returns the next character"""
-        if self.is_done():
-            raise StopIteration
 
-        char = self.source_file[self.current_index]
-        self.current_index += 1
-        return char 
-
-    def lookahead_char(self):
-        return self.source_file[self.current_index+1]
-
-    def handle_quote(self, char):
-        """this occurs when a quote is detected. should keep retrieving
-        characters until another quote is detected."""
-        current_string = char
-        while True:
-            # until another quote is detected... keep going
-            char = self.get_next_character()
-            current_string += char
-            if self.is_quote(char):
-                break
-        return current_string
-
-    def is_EOF(self, char):
-        # remember to fix this.
-        return False
-
-    def is_character(self, char):
-        m = re.search("[a-zA-Z]", char)
-        if m:
-            return True
-        return False
-
-    def is_num(self, char):
-        m = re.search("[0-9]", char)
-        if m:
-            return True
-        return False
-
-    def is_identifier(self, char):
-        """returns boolean for input token"""
-        if char in SYMBOLS:
-            return True
-        return False
-
-    def is_quote(self, char):
-        if char == "\'":
-            return True
-        return False
-
-    def is_whitespace(self, char):
-        """boolean. returns true if next_char is whitespace"""
-        if char == " ":
-            return True
-        return False
-
-    def is_newline(self, char):
-        """Boolean. returns true if next_char is newline character"""
-        if char == "\n":
-            return True
-        return False
-
-    def is_done(self):
-        """will cause a StopIteration to occur"""
-        if self.current_index >= len(self.source_file):
-            return True
-        return False
-   
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
             return f.read()
@@ -148,7 +156,7 @@ class Tokenizer:
 
 if __name__ == "__main__":
     s = Tokenizer()
-    s.print_string()
+    #s.print_string()
     #iter(s)
     #print next(s)
     for char in s:
