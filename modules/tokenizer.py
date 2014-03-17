@@ -1,7 +1,10 @@
 from constants import SYMBOLS
 from constants import DOUBLE_SYMBOLS
 from character import Character
-from token import Token
+from token import Token 
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
@@ -29,6 +32,10 @@ class Tokenizer:
             print("---%s") % (c)
 
             if c.is_done():
+                low = self.list_of_words
+                msg ="**** Done parsing words %s ****"
+                print(msg)
+                pp.pprint(low)
                 raise StopIteration
 
             if c.is_current_whitespace():
