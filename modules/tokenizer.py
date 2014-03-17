@@ -32,10 +32,7 @@ class Tokenizer:
             print("---%s") % (c)
 
             if c.is_done():
-                low = self.list_of_words
-                msg ="**** Done parsing words %s ****"
-                print(msg)
-                pp.pprint(low)
+                self.print_is_done()
                 raise StopIteration
 
             if c.is_current_whitespace():
@@ -162,6 +159,15 @@ class Tokenizer:
 
     def print_string(self):
         print self.source_file
+
+    def print_is_done():
+        low = self.list_of_words
+        msg ="**** Done parsing words %s ****"
+        print(msg)
+        pp.pprint(low)
+        return 
+
+
 
     def __repr__(self):
         return """line number: %s, index: %s, character: %s
