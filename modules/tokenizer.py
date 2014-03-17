@@ -57,11 +57,20 @@ class Tokenizer:
                 word += quote
                 break
 
-            if c.is_current_symbol():
+            if c.is_current_symbol() and not c.is_next_symbol():
+                # if it is a single symbol.
                 symbol = self.handle_symbol(c)
                 word += symbol
                 break
 
+            if c.is_current_symbol() and c.is_next_symbol():
+                # 2 symbols in a row detected. check that there isn't another symbol ahead.
+                # check if the character 2 places ahead of index is a symbol.
+                if not c.ahead_by_is_symbol(2):
+                    symbol = self.handle_double_symbol(c)
+                else:
+                    msg = "\nthree symbols in a row or more detected\n"
+                    self.handle_exception(c, word, msg)
             else:
                 # if this happens, it means that a case is not being handled.
                 self.handle_exception(c, word)
@@ -140,7 +149,7 @@ class Tokenizer:
                 break
         return quote
 
-    def handle_exception(self, c, word):
+    def handle_exception(self, c, word, custom_msg=None):
         line = c.current_line
         index = c.current_index
         char = c.data[index]
@@ -151,8 +160,10 @@ class Tokenizer:
         index number : %s
         character : ( %s ) ASCII: %s
         current_word : ( %s )
-        list of words parsed: %s
-        """ % (line, index, char, ord(char), word, low)
+        """ % (line, index, char, ord(char), word)
+        if custom_msg is not None:
+            msg = custom_msg + msg
+        pp.pprint(low)
         raise Exception(msg)
 
     def open_file(self, file_name):
@@ -164,7 +175,7 @@ class Tokenizer:
 
     def print_is_done(self):
         low = self.list_of_words
-        msg ="**** Done parsing words %s ****"
+        msg ="**** Sucessfully parsed all words %s ****"
         print(msg)
         pp.pprint(low)
         return 
