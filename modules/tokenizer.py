@@ -23,7 +23,7 @@ class Tokenizer:
     
     def next(self):
         c = self.char
-        token = ''
+        word = ''
         while True:
             print("---%s") % (c)
 
@@ -31,37 +31,53 @@ class Tokenizer:
                 raise StopIteration
 
             if c.is_current_whitespace():
-                c.increment_index()
+                #c.increment_index()
+                self.handle_whitespace(c)
                 continue
 
             if c.is_current_newline():
-                c.increment_index()
+                self.handle_newline(c)
+                #c.increment_index()
                 continue
 
             if c.is_current_alpha():
-                word = self.handle_word(c)
-                token = word
+                word += self.handle_word(c)
                 break
 
             if c.is_current_num():
                 number = self.handle_number(c)
-                token = number
+                word += number
                 break
 
             if c.is_current_quote():
                 quote = self.handle_quote(c)
-                token = quote
+                word += quote
                 break
 
             if c.is_current_symbol():
                 symbol = self.handle_symbol(c)
-                token = symbol 
+                word += symbol
                 break
 
-        return token
+        # pass word to token object that will return a new token object
+        # token = Token(token)
+    
+        return word
+        #return token  
+
+    def handle_newline(self, c):
+        print(" handle_newline state ")
+        c.increment_index()
+        return 
+
+    def handle_whitespace(self, c):
+        print(" handle_whitespace state ")
+        c.increment_index()
+        return 
 
     def handle_number(self, c):
         """As of now, this will only handle integers and not floats"""
+        print(" handle_number state ")
         number = ''
         while True:
             if c.is_current_num():
@@ -71,6 +87,7 @@ class Tokenizer:
         return number
 
     def handle_symbol(self, c):
+        print("  handle_symbol state ")
         symbol = ''
         while True:
             if c.is_current_symbol():
@@ -81,6 +98,7 @@ class Tokenizer:
 
     def handle_double_symbol(self, c):
         """this needs to be cleaned up"""
+        print (" handle_double_symbol state ")
         symbol = ''
         while True:
             if c.is_current_symbol() and c.is_next_symbol():
@@ -91,18 +109,19 @@ class Tokenizer:
 
     def handle_word(self, c):
         """current character is alphabet"""
+        print(" handle_word state ")
         word = ''
         while True:
             if c.is_current_alpha():
                 word += c.get_current_char()
             else:
                 break
-        print("---In handle_world state---")
         return word
 
     def handle_quote(self, c):
         """this event occurs when a ' is detected. it will continue
         retrieving characters until another ' is detected"""
+        print(" handle_quote state ")
         quote = ''
         while True:
             quote += c.get_current_char()
@@ -129,5 +148,5 @@ if __name__ == "__main__":
     #iter(s)
     #print next(s)
     for char in s:
-        print char 
+        print("TOKEN: ( %s )") % (char)
 
