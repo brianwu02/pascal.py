@@ -77,6 +77,7 @@ class Character(object):
 
     def is_current_newline(self):
         if self.data[self.current_index] == "\n":
+
             self.current_line += 1
             return True
         return False
@@ -122,12 +123,26 @@ class Character(object):
         #return ("char: %s\n ASCII: %s\n index: %s\n line: %s") % (
         #        self.val, self.val, self.current_index, self. current_line
         #        )
-        return """line: %s index: %s char: %s ASCII: %s""" % (
+        #cur_line = self.current_line
+        #cur_index = self.current_index
+        data = self.data[self.current_index]
+        #ascii = ord(data)
+        
+        # handle new line
+        if data  == "\n":
+            data = "\\n"
+        # handle tabs
+        #if data == "\t":
+        #    data = "\\t"
+        
+
+        return """LINE: (%s) INDEX: (%s) CHAR: ( %s ) ASCII: (%s)""" % (
                 self.current_line,
                 self.current_index,
-                self.data[self.current_index], 
+                data,
                 ord(self.data[self.current_index])
                 )
+
 
 
 
