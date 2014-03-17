@@ -1,7 +1,7 @@
 from constants import SYMBOLS
+from constants import DOUBLE_SYMBOLS
 from character import Character
 from token import Token
-import re
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
@@ -31,13 +31,11 @@ class Tokenizer:
                 raise StopIteration
 
             if c.is_current_whitespace():
-                #c.increment_index()
                 self.handle_whitespace(c)
                 continue
 
             if c.is_current_newline():
                 self.handle_newline(c)
-                #c.increment_index()
                 continue
 
             if c.is_current_alpha():
@@ -58,6 +56,19 @@ class Tokenizer:
                 symbol = self.handle_symbol(c)
                 word += symbol
                 break
+
+            else:
+                line = c.current_line
+                index = c.current_index
+                char = c.data[index]
+                word = word
+                msg = """
+                Error while parsing:
+                line number : %s
+                index number : %s
+                character : %s
+                current_word : %s""" % (line, index, char, word)
+                #raise Exception(msg)
 
         # pass word to token object that will return a new token object
         # token = Token(token)
