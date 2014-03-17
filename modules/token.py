@@ -1,4 +1,25 @@
-""" List of Tokens
+# Brian Wu
+# Pascal Compiler written in Python
+# brianwu02@gmail.com
+
+"""List of Tokens
+RESERVERED_WORDS:
+    
+
+IDENTIFIERS:
+
+OPERATORS:
+    arithmetic:
+    logical:
+    boolean:
+    string:
+    set:
+    relational:
+    class:
+
+seperators: white_space, new_line
+constants: float, integer, literal
+
 
 Literals:
     Integer (TK_INTLIT, value)
