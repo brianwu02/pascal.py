@@ -77,6 +77,16 @@ class Tokenizer:
                 symbol += c.get_current_char()
             else:
                 break
+        return symbol 
+
+    def handle_double_symbol(self, c):
+        """this needs to be cleaned up"""
+        symbol = ''
+        while True:
+            if c.is_current_symbol() and c.is_next_symbol():
+                symbol += c.get_current_char()
+                symbol += c.get_current_char()
+                break
         return symbol
 
     def handle_word(self, c):
@@ -120,3 +130,4 @@ if __name__ == "__main__":
     #print next(s)
     for char in s:
         print char 
+
