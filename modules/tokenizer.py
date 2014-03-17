@@ -64,21 +64,8 @@ class Tokenizer:
 
             else:
                 # if this happens, it means that a case is not being handled.
-                line = c.current_line
-                index = c.current_index
-                char = c.data[index]
-                word = word
-                low = self.list_of_words
-                msg = """
-                Error! something bad has happened while trying to parse a char.
-                line number : %s
-                index number : %s
-                character : ( %s ) ASCII: %s
-                current_word : ( %s )
-                list of words parsed: %s
-                """ % (line, index, char, ord(char), word, low)
-                raise Exception(msg)
-
+                self.handle_exception(c, word)
+                
         # used for Exception catching
         self.list_of_words.append(word)
 
@@ -153,6 +140,21 @@ class Tokenizer:
                 break
         return quote
 
+    def handle_exception(self, c, word):
+        line = c.current_line
+        index = c.current_index
+        char = c.data[index]
+        low = self.list_of_words
+        msg = """
+        Error! something bad has happened while trying to parse a char.
+        line number : %s
+        index number : %s
+        character : ( %s ) ASCII: %s
+        current_word : ( %s )
+        list of words parsed: %s
+        """ % (line, index, char, ord(char), word, low)
+        raise Exception(msg)
+
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
             return f.read()
@@ -160,7 +162,7 @@ class Tokenizer:
     def print_string(self):
         print self.source_file
 
-    def print_is_done():
+    def print_is_done(self):
         low = self.list_of_words
         msg ="**** Done parsing words %s ****"
         print(msg)
