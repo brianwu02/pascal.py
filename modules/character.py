@@ -1,3 +1,4 @@
+from constants import SYMBOLS
 
 class Character(object):
     """Character object that is fed to the tokenizer."""
@@ -9,21 +10,20 @@ class Character(object):
         self.current_line = 1
         self.data = self.src
 
-    
-    def is_done(self):
-        if self.current_index >= len(self.src):
-            return True
-        return False
-
     def current_char(self):
         """returns the next charcter and increments index count."""
         c = self.data[self.current_index]
         return c
 
     def get_current_char(self):
+        """return a tuple of (char, index, line_index)"""
+        if self.is_done():
+            return 'EOF'
         i = self.current_index
+        l = self.current_line
         self.current_index += 1
         c = self.data[i]
+        #return (c, i, l)
         return c
 
     def next_char(self):
@@ -53,8 +53,15 @@ class Character(object):
         except ValueError:
             return False
 
-    def is_identifier(self):
-        pass
+    def is_current_symbol(self):
+        if self.data[self.current_index] in SYMBOLS:
+            return True
+        return False
+
+    def is_next_symbol(self):
+        if self.data[self.current_index+1] in SYMBOLS:
+            return True
+        return False
 
     def is_current_whitespace(self):
         if self.data[self.current_index] == " ":
@@ -81,7 +88,6 @@ class Character(object):
             return True
         return False
 
-
     def is_current_quote(self):
         if self.data[self.current_index] == "\'":
             return True
@@ -92,20 +98,17 @@ class Character(object):
             return True
         return False
 
-
-    def _increment_index(self):
+    def is_done(self):
+        if self.current_index >= len(self.src):
+            return True
+        return False
+    
+    def increment_index(self):
         self.current_index += 1
-
-    def _increment_line(self):
-        self.current_line += 1
-
-
-
     
     def open_file(self):
         with open('sample.ps', 'r') as f:
             return f.read()
-
 
     def print_index(self):
         """debugging"""
@@ -116,7 +119,10 @@ class Character(object):
         #return ("char: %s\n ASCII: %s\n index: %s\n line: %s") % (
         #        self.val, self.val, self.current_index, self. current_line
         #        )
-        return self.data[self.current_index]
+        return "char: %s ASCII: %s" % (
+                self.data[self.current_index], 
+                ord(self.data[self.current_index])
+                )
 
 
 
