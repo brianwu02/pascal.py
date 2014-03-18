@@ -17,7 +17,6 @@ class Tokenizer:
         self.token_list: holds list of all the tokens
         """
         self.source_file = self.open_file('sample.ps')
-        self.token_list = []
         self.current_token = ''
         self.char = Character()
         self.list_of_words = []
@@ -26,8 +25,13 @@ class Tokenizer:
         return self
     
     def next(self):
-        c = self.char
+        c = self.char 
         word = ''
+        file_name = ''
+        line_num = ''
+        line_idx = ''
+        starting_indx = ''
+
         while True:
             print("---%s") % (c)
 
@@ -57,15 +61,21 @@ class Tokenizer:
                 word += quote
                 break
 
-            if c.is_current_symbol() and not c.is_next_symbol():
-                # if it is a single symbol.
+            if c.is_current_symbol():
                 symbol = self.handle_symbol(c)
                 word += symbol
                 break
-
+            
+            else:
+                # if this happens, it means that a case is not being handled.
+                self.handle_exception(c, word)
+             
+            
+            """
             if c.is_current_symbol() and c.is_next_symbol():
-                # 2 symbols in a row detected. check that there isn't another symbol ahead.
-                # check if the character 2 places ahead of index is a symbol.
+                # only checks if two symbols are in DOUBLE_SYMBOL
+                #if not, take as single token.
+
                 if not c.ahead_by_is_symbol(2):
                     symbol = self.handle_double_symbol(c)
                 else:
@@ -73,17 +83,15 @@ class Tokenizer:
                     self.handle_exception(c, word, msg)
                 word += symbol
                 break
-
-            else:
-                # if this happens, it means that a case is not being handled.
-                self.handle_exception(c, word)
-                
+            """
+               
         # used for Exception catching
-        self.list_of_words.append(word)
+        self.list_of_words.append(word)     
 
         # pass word to token object that will return a new token object
-        # token = Token(token)
-    
+        
+        #token = Token(token)
+
         return word
         #return token  
 
@@ -111,40 +119,24 @@ class Tokenizer:
     def handle_symbol(self, c):
         print("  handle_symbol state ")
         symbol = ''
-        while True:
-            if c.is_current_symbol():
+        if c.is_current_symbol and c.is_next_symbol():
+            sym = c.get_char_ahead_by(0) + c.get_char_ahead_by(1)
+            if sym in DOUBLE_SYMBOLS:
+                symbol += c.get_current_char()
                 symbol += c.get_current_char()
             else:
-                break
-        return symbol 
+                symbol += c.get_current_char()
 
-    def handle_double_symbol(self, c):
-        """this needs to be cleaned up"""
-        print (" handle_double_symbol state ")
-        symbol = ''
-        while True:
-            if c.is_current_symbol() and c.is_next_symbol():
-                sym1 = c.get_char_ahead_by(0)
-                sym2 = c.get_char_ahead_by(1)
-                sym = sym1 + sym2
-                if sym not in DOUBLE_SYMBOLS:
-                    # parse as a single symbol
-                    symbol += c.get_current_char()
-                    break
-                else:
-                    symbol += c.get_current_char()
-                    symbol += c.get_current_char()
-                    
-                    if symbol not in DOUBLE_SYMBOLS:
-                        msg = "double symbol detected is not in DOUBLE_SYMBOL list"
-                        self.handle_exception(c, symbol, msg)
-                    break
+        else:
+            symbol += c.get_current_char()
         return symbol 
-
 
     def handle_word(self, c):
         """current character is alphabet"""
         print(" handle_word state ")
+        line_num = c.current_line
+        line_idx = ''
+        starting_idx = ''
         word = ''
         while True:
             if c.is_current_alpha():
@@ -195,8 +187,6 @@ class Tokenizer:
         print(msg)
         pp.pprint(low)
         return 
-
-
 
     def __repr__(self):
         return """line number: %s, index: %s, character: %s
