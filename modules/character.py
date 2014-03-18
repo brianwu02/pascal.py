@@ -24,15 +24,13 @@ class Character(object):
         i: current index
         returns tuple: (c, l, cli, i)
         """
-        if self.is_done():
-            return 'EOF'
         i = self.current_index
         l = self.current_line
         cli = self.current_line_index
         self.current_index += 1
         self.current_line_index += 1
         c = self.data[i]
-        #return (c, i, l)
+        #return (c, l, cli, i)
         return c
 
     def get_current_line(self):
@@ -47,7 +45,6 @@ class Character(object):
         current_index = self.current_index
         c = self.data[current_index + i]
         return c
-
 
     def next_char(self):
         """returns the next next character. does not increment index count."""
@@ -107,8 +104,13 @@ class Character(object):
 
     def is_current_newline(self):
         if self.data[self.current_index] == "\n":
-
+            self.current_line_index = 0
             self.current_line += 1
+            return True
+        return False
+
+    def is_current_period(self):
+        if self.data[self.current_index] == ".":
             return True
         return False
 
@@ -166,8 +168,9 @@ class Character(object):
         #    data = "\\t"
         
 
-        return """LINE:%s  INDEX:%s  CHAR: ( %s ) ASCII:%s""" % (
+        return """LINE:%s,%s  INDEX:%s  CHAR: ( %s ) ASCII:%s""" % (
                 self.current_line,
+                self.current_line_index,
                 self.current_index,
                 data,
                 ord(self.data[self.current_index])
