@@ -4,7 +4,7 @@ from character import Character
 from token import Token 
 import pprint
 
-pp = pprint.PrettyPrinter(indent=4)
+pp = pprint.PrettyPrinter(indent=1)
 
 class Tokenizer:
     """Everytime Tokenizer is called, it should return the next token"""
@@ -57,10 +57,10 @@ class Tokenizer:
                 word += number
                 break
 
-            #if c.is_current_quote():
-            #    quote = self.handle_quote(c)
-            #    word += quote
-            #    break
+            if c.is_current_quote():
+                quote = self.handle_quote(c)
+                word += quote
+                break
 
             if c.is_current_symbol():
                 symbol = self.handle_symbol(c)
@@ -100,6 +100,9 @@ class Tokenizer:
         number = ''
         while True:
             if c.is_current_num():
+                number += c.get_current_char()
+            elif c.is_current_period():
+                self.state = "handle_number:Double"
                 number += c.get_current_char()
             else:
                 break
