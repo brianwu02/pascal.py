@@ -20,6 +20,7 @@ class Tokenizer:
         self.current_token = ''
         self.char = Character()
         self.list_of_words = []
+        self.state = None
 
     def __iter__(self):
         return self
@@ -56,10 +57,10 @@ class Tokenizer:
                 word += number
                 break
 
-            if c.is_current_quote():
-                quote = self.handle_quote(c)
-                word += quote
-                break
+            #if c.is_current_quote():
+            #    quote = self.handle_quote(c)
+            #    word += quote
+            #    break
 
             if c.is_current_symbol():
                 symbol = self.handle_symbol(c)
@@ -68,46 +69,34 @@ class Tokenizer:
             
             else:
                 # if this happens, it means that a case is not being handled.
-                self.handle_exception(c, word)
+                msg = "while parsing"
+                self.handle_exception(c, word, msg)
              
-            
-            """
-            if c.is_current_symbol() and c.is_next_symbol():
-                # only checks if two symbols are in DOUBLE_SYMBOL
-                #if not, take as single token.
-
-                if not c.ahead_by_is_symbol(2):
-                    symbol = self.handle_double_symbol(c)
-                else:
-                    msg = "\nthree symbols in a row or more detected\n"
-                    self.handle_exception(c, word, msg)
-                word += symbol
-                break
-            """
-               
         # used for Exception catching
         self.list_of_words.append(word)     
 
         # pass word to token object that will return a new token object
-        
         #token = Token(token)
 
         return word
         #return token  
 
     def handle_newline(self, c):
-        print(" handle_newline state ")
+        #print(" handle_newline state ")
+        self.state = "handle_newline"
         c.increment_index()
         return 
 
     def handle_whitespace(self, c):
-        print(" handle_whitespace state ")
+        #print(" handle_whitespace state ")
+        self.state = "handle_whitespace"
         c.increment_index()
         return 
 
     def handle_number(self, c):
         """As of now, this will only handle integers and not floats"""
-        print(" handle_number state ")
+        #print(" handle_number state ")
+        self.state = "handle_number"
         number = ''
         while True:
             if c.is_current_num():
@@ -117,7 +106,8 @@ class Tokenizer:
         return number
 
     def handle_symbol(self, c):
-        print("  handle_symbol state ")
+        #print("  handle_symbol state ")
+        self.state = "handle_symbol"
         symbol = ''
         if c.is_current_symbol and c.is_next_symbol():
             sym = c.get_char_ahead_by(0) + c.get_char_ahead_by(1)
@@ -133,7 +123,8 @@ class Tokenizer:
 
     def handle_word(self, c):
         """current character is alphabet"""
-        print(" handle_word state ")
+        #print(" handle_word state ")
+        self.state = "handle_word"
         line_num = c.current_line
         line_idx = ''
         starting_idx = ''
@@ -148,7 +139,8 @@ class Tokenizer:
     def handle_quote(self, c):
         """this event occurs when a ' is detected. it will continue
         retrieving characters until another ' is detected"""
-        print(" handle_quote state ")
+        #print(" handle_quote state ")
+        self.state = "handle_quote"
         quote = ''
         while True:
             quote += c.get_current_char()
@@ -158,19 +150,33 @@ class Tokenizer:
         return quote
 
     def handle_exception(self, c, word, custom_msg=None):
-        line = c.current_line
-        index = c.current_index
-        char = c.data[index]
         low = self.list_of_words
         msg = """
-        Error! something bad has happened while trying to parse a char.
-        line number : %s
+        Something BADDDDD has happened =(
+        
+        last state   : %s
+        line number  : %s
+        cur_line idx : %s
         index number : %s
-        character : ( %s ) ASCII: %s
-        current_word : ( %s )
-        """ % (line, index, char, ord(char), word)
+        prev char    : ( %s ) ASCII: %s
+        character    : ( %s ) ASCII: %s
+        next char    : ( %s ) ASCII: %s
+        current word : ( %s )
+        token_list   : %s
+        
+        """ % (
+                self.state,
+                c.current_line,
+                c.current_line_index,
+                c.current_index,
+                c.get_char_ahead_by(-1), ord(c.get_char_ahead_by(-1)),
+                c.data[c.current_index], ord(c.data[c.current_index]),
+                c.next_char(), ord(c.next_char()),
+                word,
+                self.list_of_words
+                )
         if custom_msg is not None:
-            msg = custom_msg + msg
+            msg = "%s \n%s" % (custom_msg, msg)
         pp.pprint(low)
         raise Exception(msg)
 
