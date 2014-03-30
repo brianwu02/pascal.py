@@ -9,12 +9,27 @@ RESERVERED_WORDS:
 IDENTIFIERS:
 
 OPERATORS:
-    arithmetic:
-    logical:
-    boolean:
-    string:
-    set:
+    arithmetic: + - * / Div Mod
+    logical: not and or xor shl shr << >>
+    boolean: not and or xor
+    string: 
+    set: 
+        + : Union
+        - : Difference
+        >< : Symmetric Difference
+        <= : contains
+        include : include an element in the set
+        exclude : exclude an element from the set
+        in: check whether an element is in the set
     relational:
+        = : equal
+        <> : Not Equal
+        < : strictly less than
+        > : strictly greater than
+        <= : less than or equal
+        >= : greater than or equal
+        in : Element of
+
     class:
 
 seperators: white_space, new_line
@@ -46,10 +61,10 @@ use LL parser style.
 
 class Token:
     """ A token object"""
-    def __init__(self):
+    def __init__(self, word):
         """all tokens must have these values"""
         
-        self.current_tk = current_tk # not sure why this is needed yet.
+        #self.current_tk = current_tk # not sure why this is needed yet.
         self.current_tk_val = current_tk_val
         self.current_name = current_name
         self.current_file = current_file
