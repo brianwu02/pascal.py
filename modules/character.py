@@ -129,11 +129,6 @@ class Character(object):
             return True
         return False
 
-    def is_current_quote(self):
-        if self.data[self.current_index] == "\'":
-            return True
-        return False
-
     def is_next_quote(self):
         if self.data[self.current_index + 1] == "\'":
             return True
