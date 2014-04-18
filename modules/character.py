@@ -33,6 +33,7 @@ class Character(object):
         #return (c, l, cli, i)
         return c
 
+    # not used by tokenizer.
     def get_current_line(self):
         return self.current_line
 
@@ -68,6 +69,7 @@ class Character(object):
         except ValueError:
             return False
 
+    # not used by tokenizer.
     def is_next_num(self):
         try:
             float(self.data[self.current_index + 1])
@@ -80,6 +82,7 @@ class Character(object):
             return True
         return False
     
+    # not used by tokenizer.
     def ahead_by_is_symbol(self, i):
         """checks if ith ahead of current character is a symbol."""
         index = self.current_index + i
@@ -96,7 +99,8 @@ class Character(object):
         if self.data[self.current_index] == " ":
             return True
         return False
-
+    
+    # not used by tokenizer.
     def is_next_whitespace(self):
         if self.data[self.current_index + 1] == " ":
             return True
@@ -114,6 +118,7 @@ class Character(object):
             return True
         return False
 
+    # not used by tokenizer.
     def is_next_newline(self):
         if self.data[self.current_index + 1] == "\n":
             return True
