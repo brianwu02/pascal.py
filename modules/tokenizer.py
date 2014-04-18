@@ -7,7 +7,12 @@ import pprint
 pp = pprint.PrettyPrinter(indent=1)
 
 class Tokenizer:
-    """Everytime Tokenizer is called, it should return the next token"""
+    """Everytime Tokenizer is called, it should return the next token.
+    This class is written as an iterator. Each time the __next() function
+    is called, most likely by a for loop, it should return the next token.
+    Justification: Even though this is should be a one pass compiler, we may
+    need to pause execution of the tokenizer. Writing tokenizer as an iterator
+    will prevent us from writing complicated for loop logic. """
 
     def __init__(self):
         """
@@ -73,7 +78,7 @@ class Tokenizer:
                 self.handle_exception(c, word, msg)
              
         # used for Exception catching
-        self.list_of_words.append(word)     
+        self.list_of_words.append(word)
 
         # pass word to token object that will return a new token object
         #token = Token(token)
