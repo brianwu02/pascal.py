@@ -81,7 +81,7 @@ class Character(object):
         if self.data[self.current_index] in SYMBOLS:
             return True
         return False
-    
+
     # not used by tokenizer.
     def ahead_by_is_symbol(self, i):
         """checks if ith ahead of current character is a symbol."""
@@ -99,7 +99,7 @@ class Character(object):
         if self.data[self.current_index] == " ":
             return True
         return False
-    
+
     # not used by tokenizer.
     def is_next_whitespace(self):
         if self.data[self.current_index + 1] == " ":
@@ -138,10 +138,10 @@ class Character(object):
         if self.current_index >= len(self.src) -1:
             return True
         return False
-    
+
     def increment_index(self):
         self.current_index += 1
-    
+
     def open_file(self):
         with open('sample.ps', 'r') as f:
             return f.read()
@@ -149,7 +149,6 @@ class Character(object):
     def print_index(self):
         """debugging"""
         return self.current_index
-
 
     def __repr__(self):
         #return ("char: %s\n ASCII: %s\n index: %s\n line: %s") % (
@@ -159,14 +158,13 @@ class Character(object):
         #cur_index = self.current_index
         data = self.data[self.current_index]
         #ascii = ord(data)
-        
         # handle new line
         if data  == "\n":
             data = "\\n"
         # handle tabs
         #if data == "\t":
         #    data = "\\t"
-        
+
 
         return """LINE:%s,%s  INDEX:%s  CHAR: ( %s ) ASCII:%s""" % (
                 self.current_line,
@@ -187,4 +185,3 @@ if __name__ == "__main__":
         src_file = f.read()
 
     char = Character(src_file)
-    
