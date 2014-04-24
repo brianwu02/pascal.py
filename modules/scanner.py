@@ -28,11 +28,34 @@ RESERVED WORD LOGIC:
     - a token is reserved word when the token's string value matches
       a string from the reserved word list found in constants.py
 """
+class Scanner:
+    """This is the Lexical Analyzer.
+    It takes characters as input and outputs a stream of tokens.
+    """
+
+    def __init__(self, path):
+        # path of source pascal file
+        self.path = path
+        
+    def read(self):
+        """returns an array of characters from source file."""
+        filename = self.path
+        with open(filename, 'r') as f:
+            return f.read()
+
+    def scan(self):
+        pass
+
+
+
+
+
 
 def main():
-    s = Tokenizer()
-    for char in s:
-        print("TOKEN: ( %s )") % char
+    scanner = Scanner()
+    tokenizer = Tokenizer()
+    for token in tokenizer:
+        print("TOKEN: ( %s )") % token
 
 
 
