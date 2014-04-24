@@ -1,9 +1,6 @@
 import os
-#from parser import Parser
-#from scanner import Scanner
 from modules import scanner
 from modules import parser
-from modules import pascal_sample_code
 
 # The main component of the Pascal compiler written in Python.
 
