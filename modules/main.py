@@ -10,13 +10,14 @@ from scanner import Scanner
 # path to source file. can later make this a command line input.
 SOURCE_FILE_PATH = 'pascal-sample-code/addition.ps'
 
+# the action of reading a file and returning a file stream
+# should be abstracted away from the parser and scanner.
 def read(path):
     with open(path, 'r') as f:
         return f.read()
 
 def run():
-    """imports all required modules and runs the compiler.
-    """
+    """imports all required modules and runs the compiler"""
     source_file = read(PATH)
     scanner = Scanner()
     parser = Parser()
