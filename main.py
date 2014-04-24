@@ -1,6 +1,6 @@
 import os
-from modules import scanner
-from modules import parser
+from modules.scanner import Scanner
+from modules.parser import Parser
 
 # The main component of the Pascal compiler written in Python.
 
@@ -22,11 +22,15 @@ def run():
     """imports all required modules and runs the compiler"""
     source_file = read(SOURCE_FILE_PATH)
     scanner = Scanner(source_file)
+    
+    list_of_tokens = scanner.get_list_of_tokens()
+    print list_of_tokens
+
     parser = Parser()
 
 def test_run():
-    print SOURCE_FILE_PATH
     print read(SOURCE_FILE_PATH)
 
 if __name__ == "__main__":
     test_run()
+    run()
