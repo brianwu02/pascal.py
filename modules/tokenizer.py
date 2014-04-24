@@ -22,9 +22,9 @@ class Tokenizer:
         self.token_list: holds list of all the tokens
         """
         #self.source_file = self.open_file('sample.ps')
-        self.source_file = source_file
+        #self.source_file = source_file
         self.current_token = ''
-        self.char = Character()
+        self.char = Character(source_file)
         self.list_of_words = []
         self.state = None
 
@@ -189,11 +189,6 @@ class Tokenizer:
         pp.pprint(low)
         raise Exception(msg)
 
-    # DEPRECATED. should not longer be used.
-    def open_file(self, file_name):
-        with open(file_name, 'r') as f:
-            return f.read()
-
     def print_string(self):
         print self.source_file
 
@@ -210,10 +205,13 @@ class Tokenizer:
 
 
 if __name__ == "__main__":
-    s = Tokenizer()
-    #s.print_string()
-    #iter(s)
-    #print next(s)
+    def open_file(file_name):
+        with open(file_name, 'r') as f:
+            return f.read()
+
+    path = 'pascal-sample-code/addition.ps'
+    source_file = open_file(path)
+    s = Tokenizer(source_file)
     for char in s:
         print("TOKEN: ( %s )") % (char)
 
