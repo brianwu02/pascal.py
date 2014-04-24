@@ -4,6 +4,15 @@ from character import Character
 from token import Token
 from tokenizer import Tokenizer
 
+# REMEMBER:
+#
+# context-free: subsitution of the symbols left of the '=' by a sequence derived from
+# the expression right of the '=' is always permitted regardless of the context embedded
+# witin the sentence.
+#
+# Scanning => Lexical Analysis: takes characters as input where the syntax is regular.
+# Parsing  => Syntax Analysis: takes symbols as input where the syntax is context free.
+#
 # move this in to the wiki afterwards, leave it here for now.
 # TODO:
 # 1. Tokenize everything.
