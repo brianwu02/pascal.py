@@ -29,8 +29,12 @@ RESERVED WORD LOGIC:
       a string from the reserved word list found in constants.py
 """
 
+def main():
+    s = Tokenizer()
+    for char in s:
+        print("TOKEN: ( %s )") % char
+
+
 
 if __name__ == "__main__":
-    s = Tokenizer();
-    for char in s:
-        print("TOKEN: ( %s )") % (char)
+    main()
