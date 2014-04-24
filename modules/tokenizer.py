@@ -189,6 +189,7 @@ class Tokenizer:
         pp.pprint(low)
         raise Exception(msg)
 
+    # DEPRECATED. should not longer be used.
     def open_file(self, file_name):
         with open(file_name, 'r') as f:
             return f.read()
