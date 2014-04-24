@@ -5,25 +5,15 @@ from modules import scanner
 from modules import parser
 from modules import pascal_sample_code
 
-current_dir = os.getcwd() + '/'
-pascal_file_dir = os.path.dirname(__file__)
-
 # The main component of the Pascal compiler written in Python.
 
 # Scanning => Lexical Analysis: takes characters as input where the syntax is regular.
 # Parsing  => Syntax Analysis: takes symbols as input where the syntax is context free.
 
-# path to source file. can later make this a command line input.
-
-# the action of reading a file and returning a file stream
-# should be abstracted away from the parser and scanner.
-
 """tests to write:
     1. test that read correctly returns a character array
 """
 
-#rel_path = 'modules/pascal-sample-code/addition.ps'
-#SOURCE_FILE_PATH = os.path.join(pascal_file_dir, rel_path)
 SOURCE_FILE_PATH = 'pascal_sample_code/addition.ps'
 
 def read(path):
