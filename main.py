@@ -28,7 +28,6 @@ def run():
     parser = Parser()
 
 def test_run():
-    print current_dir + SOURCE_FILE_PATH
     print SOURCE_FILE_PATH
     print read(SOURCE_FILE_PATH)
 
