@@ -14,14 +14,15 @@ class Tokenizer:
     need to pause execution of the tokenizer. Writing tokenizer as an iterator
     will prevent us from writing complicated for loop logic. """
 
-    def __init__(self):
+    def __init__(self, source_file):
         """
         self.source_file: holds the source file as a String
         self.current_index: current index of source_file
         self.current_line: current line
         self.token_list: holds list of all the tokens
         """
-        self.source_file = self.open_file('sample.ps')
+        #self.source_file = self.open_file('sample.ps')
+        self.source_file = source_file
         self.current_token = ''
         self.char = Character()
         self.list_of_words = []
