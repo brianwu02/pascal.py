@@ -3,9 +3,9 @@ from constants import SYMBOLS
 class Character(object):
     """Character object that is fed to the tokenizer."""
 
-    def __init__(self):
-        self.src = self.open_file()
-        
+    def __init__(self, source_file):
+        #self.src = self.open_file()
+        self.src = source_file
         self.current_index = 0
         self.current_line = 1
         self.current_line_index = 0
