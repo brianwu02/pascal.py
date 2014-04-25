@@ -34,10 +34,10 @@ class Tokenizer:
     def next(self):
         c = self.char 
         word = ''
-        file_name = ''
-        line_num = ''
-        line_idx = ''
-        starting_indx = ''
+        #file_name = ''
+        line_number = ''
+        line_index = ''
+        #starting_indx = ''
 
         while True:
             print("---%s") % (c)
@@ -97,6 +97,7 @@ class Tokenizer:
         #print(" handle_whitespace state ")
         self.state = "handle_whitespace"
         c.increment_index()
+        c.increment_line_index()
         return 
 
     def handle_number(self, c):
@@ -138,6 +139,7 @@ class Tokenizer:
         line_idx = ''
         starting_idx = ''
         word = ''
+        #print(c.get_line_and_index)
         while True:
             if c.is_current_alpha():
                 word += c.get_current_char()
