@@ -32,6 +32,11 @@ class Character(object):
         c = self.data[i]
         #return (c, l, cli, i)
         return c
+    
+    def get_line_and_index(self):
+        """returns current line and current index with respect to 
+        the current line as a tuple"""
+        return self.current_line, self.current_line_index
 
     # not used by tokenizer.
     def get_current_line(self):
@@ -141,6 +146,9 @@ class Character(object):
 
     def increment_index(self):
         self.current_index += 1
+
+    def increment_line_index(self):
+        self.current_line_index += 1
 
     def open_file(self):
         with open('sample.ps', 'r') as f:
