@@ -1,9 +1,5 @@
 from token import Token
 
-# probably does not need to be a class could simply be a module
-# recieves a token string and attempts to parse the token string
-# and return a token object
-
 class TokenCreator:
 
     # design patterns say I should require my dependencies in the constructor
@@ -11,11 +7,21 @@ class TokenCreator:
     # is called so what do I do?! Probably didnt need a class for this...
     
     def __init__(self):
+        self.current_token = None
+        self.previous_token = None
+        self.next_token = None
         pass
 
-    def create(self, token_string):
+    def create(self, token_tuple):
         """method called by the scanner. takes a tokenizer string value
         as input and returns a token object."""
         token = Token()
+
+        self._parse_token(token_tuple)
+
+        return token
+
+    def _parse_token(self):
+        pass
 
 
