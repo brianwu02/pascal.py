@@ -40,9 +40,9 @@ def run():
     scanner = Scanner(file_to_compile)
     list_of_tokens = scanner.debug_scan()
 
-    #print list_of_tokens
+    #token_list = scanner.return_token_list()
 
-    parser = Parser()
+    #parser = Parser.parse(token_list)
 
 def test_run():
     #print read(SOURCE_FILE_PATH)
