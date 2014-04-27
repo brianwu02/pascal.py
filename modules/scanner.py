@@ -35,19 +35,13 @@ class Scanner:
         self.token_creator = TokenCreator()
         self.token_list = []
         
-    def read(self):
-        """returns an array of characters from source file."""
-        filename = self.path
-        with open(filename, 'r') as f:
-            return f.read()
-
     def debug_scan(self):
         tokenizer = self.tokenizer
         for s in tokenizer:
-            print s.lower()
+            print s
         pass
 
-    def return_token_stream(self):
+    def return_token_list(self):
         """reads string values from tokenizer and attmepts
         to create token object."""
 
@@ -60,14 +54,8 @@ class Scanner:
         for token in tokenizer:
             tk_list.append(tk_creator.create(token))
 
-
-def main():
-    scanner = Scanner()
-    tokenizer = Tokenizer()
-    for token in tokenizer:
-        print("TOKEN: ( %s )") % token
-
-
+        return tk_list
 
 if __name__ == "__main__":
-    main()
+    # do nothing.
+    pass
