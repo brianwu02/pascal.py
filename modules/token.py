@@ -100,42 +100,6 @@ class Token:
         """returns the current column of the token"""
         return str(self.current_column)
 
-
     def __repr__(self):
         """ prety print the token here"""
-        pass
-
-class TK_INTLIT(Token):
-    """Integer Literal Token"""
-    def __init__(self):
-        pass
-
-class TK_REALLIT(Token):
-    """Real Literal token"""
-    def __init__(self):
-        pass
-
-class TK_STRLIT(Token):
-    """String Literal Token"""
-    def __init__(self):
-        pass
-
-class TK_KEYWORD(Token):
-    """Keyword Token"""
-    def __init__(self):
-        pass
-
-class TK_ID(Token):
-    """TK_ID Identifier Token"""
-    def __init__(self):
-        pass
-
-class TK_EOF(Token):
-    """TK_EOF End of Line, End of File Token"""
-    def __init__(self):
-        pass
-
-class TK_COMMENT(Token):
-    """Comment Token"""
-    def __init__(self):
         pass
