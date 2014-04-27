@@ -60,7 +60,7 @@ class Tokenizer:
 
             if c.is_current_num():
                 number = self.handle_number(c)
-                word += number
+                word = number
                 break
 
             if c.is_current_quote():
@@ -85,7 +85,7 @@ class Tokenizer:
         #token = Token(token)
 
         return word
-        #return token  
+        #return token 
 
     def handle_newline(self, c):
         #print(" handle_newline state ")
@@ -105,6 +105,9 @@ class Tokenizer:
         #print(" handle_number state ")
         self.state = "handle_number"
         number = ''
+
+        line_number, line_index = c.get_metadata()
+
         while True:
             if c.is_current_num():
                 number += c.get_current_char()
@@ -113,12 +116,15 @@ class Tokenizer:
                 number += c.get_current_char()
             else:
                 break
-        return number
+        return number, line_number, line_index
 
     def handle_symbol(self, c):
         #print("  handle_symbol state ")
         self.state = "handle_symbol"
         symbol = ''
+
+        line_number, line_index = c.get_metadata()
+
         if c.is_current_symbol and c.is_next_symbol():
             sym = c.get_char_ahead_by(0) + c.get_char_ahead_by(1)
             if sym in DOUBLE_SYMBOLS:
@@ -139,7 +145,9 @@ class Tokenizer:
         line_idx = ''
         starting_idx = ''
         word = ''
-        #print(c.get_line_and_index)
+
+        line_number, line_index = c.get_metadata()
+
         while True:
             if c.is_current_alpha():
                 word += c.get_current_char()
@@ -153,6 +161,9 @@ class Tokenizer:
         #print(" handle_quote state ")
         self.state = "handle_quote"
         quote = ''
+
+        line_number, line_index = c.get_metadata()
+
         while True:
             quote += c.get_current_char()
             if c.is_current_quote():
