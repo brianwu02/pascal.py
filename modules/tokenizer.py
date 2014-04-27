@@ -40,10 +40,10 @@ class Tokenizer:
         #starting_indx = ''
 
         while True:
-            print("---%s") % (c)
+            #print("---%s") % (c)
 
             if c.is_done():
-                self.print_is_done()
+                #self.print_is_done()
                 raise StopIteration
 
             if c.is_current_whitespace():
@@ -194,9 +194,9 @@ class Tokenizer:
     def print_string(self):
         print self.source_file
 
-    def print_is_done(self):
+    def print_debug_statement(self):
         low = self.list_of_words
-        msg ="**** Sucessfully parsed all words %s ****"
+        msg ="**** Sucessfully parsed all words ****"
         print(msg)
         pp.pprint(low)
         return 
