@@ -61,17 +61,17 @@ use LL parser style.
 
 class Token:
     """ A token object"""
+
     def __init__(self, word):
         """all tokens must have these values"""
         
-        #self.current_tk = current_tk # not sure why this is needed yet.
-        self.current_tk_val = current_tk_val
-        self.current_name = current_name
-        self.current_file = current_file
-        self.current_line = current_line
-        self.current_column = current_column
+        self.tk_value = tk_value
+        self.tk_type = tk_type
 
-        pass
+        #self.current_name = current_name
+        #self.current_file = current_file
+        #self.current_line = current_line
+        #self.current_column = current_column
 
     def get_typeof(self):
         """returns the type of token"""
@@ -94,6 +94,8 @@ class Token:
         """returns the line of the token"""
         return str(self.current_line)
 
+    # what does even mean? What was I thinking when I wrote this?
+    # Line column where the token is found? Delete this method sometime later.
     def get_current_column(self):
         """returns the current column of the token"""
         return str(self.current_column)
