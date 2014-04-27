@@ -35,11 +35,12 @@ def read(path):
 
 def run():
     """imports all required modules and runs the compiler"""
-    source_file = read(SOURCE_FILE_PATH)
-    scanner = Scanner(source_file)
-    
-    list_of_tokens = scanner.get_list_of_tokens()
-    print list_of_tokens
+    file_to_compile = read(SOURCE_FILE_PATH)
+
+    scanner = Scanner(file_to_compile)
+    list_of_tokens = scanner.debug_scan()
+
+    #print list_of_tokens
 
     parser = Parser()
 
@@ -48,5 +49,5 @@ def test_run():
     print SOURCE_FILE_PATH
 
 if __name__ == "__main__":
-    test_run()
-    #run()
+    #test_run()
+    run()
