@@ -1,7 +1,3 @@
-from constants import SYMBOLS
-from constants import DOUBLE_SYMBOLS
-from character import Character
-from token import Token
 from tokenizer import Tokenizer
 from token_creator import TokenCreator
 
