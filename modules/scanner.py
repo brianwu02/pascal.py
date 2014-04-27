@@ -3,6 +3,7 @@ from constants import DOUBLE_SYMBOLS
 from character import Character
 from token import Token
 from tokenizer import Tokenizer
+from token_creator import TokenCreator
 
 # REMEMBER:
 #
@@ -33,9 +34,10 @@ class Scanner:
     It takes characters as input and outputs a stream of tokens.
     """
 
-    def __init__(self, path):
-        # path of source pascal file
-        self.path = path
+    def __init__(self, source_file):
+        self.tokenizer = Tokenizer(source_file)
+        self.token_creator = TokenCreator()
+        self.token_list = []
         
     def read(self):
         """returns an array of characters from source file."""
@@ -43,12 +45,24 @@ class Scanner:
         with open(filename, 'r') as f:
             return f.read()
 
-    def scan(self):
+    def debug_scan(self):
+        tokenizer = self.tokenizer
+        for s in tokenizer:
+            print s.lower()
         pass
 
+    def return_token_stream(self):
+        """reads string values from tokenizer and attmepts
+        to create token object."""
 
+        tokenizer = self.tokenizer
+        tk_creator = self.token_creator
+        tk_list = self.token_list
 
-
+        # iterate over token strings in tokenizer and 
+        # append the token object to tk_list
+        for token in tokenizer:
+            tk_list.append(tk_creator.create(token))
 
 
 def main():
