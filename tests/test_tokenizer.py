@@ -1,6 +1,5 @@
 import unittest
-import os
-from . import tokenizer
+from ..modules.tokenizer import Tokenizer
 
 class TestCase(unittest.TestCase):
 
