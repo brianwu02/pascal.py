@@ -5,6 +5,9 @@ from ..modules.scanner import Scanner
 default_source = 'pascal_sample_code/addition.ps'
 
 class TestCase(unittest.TestCase):
+    """the purpose of these tests are to validate that the scanner
+    correctly returns token objects with the correct attributes
+    given stubbed token parameters."""
     
     def setUp(self):
         path = '/Users/brian/projects/pascal_compiler/pascal_sample_code/addition.ps'
