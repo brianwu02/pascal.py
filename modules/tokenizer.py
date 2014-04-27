@@ -116,7 +116,7 @@ class Tokenizer:
                 number += c.get_current_char()
             else:
                 break
-        return number, line_number, line_index
+        return number, line_number, line_index, self.state
 
     def handle_symbol(self, c):
         #print("  handle_symbol state ")
@@ -135,7 +135,7 @@ class Tokenizer:
 
         else:
             symbol += c.get_current_char()
-        return symbol, line_number, line_index
+        return symbol, line_number, line_index, self.state
 
     def handle_word(self, c):
         """current character is alphabet"""
@@ -154,7 +154,7 @@ class Tokenizer:
             else:
                 break
 
-        return word, line_number, line_index
+        return word, line_number, line_index, self.state
 
     def handle_quote(self, c):
         """this event occurs when a ' is detected. it will continue
@@ -171,7 +171,7 @@ class Tokenizer:
                 quote += c.get_current_char()
                 break
 
-        return quote, line_number, line_index
+        return quote, line_number, line_index, self.state
 
     def handle_exception(self, c, word, custom_msg=None):
         low = self.list_of_words
