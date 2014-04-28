@@ -91,7 +91,7 @@ class Token:
 
     def get_current_line(self):
         """returns the line of the token"""
-        return str(self.current_line)
+        return self.current_line
 
     # what does even mean? What was I thinking when I wrote this?
     # Line column where the token is found? Delete this method sometime later.
