@@ -69,7 +69,7 @@ class Token:
         self.tk_type = None
         self.line_number = None
         self.line_index = None
-        self.created_state = None
+        self.creation_state = None
         self.name = None
 
     def get_tk_type(self):
@@ -92,6 +92,9 @@ class Token:
     def get_current_line(self):
         """returns the line of the token"""
         return self.current_line
+
+    def get_creation_state(self):
+        return self.creation_state
 
     # what does even mean? What was I thinking when I wrote this?
     # Line column where the token is found? Delete this method sometime later.
