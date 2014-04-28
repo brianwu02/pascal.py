@@ -31,6 +31,12 @@ class TestCase(unittest.TestCase):
         token = self.tokenCreator.create(tk_tuple)
 
         # add test to evaluate attributes of the token.
+
+        self.assertEqual(op, token.get_value)
+        self.assertEqual(line_number, token.get_line_number)
+        self.assertEqual(line_index, token.get_line_index)
+        self.assertEqual(state, token.get_creation_state)
+
         self.assertIsInstance(token, Token)
         self.assertEquals(1, 2)
     
