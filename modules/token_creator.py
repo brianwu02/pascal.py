@@ -15,13 +15,11 @@ class TokenCreator:
     def create(self, tk_tuple):
         """method called by the scanner. takes a tokenizer string value
         as input and returns a token object."""
-        token = Token()
-
-        self._parse_token(tk_tuple)
-
+        token = self._parse_and_return_token(tk_tuple)
         return token
 
-    def _parse_token(self, tk_tuple):
-        pass
+    def _parse_and_return_token(self, tk_tuple):
+        token = Token()
 
+        return token
 
