@@ -70,6 +70,7 @@ class Token:
         self.line_number = None
         self.line_index = None
         self.created_state = None
+        self.name = None
 
     def get_tk_type(self):
         """returns the type of token"""
@@ -79,9 +80,9 @@ class Token:
         """returns the value of the token"""
         return self.tk_value
 
-    def get_current_name(self):
+    def get_name(self):
         """returns the current name of the token"""
-        return str(self.current_name)
+        return self.name
 
     def get_current_file(self):
         """returns the current file the token is in.
