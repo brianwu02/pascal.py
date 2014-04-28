@@ -40,6 +40,48 @@ RESERVED_WORDS = [
     'not', 'or',  'mod', 'and', 'const', 'div','record', 'exit'
     ]
 
+
+
+
+# matches reserverd_word to corresponding token_type
+RESERVED_WORD_DICT = {
+        'if': 'tk_if',
+        'else': 'tk_else',
+        'for': 'tk_for',
+        'while': 'tk_while',
+        'begin': 'tk_begin',
+        'var': 'tk_var',
+        'end': 'tk_end',
+        'program': 'tk_program'
+        }
+
+OPERATOR_DICT = {
+        ':=': 'tk_assignment_op',
+        '+': 'tk_addition_op',
+        '-': 'tk_subtraction_op',
+        '*': 'tk_multiplication_op',
+        '/': 'tk_division_op',
+        '=': 'tk_equal_op',
+        '>': 'tk_greater_than_op',
+        '<': 'tk_less_than_op',
+        '<>': 'tk_unequal_op',
+        '<=': 'tk_less_than_or_equal_op',
+        '>=': 'tk_greater_than_or_equal_op',
+        }
+
+SYMBOLS_DICT = {
+        '(': 'tk_left_parenthesis',
+        ')': 'tk_right_parenthesis',
+        '[': 'tk_left_bracket',
+        ']': 'tk_right_bracket',
+        '{': 'tk_left_comment_bracket',
+        '}': 'tk_right_comment_bracket',
+        ';': 'tk_semicolon',
+        ',': 'tk_eol',
+        }
+
+
+
 # http://www.freepascal.org/docs-html/ref/refsu1.html#x12-110001.3.1
 TURBO_PASCAL_RESERVED_WORDS = []
 
