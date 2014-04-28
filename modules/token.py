@@ -75,9 +75,9 @@ class Token:
         """returns the type of token"""
         return self.tk_type
 
-    def get_current_val(self):
+    def get_value(self):
         """returns the value of the token"""
-        return str(self.tk_value)
+        return self.tk_value
 
     def get_current_name(self):
         """returns the current name of the token"""
