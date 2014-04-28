@@ -26,6 +26,8 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 6
         state = 'handle_symbol'
+        tk_type = 'operator'
+        tk_name = 'assignment'
 
         tk_tuple = (':=', 8, 6, 'handle_symbol')
         token = self.tokenCreator.create(tk_tuple)
@@ -36,9 +38,8 @@ class TestCase(unittest.TestCase):
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
-
-        self.assertIsInstance(token, Token)
-        self.assertEquals(1, 2)
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
     
     def test_addition_operator(self):
         op = '+'
