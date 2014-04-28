@@ -62,24 +62,22 @@ use LL parser style.
 class Token:
     """ A token object"""
 
-    def __init__(self, word):
+    def __init__(self):
         """all tokens must have these values"""
         
-        self.tk_value = tk_value
-        self.tk_type = tk_type
+        self.tk_value = None
+        self.tk_type = None
+        self.line_number = None
+        self.line_index = None
+        self.created_state = None
 
-        #self.current_name = current_name
-        #self.current_file = current_file
-        #self.current_line = current_line
-        #self.current_column = current_column
-
-    def get_typeof(self):
+    def get_tk_type(self):
         """returns the type of token"""
-        pass
+        return self.tk_type
 
     def get_current_val(self):
         """returns the value of the token"""
-        return str(self.current_value)
+        return str(self.tk_value)
 
     def get_current_name(self):
         """returns the current name of the token"""
