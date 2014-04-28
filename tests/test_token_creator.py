@@ -1,5 +1,6 @@
 import unittest
 from ..modules.token_creator import TokenCreator
+from ..modules.token import Token
 
 default_source = 'pascal_sample_code/addition.ps'
 
@@ -14,13 +15,17 @@ class TestCase(unittest.TestCase):
         with open(path, 'r') as f:
             self.source_file = f.read()
 
-        self.scanner = Scanner(self.source_file)
+        self.tokenCreator = TokenCreator()
 
     def tearDown(self):
         pass
 
     def test_assignment_operator(self):
         op = ':='
+        tk_tuple = (':=', 8, 6, 'handle_symbol')
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+        self.assertEquals(1, 2)
         pass
     
     def test_addition_operator(self):
