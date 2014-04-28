@@ -12,16 +12,16 @@ class TokenCreator:
         self.next_token = None
         pass
 
-    def create(self, token_tuple):
+    def create(self, tk_tuple):
         """method called by the scanner. takes a tokenizer string value
         as input and returns a token object."""
         token = Token()
 
-        self._parse_token(token_tuple)
+        self._parse_token(tk_tuple)
 
         return token
 
-    def _parse_token(self):
+    def _parse_token(self, tk_tuple):
         pass
 
 
