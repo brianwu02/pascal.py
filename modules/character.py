@@ -16,6 +16,10 @@ class Character(object):
         c = self.data[self.current_index]
         return c
 
+    def get_metadata(self):
+        """returns line_number and current_line_index to be used for debugging"""
+        return (self.current_line, self.current_line_index)
+
     def get_current_char(self):
         """return a tuple of (char, index, line_index)
         c: single character
