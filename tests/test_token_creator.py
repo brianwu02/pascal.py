@@ -21,9 +21,16 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_assignment_operator(self):
+        # values to test against.
         op = ':='
+        line_number = 8
+        line_index = 6
+        state = 'handle_symbol'
+
         tk_tuple = (':=', 8, 6, 'handle_symbol')
         token = self.tokenCreator.create(tk_tuple)
+
+        # add test to evaluate attributes of the token.
         self.assertIsInstance(token, Token)
         self.assertEquals(1, 2)
     
