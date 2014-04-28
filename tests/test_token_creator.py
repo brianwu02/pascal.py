@@ -32,17 +32,28 @@ class TestCase(unittest.TestCase):
 
         # add test to evaluate attributes of the token.
 
-        self.assertEqual(op, token.get_value)
-        self.assertEqual(line_number, token.get_line_number)
-        self.assertEqual(line_index, token.get_line_index)
-        self.assertEqual(state, token.get_creation_state)
+        self.assertEqual(op, token.get_value())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
         self.assertIsInstance(token, Token)
         self.assertEquals(1, 2)
     
     def test_addition_operator(self):
         op = '+'
-        pass
+        tk_tuple = ('+', 8, 11, 'handle_symbol')
+        line_number = 8
+        line_index = 8
+        state = 'handle_symbol'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(op, token.get_value())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
     def test_subtraction_operator(self):
         op = '-'
