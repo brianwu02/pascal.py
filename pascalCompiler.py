@@ -8,13 +8,6 @@ from modules.parser import Parser
 # Scanning => Lexical Analysis: takes characters as input where the syntax is regular.
 # Parsing  => Syntax Analysis: takes symbols as input where the syntax is context free.
 
-"""tests to write:
-    1. test that read correctly returns a character array
-"""
-
-# try to read source file from command line argument
-# if it does not exist, use a default pascal file. 
-
 class PascalCompiler:
 
     def __init__(self):
@@ -34,8 +27,9 @@ class PascalCompiler:
     def run(self):
         """imports all required modules and runs the compiler."""
         assert self.source_file is not None
-        print self.source_file
-        pass
+        assert self.scanner is not None
+        assert self.parser is not None
+        self.scanner.debug_scan()
 
     def test_run(self):
         pass
