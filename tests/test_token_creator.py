@@ -26,7 +26,6 @@ class TestCase(unittest.TestCase):
         token = self.tokenCreator.create(tk_tuple)
         self.assertIsInstance(token, Token)
         self.assertEquals(1, 2)
-        pass
     
     def test_addition_operator(self):
         op = '+'
