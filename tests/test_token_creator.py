@@ -22,7 +22,7 @@ class TestCase(unittest.TestCase):
 
     def test_assignment_operator(self):
         # values to test against.
-        op = ':='
+        tk_val = ':='
         line_number = 8
         line_index = 6
         state = 'handle_symbol'
@@ -32,9 +32,11 @@ class TestCase(unittest.TestCase):
         tk_tuple = (':=', 8, 6, 'handle_symbol')
         token = self.tokenCreator.create(tk_tuple)
 
-        # add test to evaluate attributes of the token.
+        # make sure returned value is a token.
+        self.assertIsInstance(token, Token)
 
-        self.assertEqual(op, token.get_value())
+        # add test to evaluate attributes of evaluted of token.
+        self.assertEqual(tk_val, token.get_value())
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
@@ -47,6 +49,9 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 8
         state = 'handle_symbol'
+        tk_type = 'operator'
+        tk_name = 'addition'
+        
 
         token = self.tokenCreator.create(tk_tuple)
         self.assertIsInstance(token, Token)
@@ -56,9 +61,26 @@ class TestCase(unittest.TestCase):
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
 
+
     def test_subtraction_operator(self):
         op = '-'
-        pass
+        tk_tuple = ('-', 0, 0, 'handle_symbol')
+        line_number = 0
+        line_index = 0
+        state = 'handle_symbol'
+        tk_type = 'operator'
+        tk_name = 'subtraction'
+
+    def test_reserved_word_program(self):
+        op = 'program'
+        tk_tuple = ('program', 1, 0, 'handle_word')
+        line_number = 1
+        line_index = 0
+        state = 'handle_word'
+        tk_type = 'reserved'
+        tk_name 'program'
+
+
 
     def test_multiplication_operator(self):
         op = '*'
