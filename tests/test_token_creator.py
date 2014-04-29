@@ -137,8 +137,23 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_string_literal(self):
-        op = "'some string val'"
-        pass
+        tk_val = "'some string val'"
+        tk_tuple = ("'some string val'", 10, 20, 'handle_quote')
+        line_number = 10
+        line_index = 20
+        state = 'handle_quote'
+        tk_type = 'string_literal'
+        tk_name = 'string'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
     def test_integer_literal(self):
         tk_val = '5' # they are still represented as strings in python
