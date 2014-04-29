@@ -72,7 +72,7 @@ class Token:
         self.creation_state = state
         self.name = name
 
-    def get_tk_type(self):
+    def get_type(self):
         """returns the type of token"""
         return self.tk_type
 
@@ -91,7 +91,11 @@ class Token:
 
     def get_line_number(self):
         """returns the line of the token"""
-        return self.current_line
+        return self.line_number
+
+    def get_line_index(self):
+        """returns the index with respect to line"""
+        return self.line_index
 
     def get_creation_state(self):
         return self.creation_state
