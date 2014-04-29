@@ -28,6 +28,13 @@ class TokenCreator:
         creation_state = None
         name = None
 
+        tk_val = tk_tuple[0]
+        tk_type = self._determine_type(tk_tuple[0])
+        line_number = tk_tuple[1]
+        line_index = tk_tuple[2]
+        creation_state = tk_tuple[3]
+        name = self._determine_name(tk_tuple[0])
+
         token = Token(
                 tk_val = tk_val,
                 tk_type = tk_type,
@@ -38,4 +45,10 @@ class TokenCreator:
                 )
 
         return token
+
+    def _determine_type(self, value):
+        return value
+
+    def _determine_name(self, value):
+        return value
 
