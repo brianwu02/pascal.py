@@ -176,10 +176,10 @@ class TestCase(unittest.TestCase):
 
     def test_real_literal(self):
         tk_val = '5.0'
-        tk_tuple = ('5.0', 7, 9, 'handle_number')
+        tk_tuple = ('5.0', 7, 9, 'handle_number:Double')
         line_number = 7
         line_index = 9
-        state = 'handle_number'
+        state = 'handle_number:Double'
         tk_type = 'real_literal'
         tk_name = 'number'
 
