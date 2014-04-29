@@ -56,6 +56,8 @@ class TestCase(unittest.TestCase):
         self.assertIsInstance(token, Token)
 
         self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_type())
+        self.assertEqual(tk_name, token.get_name())
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
@@ -92,11 +94,11 @@ class TestCase(unittest.TestCase):
         self.assertIsInstance(token, Token)
 
         self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
-
-
 
     def test_multiplication_operator(self):
         op = '*'
