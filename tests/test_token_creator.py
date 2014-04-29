@@ -44,26 +44,24 @@ class TestCase(unittest.TestCase):
         self.assertEqual(tk_name, token.get_name())
     
     def test_addition_operator(self):
-        op = '+'
+        tk_val = '+'
         tk_tuple = ('+', 8, 11, 'handle_symbol')
         line_number = 8
         line_index = 8
         state = 'handle_symbol'
         tk_type = 'operator'
         tk_name = 'addition'
-        
 
         token = self.tokenCreator.create(tk_tuple)
         self.assertIsInstance(token, Token)
 
-        self.assertEqual(op, token.get_value())
+        self.assertEqual(tk_val, token.get_value())
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
 
-
     def test_subtraction_operator(self):
-        op = '-'
+        tk_val = '-'
         tk_tuple = ('-', 0, 0, 'handle_symbol')
         line_number = 0
         line_index = 0
@@ -71,14 +69,32 @@ class TestCase(unittest.TestCase):
         tk_type = 'operator'
         tk_name = 'subtraction'
 
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
     def test_reserved_word_program(self):
-        op = 'program'
+        tk_val = 'program'
         tk_tuple = ('program', 1, 0, 'handle_word')
         line_number = 1
         line_index = 0
         state = 'handle_word'
         tk_type = 'reserved'
-        tk_name 'program'
+        tk_name = 'program'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
 
 
