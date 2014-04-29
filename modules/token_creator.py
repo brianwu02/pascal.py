@@ -19,7 +19,23 @@ class TokenCreator:
         return token
 
     def _parse_and_return_token(self, tk_tuple):
-        token = Token()
+        
+        # make init values none
+        tk_val = None
+        tk_type = None
+        line_number = None
+        line_index = None
+        creation_state = None
+        name = None
+
+        token = Token(
+                tk_val = tk_val,
+                tk_type = tk_type,
+                line_num = line_number, 
+                line_index = line_index,
+                state = creation_state,
+                name = name
+                )
 
         return token
 
