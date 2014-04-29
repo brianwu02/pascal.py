@@ -10,11 +10,9 @@ class TestCase(unittest.TestCase):
     given stubbed token parameters."""
     
     def setUp(self):
-        path = '/Users/brian/projects/pascal_compiler/pascal_sample_code/addition.ps'
-
-        with open(path, 'r') as f:
-            self.source_file = f.read()
-
+        #path = '/Users/brian/projects/pascal_compiler/pascal_sample_code/addition.ps'
+        #with open(path, 'r') as f:
+        #    self.source_file = f.read()
         self.tokenCreator = TokenCreator()
 
     def tearDown(self):
