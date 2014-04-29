@@ -85,7 +85,7 @@ class TestCase(unittest.TestCase):
         line_number = 1
         line_index = 0
         state = 'handle_word'
-        tk_type = 'reserved'
+        tk_type = 'tk_reserved'
         tk_name = 'program'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -104,7 +104,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'semicolon'
+        tk_type = 'tk_semicolon'
         tk_name = 'semicolon'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -155,7 +155,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'identifier'
+        tk_type = 'tk_identifier'
         tk_name = 'identifier'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -173,7 +173,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'identifier'
+        tk_type = 'tk_identifier'
         tk_name = 'identifier'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -193,7 +193,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_quote'
-        tk_type = 'string_literal'
+        tk_type = 'tk_string_literal'
         tk_name = 'string'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -212,7 +212,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_number'
-        tk_type = 'int_literal'
+        tk_type = 'tk_int_literal'
         tk_name = 'number'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -231,7 +231,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_number:Double'
-        tk_type = 'real_literal'
+        tk_type = 'tk_real_literal'
         tk_name = 'number'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -265,7 +265,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'reserved_word'
+        tk_type = 'tk_reserved_word'
         tk_name = 'var'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -288,7 +288,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'reserved'
+        tk_type = 'tk_reserved'
         tk_name = 'begin'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -307,7 +307,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'reserved'
+        tk_type = 'tk_reserved'
         tk_name = 'end'
 
         token = self.tokenCreator.create(tk_tuple)
