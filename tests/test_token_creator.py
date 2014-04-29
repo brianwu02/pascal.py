@@ -194,7 +194,25 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_reserved_word_var(self):
-        rword = 'var'
+        tk_val = 'var'
+        tk_tuple = ('var', 7, 9, 'handle_word')
+        line_number = 7
+        line_index = 9
+        state = 'handle_word'
+        tk_type = 'reserved_word'
+        tk_name = 'var'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
+
         pass
 
     def test_reserved_word_else(self):
@@ -202,12 +220,44 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_reserved_word_begin(self):
-        rword = 'begin'
-        pass
+tk_tuple = ('5.0', 7, 9, 'handle_number')
+        line_number = 7
+        line_index = 9
+        state = 'handle_number'
+        tk_type = 'real_literal'
+        tk_name = 'number'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
+
+        tk_val = 'begin'
 
     def test_reserved_word_end(self):
-        rword = 'end'
-        pass
+        tk_tuple = ('end', 7, 9, 'handle_word')
+        tk_val = 'end'
+        line_number = 7
+        line_index = 9
+        state = 'handle_word'
+        tk_type = 'reserved'
+        tk_name = 'end'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
     def test_reserved_word_while(self):
         rword = 'while'
