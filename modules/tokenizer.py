@@ -154,7 +154,7 @@ class Tokenizer:
             else:
                 break
 
-        return word, line_number, line_index, self.state
+        return word.lower(), line_number, line_index, self.state
 
     def handle_quote(self, c):
         """this event occurs when a ' is detected. it will continue
@@ -217,7 +217,6 @@ class Tokenizer:
     def __repr__(self):
         return """line number: %s, index: %s, character: %s
         """ % (self.current_line, self.current_index, self.current_token)
-
 
 if __name__ == "__main__":
     def open_file(file_name):
