@@ -101,7 +101,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(state, token.get_creation_state())
 
     def test_multiplication_operator(self):
-        op = '*'
+        tk_val = '*'
         pass
 
     def test_division_operator(self):
@@ -141,13 +141,42 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_integer_literal(self):
-        op = '5' # they are still represented as strings in python
+        tk_val = '5' # they are still represented as strings in python
         tk_tuple = ('5', 7, 9, 'handle_number')
-        pass
+        line_number = 7
+        line_index = 9
+        state = 'handle_number'
+        tk_type = 'int_literal'
+        tk_name = 'number'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
     def test_real_literal(self):
-        op = '5.0'
-        pass
+        tk_val = '5.0'
+        tk_tuple = ('5.0', 7, 9, 'handle_number')
+        line_number = 7
+        line_index = 9
+        state = 'handle_number'
+        tk_type = 'real_literal'
+        tk_name = 'number'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
 
     def test_keyword(self):
         pass
