@@ -62,15 +62,15 @@ use LL parser style.
 class Token:
     """ A token object"""
 
-    def __init__(self):
+    def __init__(self, tk_val, tk_type, line_num, line_index, state, name):
         """all tokens must have these values"""
         
-        self.tk_value = None
-        self.tk_type = None
-        self.line_number = None
-        self.line_index = None
-        self.creation_state = None
-        self.name = None
+        self.tk_value = tk_val
+        self.tk_type = tk_type
+        self.line_number = line_num
+        self.line_index = line_index
+        self.creation_state = state
+        self.name = name
 
     def get_tk_type(self):
         """returns the type of token"""
