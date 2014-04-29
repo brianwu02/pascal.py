@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 6
         state = 'handle_symbol'
-        tk_type = 'tk_operator'
+        tk_type = 'TK_ASSIGNMENT_OP'
         tk_name = 'assignment'
 
         tk_tuple = (':=', 8, 6, 'handle_symbol')
@@ -47,7 +47,7 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 8
         state = 'handle_symbol'
-        tk_type = 'tk_operator'
+        tk_type = 'TK_ADDITION_OP'
         tk_name = 'addition'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -66,7 +66,7 @@ class TestCase(unittest.TestCase):
         line_number = 0
         line_index = 0
         state = 'handle_symbol'
-        tk_type = 'tk_operator'
+        tk_type = 'TK_SUBTRACTION_OP'
         tk_name = 'subtraction'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -85,7 +85,7 @@ class TestCase(unittest.TestCase):
         line_number = 1
         line_index = 0
         state = 'handle_word'
-        tk_type = 'tk_reserved'
+        tk_type = 'TK_RESERVED'
         tk_name = 'program'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -104,7 +104,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'tk_semicolon'
+        tk_type = 'TK_SEMICOLON'
         tk_name = 'semicolon'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -155,7 +155,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'tk_identifier'
+        tk_type = 'TK_IDENTIFIER'
         tk_name = 'identifier'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -173,7 +173,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_word'
-        tk_type = 'tk_identifier'
+        tk_type = 'TK_IDENTIFIER'
         tk_name = 'identifier'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -193,7 +193,7 @@ class TestCase(unittest.TestCase):
         line_number = 10
         line_index = 20
         state = 'handle_quote'
-        tk_type = 'tk_string_literal'
+        tk_type = 'TK_STRING_LITERAL'
         tk_name = 'string'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -212,7 +212,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_number'
-        tk_type = 'tk_int_literal'
+        tk_type = 'TK_INT_LITERAL'
         tk_name = 'number'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -231,7 +231,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_number:Double'
-        tk_type = 'tk_real_literal'
+        tk_type = 'TK_REAL_LITERAL'
         tk_name = 'number'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -265,7 +265,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'tk_reserved_word'
+        tk_type = 'TK_RESERVED'
         tk_name = 'var'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -288,7 +288,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'tk_reserved'
+        tk_type = 'TK_RESERVED'
         tk_name = 'begin'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -307,7 +307,7 @@ class TestCase(unittest.TestCase):
         line_number = 7
         line_index = 9
         state = 'handle_word'
-        tk_type = 'tk_reserved'
+        tk_type = 'TK_RESERVED'
         tk_name = 'end'
 
         token = self.tokenCreator.create(tk_tuple)
