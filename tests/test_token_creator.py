@@ -212,20 +212,18 @@ class TestCase(unittest.TestCase):
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
 
-
-        pass
-
     def test_reserved_word_else(self):
         rword = 'else'
         pass
 
     def test_reserved_word_begin(self):
-tk_tuple = ('5.0', 7, 9, 'handle_number')
+        tk_val = 'begin'
+        tk_tuple = ('begin', 7, 9, 'handle_word')
         line_number = 7
         line_index = 9
-        state = 'handle_number'
-        tk_type = 'real_literal'
-        tk_name = 'number'
+        state = 'handle_word'
+        tk_type = 'reserved'
+        tk_name = 'begin'
 
         token = self.tokenCreator.create(tk_tuple)
         self.assertIsInstance(token, Token)
@@ -236,9 +234,6 @@ tk_tuple = ('5.0', 7, 9, 'handle_number')
         self.assertEqual(line_number, token.get_line_number())
         self.assertEqual(line_index, token.get_line_index())
         self.assertEqual(state, token.get_creation_state())
-
-
-        tk_val = 'begin'
 
     def test_reserved_word_end(self):
         tk_tuple = ('end', 7, 9, 'handle_word')
