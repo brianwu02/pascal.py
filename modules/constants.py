@@ -6,6 +6,15 @@
 # seperator: white space
 # constants: numerical or character constants used to denote actual values. 
 
+TOKEN_TYPES = [
+        'int_literal',
+        'real_literal',
+        'char_literal'
+        'identifier',
+        'operator',
+        'datatype'
+        ]
+
 SYMBOLS = [
         '+', '-', '*', '/' ,'=', '<', '>',
         '[' , ']', '.', ',', '(', ')', ':',
@@ -22,16 +31,8 @@ DOUBLE_SYMBOLS = [
         '<=', '>=', ':=', '+=', '-=',
         '-=', '*=', '/=', '(*', '*)',
         '(.', '.)', '//'
-
         ]
 
-"""
-IDENTIFIERS = [
-    '<', '<>', '<<', ':', ':=', '>', '>>',
-    '<=', '>=', '-', '+', '*', '/', ';', ',',
-    '[', ']', '(', ')', '=', '^', '@', '(*'
-    ]
-"""
 
 RESERVED_WORDS = [
     'program', 'var', 'begin', 'end', 'type',
@@ -39,8 +40,6 @@ RESERVED_WORDS = [
     'do', 'then', 'downto', 'to','if', 'else', 'array', 'of',
     'not', 'or',  'mod', 'and', 'const', 'div','record', 'exit'
     ]
-
-
 
 
 # matches reserverd_word to corresponding token_type
@@ -70,16 +69,15 @@ OPERATOR_DICT = {
         }
 
 SYMBOLS_DICT = {
-        '(': 'tk_left_parenthesis',
-        ')': 'tk_right_parenthesis',
-        '[': 'tk_left_bracket',
-        ']': 'tk_right_bracket',
-        '{': 'tk_left_comment_bracket',
-        '}': 'tk_right_comment_bracket',
-        ';': 'tk_semicolon',
-        ',': 'tk_eol',
+        '(': ('tk_left_parenthesis', 'parenthesis'),
+        ')': ('tk_right_parenthesis', 'parenthesis'),
+        '[': ('tk_left_bracket', 'bracket'),
+        ']': ('tk_right_bracket', 'bracket'),
+        '{': ('tk_left_comment_brace', 'brace'),
+        '}': ('tk_right_comment_brace', 'brace'),
+        ';': ('tk_semicolon', 'semicolon'),
+        ',': ('tk_comma', 'comma')
         }
-
 
 
 # http://www.freepascal.org/docs-html/ref/refsu1.html#x12-110001.3.1
