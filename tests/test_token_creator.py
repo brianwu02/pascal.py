@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 6
         state = 'handle_symbol'
-        tk_type = 'operator'
+        tk_type = 'tk_operator'
         tk_name = 'assignment'
 
         tk_tuple = (':=', 8, 6, 'handle_symbol')
@@ -47,7 +47,7 @@ class TestCase(unittest.TestCase):
         line_number = 8
         line_index = 8
         state = 'handle_symbol'
-        tk_type = 'operator'
+        tk_type = 'tk_operator'
         tk_name = 'addition'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -66,7 +66,7 @@ class TestCase(unittest.TestCase):
         line_number = 0
         line_index = 0
         state = 'handle_symbol'
-        tk_type = 'operator'
+        tk_type = 'tk_operator'
         tk_name = 'subtraction'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -87,6 +87,25 @@ class TestCase(unittest.TestCase):
         state = 'handle_word'
         tk_type = 'reserved'
         tk_name = 'program'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
+    def test_symbol_semicolon(self):
+        tk_val = ';'
+        tk_tuple = (';', 10, 20, 'handle_symbol')
+        line_number = 10
+        line_index = 20
+        state = 'handle_word'
+        tk_type = 'semicolon'
+        tk_name = 'semicolon'
 
         token = self.tokenCreator.create(tk_tuple)
         self.assertIsInstance(token, Token)
