@@ -1,4 +1,8 @@
-from token import Token
+from token import Token 
+from constants import SYMBOLS 
+from constants import SYMBOLS_DICT
+from constants import OPERATOR_DICT
+from constants import RESERVED_WORD_DICT
 
 class TokenCreator:
 
@@ -47,8 +51,31 @@ class TokenCreator:
         return token
 
     def _determine_type(self, value):
+        """ if value is found in symbol then look up it's value
+        in hash tables OPERATORS_DICT and SYMBOLS_DICT
+        """
+        
+        if value in RESERVED_WORD_DICT:
+            return RESERVED_WORD_DICT[value]
+
+        # if value is a symbol, then look up it's value in symbol lookup
+        if value in SYMBOLS:
+
+            if value in SYMBOLS_DICT:
+                return SYMBOLS_DICT[value][0]
+
+            if value in OPERATOR_DICT:
+                return OPERATOR_DICT[value][0]
+
         return value
 
     def _determine_name(self, value):
+
+        if value in SYMBOLS_DICT:
+            return SYMBOLS_DICT[value][1]
+
+        if value in OPERATOR_DICT:
+            return OPERATOR_DICT[value][1]
+
         return value
 
