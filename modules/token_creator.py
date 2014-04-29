@@ -3,6 +3,7 @@ from constants import SYMBOLS
 from constants import SYMBOLS_DICT
 from constants import OPERATOR_DICT
 from constants import RESERVED_WORD_DICT
+import re
 
 class TokenCreator:
 
@@ -66,6 +67,18 @@ class TokenCreator:
 
             if value in OPERATOR_DICT:
                 return OPERATOR_DICT[value][0]
+
+        # here, if NOT symbol and NOT reserved word, must be identifier or number literals
+        
+        # identifier --> letter { letter | digit }
+        
+
+        # number --> integer | real 
+        # integer --> digit {digit} 
+        
+        # real --> integer '.' integer [exponent] 
+        # exponent --> expDesignator [ '+' | '-' ] integer 
+        # expDesignator --> 'e' | 'E' 
 
         return value
 
