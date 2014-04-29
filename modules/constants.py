@@ -44,39 +44,39 @@ RESERVED_WORDS = [
 
 # matches reserverd_word to corresponding token_type
 RESERVED_WORD_DICT = {
-        'if': 'tk_if',
-        'else': 'tk_else',
-        'for': 'tk_for',
-        'while': 'tk_while',
-        'begin': 'tk_begin',
-        'var': 'tk_var',
-        'end': 'tk_end',
-        'program': 'tk_program'
+        'if': 'TK_IF',
+        'else': 'TK_ELSE',
+        'for': 'TK_FOR',
+        'while': 'TK_WHILE',
+        'begin': 'TK_BEGIN',
+        'var': 'TK_VAR',
+        'end': 'TK_END',
+        'program': 'TK_PROGRAM'
         }
 
 OPERATOR_DICT = {
-        ':=': 'tk_assignment_op',
-        '+': 'tk_addition_op',
-        '-': 'tk_subtraction_op',
-        '*': 'tk_multiplication_op',
-        '/': 'tk_division_op',
-        '=': 'tk_equal_op',
-        '>': 'tk_greater_than_op',
-        '<': 'tk_less_than_op',
-        '<>': 'tk_unequal_op',
-        '<=': 'tk_less_than_or_equal_op',
-        '>=': 'tk_greater_than_or_equal_op',
+        ':=': ('TK_ASSIGNMENT_OP', 'assignment'),
+        '+': ('TK_ADDITION_OP', 'addition'),
+        '-': ('TK_SUBTRACTION_OP', 'subtraction'),
+        '*': ('TK_MULTIPLICATION_OP', 'multiplication'),
+        '/': ('TK_DIVISION_OP', 'division'),
+        '=': ('TK_EQUALS_OP', 'equals'),
+        '>': ('TK_GREATER_THAN_OP', 'greater_than'),
+        '<': ('TK_LESS_THAN_OP', 'less_than'),
+        '<>': ('TK_UNEQUAL_OP', 'unequal'),
+        '<=': ('TK_LTOE', 'less_than_or_equals'),
+        '>=': ('TK_GTOE', 'greater_than_or_equals')
         }
 
 SYMBOLS_DICT = {
-        '(': ('tk_left_parenthesis', 'parenthesis'),
-        ')': ('tk_right_parenthesis', 'parenthesis'),
-        '[': ('tk_left_bracket', 'bracket'),
-        ']': ('tk_right_bracket', 'bracket'),
-        '{': ('tk_left_comment_brace', 'brace'),
-        '}': ('tk_right_comment_brace', 'brace'),
-        ';': ('tk_semicolon', 'semicolon'),
-        ',': ('tk_comma', 'comma')
+        '(': ('TK_L_PAREN', 'parenthesis'),
+        ')': ('TK_R_PAREN', 'parenthesis'),
+        '[': ('TK_L_BRACKET', 'bracket'),
+        ']': ('TK_R_BRACKET', 'bracket'),
+        '{': ('TK_L_COMMENT_BRACE', 'brace'),
+        '}': ('TK_R_COMMENT_BRACE', 'brace'),
+        ';': ('TK_SEMICOLON', 'semicolon'),
+        ',': ('TK_COMMA', 'comma')
         }
 
 
