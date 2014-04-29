@@ -89,7 +89,7 @@ class Token:
         does not make sense yet. multiple files i guess?"""
         return str(self.current_file)
 
-    def get_current_line(self):
+    def get_line_number(self):
         """returns the line of the token"""
         return self.current_line
 
