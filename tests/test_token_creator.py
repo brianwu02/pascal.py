@@ -131,8 +131,42 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_identifier(self):
-        op = 'a'
-        pass
+        tk_val = 'a'
+        tk_tuple = ('a', 10, 20, 'handle_word')
+        line_number = 10
+        line_index = 20
+        state = 'handle_word'
+        tk_type = 'identifier'
+        tk_name = 'identifier'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
+        tk_val = 'another_identifier'
+        tk_tuple = ('another_identifier', 10, 20, 'handle_word')
+        line_number = 10
+        line_index = 20
+        state = 'handle_word'
+        tk_type = 'identifier'
+        tk_name = 'identifier'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_tk_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
 
     def test_string_literal(self):
         tk_val = "'some string val'"
