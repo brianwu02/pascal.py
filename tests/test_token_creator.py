@@ -4,7 +4,7 @@ from ..modules.pascal_token import Token
 
 default_source = 'pascal_sample_code/addition.ps'
 
-class TestCase(unittest.TestCase):
+class TestTokenCreator(unittest.TestCase):
     """the purpose of these tests are to validate the TokenCreator
     correctly returns token objects with the correct attributes
     given stubbed token parameters."""
