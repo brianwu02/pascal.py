@@ -59,17 +59,6 @@ class Scanner:
         for s in self.token_list:
             print s
 
-    def debug_token_list(self):
-        """ouputs list of created tokens to stdout"""
-        
-        tokenizer = self.tokenizer
-        tk_creator = self.token_creator
-        tk_list = self.token_list
-
-        for tuple_val in tokenizer:
-            tk = tk_creator.create(tuple_val)
-            print tk
-
 
 if __name__ == "__main__":
     # do nothing.
