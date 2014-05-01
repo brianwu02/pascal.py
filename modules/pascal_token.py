@@ -107,5 +107,20 @@ class Token:
         return str(self.current_column)
 
     def __repr__(self):
-        """ prety print the token here"""
-        pass
+        """ prety print the token here. do not need extra dbug info, hurst my eyes"""
+        """
+        tk_str = "{ TK_TYPE: [%s] TK_VAL: [%s] Line: %s Ind: %s State: %s}" % (
+                self.get_type(),
+                self.get_value(),
+                self.get_line_number(),
+                self.get_line_index(),
+                self.get_creation_state()
+                )
+        """
+
+        tk_str = "{TK_TYPE: %s TK_VAL: %s }" % (
+                self.get_type(),
+                self.get_value()
+                )
+
+        return tk_str
