@@ -71,7 +71,6 @@ class TokenCreator:
         # here, if NOT symbol and NOT reserved word, must be identifier or number literals
         
         # identifier --> letter { letter | digit }
-        
 
         # number --> integer | real 
         # integer --> digit {digit} 
@@ -79,6 +78,13 @@ class TokenCreator:
         # real --> integer '.' integer [exponent] 
         # exponent --> expDesignator [ '+' | '-' ] integer 
         # expDesignator --> 'e' | 'E' 
+
+        if self._is_int(value):
+            return "TK_INT_LITERAL"
+
+        if self._is_float(value):
+            return "TK_REAL_LITERAL"
+
 
         return value
 
@@ -92,3 +98,20 @@ class TokenCreator:
 
         return value
 
+    def _is_float(self, x):
+        """helper method to determine if a string is float"""
+        try:
+            a = float(x)
+        except ValueError:
+            return False
+        else:
+            return True
+
+    def _is_int(self, x):
+        try:
+            a = float(x)
+            b = int(a)
+        except ValueError:
+            return False
+        else:
+            return a == b
