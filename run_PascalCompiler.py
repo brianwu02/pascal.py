@@ -40,7 +40,7 @@ if __name__ == "__main__":
         with open(path, 'r') as f:
             return f.read()
 
-    default_source = 'pascal_sample_code/addition.ps'
+    default_source = 'pascal_sample_code/addition.pas'
     
     try:
         if os.path.isfile(sys.argv[1]):
