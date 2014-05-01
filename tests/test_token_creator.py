@@ -1,6 +1,6 @@
 import unittest
 from ..modules.token_creator import TokenCreator
-from ..modules.token import Token
+from ..modules.pascal_token import Token
 
 default_source = 'pascal_sample_code/addition.ps'
 
@@ -45,7 +45,7 @@ class TestCase(unittest.TestCase):
         tk_val = '+'
         tk_tuple = ('+', 8, 11, 'handle_symbol')
         line_number = 8
-        line_index = 8
+        line_index = 11
         state = 'handle_symbol'
         tk_type = 'TK_ADDITION_OP'
         tk_name = 'addition'
@@ -103,7 +103,7 @@ class TestCase(unittest.TestCase):
         tk_tuple = (';', 10, 20, 'handle_symbol')
         line_number = 10
         line_index = 20
-        state = 'handle_word'
+        state = 'handle_symbol'
         tk_type = 'TK_SEMICOLON'
         tk_name = 'semicolon'
 
@@ -226,6 +226,25 @@ class TestCase(unittest.TestCase):
         self.assertEqual(state, token.get_creation_state())
 
     def test_real_literal(self):
+        tk_val = '5.1'
+        tk_tuple = ('5.1', 7, 9, 'handle_number:Double')
+        line_number = 7
+        line_index = 9
+        state = 'handle_number:Double'
+        tk_type = 'TK_REAL_LITERAL'
+        tk_name = 'number'
+
+        token = self.tokenCreator.create(tk_tuple)
+        self.assertIsInstance(token, Token)
+
+        self.assertEqual(tk_val, token.get_value())
+        self.assertEqual(tk_type, token.get_type())
+        self.assertEqual(tk_name, token.get_name())
+        self.assertEqual(line_number, token.get_line_number())
+        self.assertEqual(line_index, token.get_line_index())
+        self.assertEqual(state, token.get_creation_state())
+
+    def test_real_literal_that_looks_like_int(self):
         tk_val = '5.0'
         tk_tuple = ('5.0', 7, 9, 'handle_number:Double')
         line_number = 7
@@ -323,6 +342,9 @@ class TestCase(unittest.TestCase):
     def test_reserved_word_while(self):
         rword = 'while'
         pass
+
+if __name__ == "__main__":
+    unittest.main()
 
 
 
