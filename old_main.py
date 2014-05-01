@@ -14,7 +14,10 @@ from modules.parser import Parser
 
 # try to read source file from command line argument
 # if it does not exist, use a default pascal file. 
+
+
 default_source = 'pascal_sample_code/addition.ps'
+
 try:
     if os.path.isfile(sys.argv[1]):
         SOURCE_FILE_PATH = sys.argv[1]
@@ -47,6 +50,7 @@ def run():
 def test_run():
     #print read(SOURCE_FILE_PATH)
     print SOURCE_FILE_PATH
+
 
 if __name__ == "__main__":
     #test_run()
