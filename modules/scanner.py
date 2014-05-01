@@ -36,7 +36,8 @@ class Scanner:
         self.token_list = []
         
     def scan(self):
-        """the only method that should be exposed aside from deubgs to compiler. 
+        """main method exposed aside from deubgs to compiler.
+        side-effect unfriendly. only run once.
         runs the tokenizer + tokenCreator and pushes all objects in to token_list.
         Reads the string values from tokenizer and attempts to create a token object.
         """
@@ -54,10 +55,13 @@ class Scanner:
         # easy way to write this, this cannot be run twice as it uses
         # an iterator and the tokenizer object will not return any more elements.
 
-
     def print_tokens(self):
         for s in self.token_list:
             print s
+
+    def get_tokens(self):
+        """returns internal list of token objects. used by parser"""
+        return self.token_list
 
 
 if __name__ == "__main__":
