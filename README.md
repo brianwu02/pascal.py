@@ -1,5 +1,6 @@
 A Pascal Compiler written in Python
 
+
 ### Todo
 
     1. DONE. have tokenzier return tk_value alongside current_line, current_line_number for debug purposes
@@ -23,4 +24,19 @@ Tokenizer/
 
 Character/
     constants
+
+
+token: 
+what is a token?
+what does a token do? 
+what is a token used for?
+
+
+design questions?
+
+should a token object know what to do with attributes once they are initialized?
+i.e token = Token(attr1, attr2, attr3), should the object itself determine how
+to parse the values or have some other piece figure out what to do with inputs 
+and then input it?
+
 
