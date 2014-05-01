@@ -81,11 +81,17 @@ class TokenCreator:
 
         if self._is_int(value):
             return "TK_INT_LITERAL"
+        #else:
+        #    if self._is_float(value):
+        #        return "TK_REAL_LITERAL"
 
         if self._is_float(value):
             return "TK_REAL_LITERAL"
+    
 
-
+        # if it fails all the test, it is an identifier.
+        return "TK_IDENTIFIER"
+        # never reach this, still debugging
         return value
 
     def _determine_name(self, value):
@@ -96,10 +102,16 @@ class TokenCreator:
         if value in OPERATOR_DICT:
             return OPERATOR_DICT[value][1]
 
+        if self._is_int(value) or self._is_float(value):
+            return "number"
+
+        # again, if it falls through symbol and number check.
+        # return "identifier"
+
         return value
 
     def _is_float(self, x):
-        """helper method to determine if a string is float"""
+        """Boolean helper method to determine if a string is TK_REAL_LITERAL"""
         try:
             a = float(x)
         except ValueError:
@@ -108,6 +120,7 @@ class TokenCreator:
             return True
 
     def _is_int(self, x):
+        """Boolean helper method to determine if a string is TK_INT_LITERAL"""
         try:
             a = float(x)
             b = int(a)
