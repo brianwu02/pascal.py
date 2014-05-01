@@ -47,18 +47,17 @@ class Scanner:
 
         # iterate over token strings in tokenizer and
         # append the token object to tk_list
-        for tuple_val in tk_creator:
+        for tuple_val in tokenizer:
             tk_list.append(tk_creator.create(tuple_val))
 
         # currently runs as a side-effect but i guess thats the only
         # easy way to write this, this cannot be run twice as it uses
         # an iterator and the tokenizer object will not return any more elements.
 
-    def debug_scan(self):
-        tokenizer = self.tokenizer
-        for s in tokenizer:
+
+    def print_tokens(self):
+        for s in self.token_list:
             print s
-        pass
 
     def debug_token_list(self):
         """ouputs list of created tokens to stdout"""
