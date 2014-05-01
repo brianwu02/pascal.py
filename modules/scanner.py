@@ -35,26 +35,42 @@ class Scanner:
         self.token_creator = TokenCreator()
         self.token_list = []
         
+    def scan(self):
+        """the only method that should be exposed aside from deubgs to compiler. 
+        runs the tokenizer + tokenCreator and pushes all objects in to token_list.
+        Reads the string values from tokenizer and attempts to create a token object.
+        """
+
+        tokenizer = self.tokenizer
+        tk_creator = self.token_creator
+        tk_list = self.token_list
+
+        # iterate over token strings in tokenizer and
+        # append the token object to tk_list
+        for tuple_val in tk_creator:
+            tk_list.append(tk_creator.create(tuple_val))
+
+        # currently runs as a side-effect but i guess thats the only
+        # easy way to write this, this cannot be run twice as it uses
+        # an iterator and the tokenizer object will not return any more elements.
+
     def debug_scan(self):
         tokenizer = self.tokenizer
         for s in tokenizer:
             print s
         pass
 
-    def return_token_list(self):
-        """reads string values from tokenizer and attmepts
-        to create token object."""
-
+    def debug_token_list(self):
+        """ouputs list of created tokens to stdout"""
+        
         tokenizer = self.tokenizer
         tk_creator = self.token_creator
         tk_list = self.token_list
 
-        # iterate over token strings in tokenizer and 
-        # append the token object to tk_list
-        for token in tokenizer:
-            tk_list.append(tk_creator.create(token))
+        for tuple_val in tokenizer:
+            tk = tk_creator.create(tuple_val)
+            print tk
 
-        return tk_list
 
 if __name__ == "__main__":
     # do nothing.
