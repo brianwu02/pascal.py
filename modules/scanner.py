@@ -48,8 +48,10 @@ class Scanner:
 
         # iterate over token strings in tokenizer and
         # append the token object to tk_list
-        for tuple_val in tokenizer:
-            tk_list.append(tk_creator.create(tuple_val))
+        #for tuple_val in tokenizer:
+        #    tk_list.append(tk_creator.create(tuple_val))
+
+        [tk_list.append(tk_creator.create(tuple_val)) for tuple_val in tokenizer]
 
         # currently runs as a side-effect but i guess thats the only
         # easy way to write this, this cannot be run twice as it uses
