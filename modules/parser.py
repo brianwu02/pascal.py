@@ -5,13 +5,15 @@
 class Parser:
     def __init__(self):
         self.tk_list = None
+        self.token_index = 0
+        #self.current_token = self.tk_list[self.token_index]
+        #self.next_token = self.tk_list[self.token_index + 1]
         self.current_token = None
         self.next_token = None
-        self.token_index = 0
         self.stack = []
 
     
-    def compilation_unit(self):
+    def run(self):
         """
         CompilationUnit --> ProgramModule 
         """
@@ -25,17 +27,31 @@ class Parser:
 
         self._match("TK_PROGRAM")
         self._match("TK_IDENTIFIER")
-
-        self._parse_program_parameters()
+        
+        # tokens parsed in _parse_program_paramters
+        # var a,b : Integer;
+        self._parse_program_parameters() 
 
         self._match("TK_SEMICOLON")
 
+        # parse tokens betwen tk_begin and tk_end
         self._parse_block()
 
         self._match('TK_PERIOD')
 
         print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
 
+    def _parse_program_parameters(self):
+        """
+        ProgramParameters --> '(' IdentList ')' 
+        """
+        pass
+
+    def _parse_block(self):
+        """
+        """
+        pass
+        
 
     def _statement_sequence(self):
         """
@@ -100,18 +116,23 @@ class Parser:
 
     def _match(self, tk_type):
         """matches the current token with an expected token."""
-        tk = self.current_token
+        #tk = self.current_token
+        tk = self.tk_list[self.token_index]
         if tk.get_type() == tk_type:
-            _get_next_token()
+            print("matched: %s with val: %s") % (
+                    tk.get_type(),
+                    tk.get_value()
+                    )
+            self._get_next_token()
         else:
             self._syntax_err(tk_type)
 
     def _get_next_token(self):
         self.token_index += 1
 
-    def _syntax_err(tk_type):
+    def _syntax_err(self, tk_type):
         """expected token is not next token."""
-        tk = self.current_token
+        tk = self.tk_list[self.token_index]
         expected = tk_type
         actual = tk.get_type()
         
