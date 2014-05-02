@@ -10,14 +10,54 @@ class Parser:
         self.token_index = 0
         self.stack = []
 
+    
+    def compilation_unit(self):
+        """
+        CompilationUnit --> ProgramModule 
+        """
+        self._program_module()
+
+
+    def _program_module(self):
+        """
+        ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
+        """
+        
+        self._parse_program() # 'tk_program.'
+        self._parse_identifer() # 'tk_identifer. program name'
+
+        self._parse_program_parameters()
+        self._match("TK_SEMICOLON")
+        self._parse_block()
+        self._match('TK_PERIOD')
+
+        print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
+
+
+    def _statement_sequence(self):
+        """
+        StatementSequence --> ybegin Statement {';' Statement} yend 
+        """
+        self._match("tk_begin")
+        self._E()
+        
+        # write method to parse Statement, E() in class examples.
+        self._match("tk_semicolon")
+
+    def _assignment(self):
+        """
+        Assignment --> Designator ':=' Expression 
+        """
+        self._designator()
+        self._match("tk_assignment")
+        pass
+    
     def _E():
         """
         E -> T E
         """
         self._T()
         self._E1()
-
-        pass
 
     def _E1():
         """
