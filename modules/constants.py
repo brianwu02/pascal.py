@@ -51,7 +51,8 @@ RESERVED_WORD_DICT = {
         'begin': 'TK_BEGIN',
         'var': 'TK_VAR',
         'end': 'TK_END',
-        'program': 'TK_PROGRAM'
+        'program': 'TK_PROGRAM',
+        'writeln': 'TK_WRITELN'
         }
 
 OPERATOR_DICT = {
@@ -76,7 +77,8 @@ SYMBOLS_DICT = {
         '{': ('TK_L_COMMENT_BRACE', 'brace'),
         '}': ('TK_R_COMMENT_BRACE', 'brace'),
         ';': ('TK_SEMICOLON', 'semicolon'),
-        ',': ('TK_COMMA', 'comma')
+        ',': ('TK_COMMA', 'comma'),
+        '.': ('TK_PERIOD', 'period')
         }
 
 
