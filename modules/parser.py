@@ -134,11 +134,26 @@ class Parser:
         """expected token is not next token."""
         tk = self.tk_list[self.token_index]
         expected = tk_type
-        actual = tk.get_type()
+        #actual = tk.get_type()
         
-        msg = "expected tk_type: %s but got %s instead." % (
+        msg = """
+                expected tk_type: %s. but got the following:
+                ----
+                tk_type:            %s
+                tk_val:             %s
+                tk_name:            %s
+                line number:        %s
+                line index number:  %s
+                creation state:     %s
+                ----
+        """ % (
                 expected,
-                actual
+                tk.get_type(),
+                tk.get_value(),
+                tk.get_name(),
+                tk.get_line_number(),
+                tk.get_line_index(),
+                tk.get_creation_state()
                 )
         raise Exception(msg)
 
