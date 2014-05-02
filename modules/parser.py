@@ -125,12 +125,12 @@ class Parser:
                     )
             self._get_next_token()
         else:
-            self._syntax_err(tk_type)
+            self._token_err(tk_type)
 
     def _get_next_token(self):
         self.token_index += 1
 
-    def _syntax_err(self, tk_type):
+    def _token_err(self, tk_type):
         """expected token is not next token."""
         tk = self.tk_list[self.token_index]
         expected = tk_type
