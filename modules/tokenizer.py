@@ -1,7 +1,7 @@
 from constants import SYMBOLS
 from constants import DOUBLE_SYMBOLS
 from character import Character
-from token import Token 
+from pascal_token import Token 
 import pprint
 
 pp = pprint.PrettyPrinter(indent=1)
