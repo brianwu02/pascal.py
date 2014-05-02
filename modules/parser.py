@@ -22,13 +22,16 @@ class Parser:
         """
         ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
         """
-        
-        self._parse_program() # 'tk_program.'
-        self._parse_identifer() # 'tk_identifer. program name'
+
+        self._match("TK_PROGRAM")
+        self._match("TK_IDENTIFIER")
 
         self._parse_program_parameters()
+
         self._match("TK_SEMICOLON")
+
         self._parse_block()
+
         self._match('TK_PERIOD')
 
         print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
