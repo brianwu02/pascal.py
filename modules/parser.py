@@ -28,6 +28,8 @@ class Parser:
         #self.expected_tk_cnt = None
         self.expected_tk_type = None
         #self.expected_tk_val = None
+        
+        self.debug_mode_on = True
 
     def run(self):
         """
@@ -116,12 +118,21 @@ class Parser:
     def _get_next_token(self):
         self.token_index += 1
 
-    def _match(self, tk_type, tk_val):
+    def _match(self, tk_type):
         """matches the current token with an expected token."""
         tk = self.tk_list[self.token_index]
-        
         # update the global state of expected token type & val
-        self._update_expected(tk_type, tk_val)
+        self._update_expected(tk_type)
+
+        expected_type = self.expected_tk_type
+        got_tk_type = self.got_tk_type
+
+        if (expected_type == got_tk_type):
+            # after a successful token match,
+            # 1. increment global token counter
+            # 2. if debug mode is on, print all token comparisons.
+            if self.debug_mode_on:
+                self.token_debug()
 
         if tk.get_type() == tk_type:
             print("matched: %s with val: %s") % (
@@ -138,12 +149,11 @@ class Parser:
         """ shows useful debug of all tokens recieved and expected."""
         ""
 
-    def _update_expected(self, exp_tk_type, exp_tk_val):
+    def _update_expected(self, exp_tk_type):
         """updates the class attributes that stores the expected
         token type and token value."""
+        # ehh, good habit to do this i guess.
         self.expected_tk_type = exp_tk_type
-        self.expected_tk_val = exp_tk_val
-        # don't know if this is needed.
         self.expected_tk_cnt = self.token_index
 
     def _update_got(self):
