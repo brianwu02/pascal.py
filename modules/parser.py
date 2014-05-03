@@ -19,6 +19,8 @@ class Parser:
         self.got_tk_val = None
         self.got_tk_cnt = None
         self.got_tk_name = None
+        self.got_tk_line = None
+        self.got_tk_l_index = None
         # Expected Token attributes
         self.expected_tk_cnt = None
         self.expected_tk_type = None
@@ -139,19 +141,27 @@ class Parser:
         token = self.current_token[self.token_index]
         self.got_tk_type = tk.get_type()
         self.got_tk_val = tk.get_value()
-        self.got_line_val = '(' + tk.get_line_number + '
+        self.got_line_val = '(' + tk.get_line_number + ''
         pass
 
     def _debug_message(self):
         """the debug message itself."""
-        expected_tk_type = self.current_token.get_type()
-        got_tk_type =  ''
+        expected_tk_type = self.expected_tk_type
+        expected_tk_val = self.expected_tk_val
+        expected_tk_cnt = self.expected_tk_type
+
+        got_tk_type = self.got_tk_type
+        got_tk_val = self.got_tk_val
+        got_tk_cnt = self.got_tk_cnt
+        got_tk_name = self.got_tk_name
+
+
         tk_count_msg = "parsing on token number %s on parse count: %s"
         tk_token_msg = "got token: %s and expected token: %s"
         tk_val_msg = "got tk_val: %s and expected tk_val %s"
         tk_type_msg = "got tk_type: and expected tk_val: %s"
         exp_tk_line = "expected token line = (%s, %s)"
-        got tk_type = "got token line = (%s, %s)"
+        got_tk_type = "got token line = (%s, %s)"
         
 
     def _token_err(self, tk_type):
