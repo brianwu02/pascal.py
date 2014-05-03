@@ -6,6 +6,7 @@ class Parser:
     def __init__(self):
         self.tk_list = None
         self.token_index = 0
+
         #self.current_token = self.tk_list[self.token_index]
         #self.next_token = self.tk_list[self.token_index + 1]
         self.current_token = None
@@ -13,16 +14,16 @@ class Parser:
         self.stack = []
 
         # state of current token and expected parsing token
-        self.expected_tk_type = None
+        # Current Token Attributes
         self.got_tk_type = None
-        self.expected_tk_val = None
         self.got_tk_val = None
-        self.expected_line_num = None
-        self.got_line_num = None
+        self.got_tk_cnt = None
+        self.got_tk_name = None
+        # Expected Token attributes
         self.expected_tk_cnt = None
-        self.current_tk_cnt = None
+        self.expected_tk_type = None
+        self.expected_tk_val = None
 
-    
     def run(self):
         """
         CompilationUnit --> ProgramModule 
@@ -71,7 +72,8 @@ class Parser:
         self._E()
         
         # write method to parse Statement, E() in class examples.
-        self._match("tk_semicolon"
+        self._match("tk_semicolon")
+
     def _E1():
         """
         E1 -> empty | tk_plus T tk_plus E1 | tk_minus T tk_minus E1
@@ -126,10 +128,24 @@ class Parser:
         """ shows useful debug of all tokens recieved and expected."""
         ""
 
+    def _update_expected(self):
+        self.expected_tk_cnt = self.token_index
+        self.expected_tk_type = ""
+
+
+        pass
+
+    def _update_got(self):
+        token = self.current_token[self.token_index]
+        self.got_tk_type = tk.get_type()
+        self.got_tk_val = tk.get_value()
+        self.got_line_val = '(' + tk.get_line_number + '
+        pass
+
     def _debug_message(self):
         """the debug message itself."""
         expected_tk_type = self.current_token.get_type()
-        got_tk_type =  
+        got_tk_type =  ''
         tk_count_msg = "parsing on token number %s on parse count: %s"
         tk_token_msg = "got token: %s and expected token: %s"
         tk_val_msg = "got tk_val: %s and expected tk_val %s"
