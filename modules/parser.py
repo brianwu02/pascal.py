@@ -25,9 +25,9 @@ class Parser:
         self.got_tk_line = None
         self.got_tk_l_index = None
         # Expected Token attributes
-        self.expected_tk_cnt = None
+        #self.expected_tk_cnt = None
         self.expected_tk_type = None
-        self.expected_tk_val = None
+        #self.expected_tk_val = None
 
     def run(self):
         """
@@ -41,14 +41,14 @@ class Parser:
         ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
         """
 
-        self._match("TK_PROGRAM")
-        self._match("TK_IDENTIFIER")
+        self._match('TK_PROGRAM')
+        self._match('TK_IDENTIFIER')
         
         # tokens parsed in _parse_program_paramters
         # var a,b : Integer;
         self._parse_program_parameters() 
 
-        self._match("TK_SEMICOLON")
+        self._match('TK_SEMICOLON')
 
         # parse tokens betwen tk_begin and tk_end
         self._parse_block()
@@ -147,6 +147,8 @@ class Parser:
         self.expected_tk_cnt = self.token_index
 
     def _update_got(self):
+        """updates the class attribute that stores the gotten
+        tokens attributes."""
         token = self.current_token[self.token_index]
 
         self.got_tk_cnt = self.token_index
@@ -156,20 +158,19 @@ class Parser:
         self.got_tk_l_index = token.get_line_index()
         self.got_tk_name = token.get_name()
 
-    def _debug_message(self):
-        """the debug message itself."""
+    def _display_message(self, msg_type):
+        """builds different kinds of debug messages."""
         expected_tk_type = self.expected_tk_type
-        expected_tk_val = self.expected_tk_val
-        expected_tk_cnt = self.expected_tk_type
+        
+        total_tokens = len(self.tk_list) + 1
+        current_tk_cnt = self.token_index + 1
 
         got_tk_type = self.got_tk_type
         got_tk_val = self.got_tk_val
         got_tk_cnt = self.got_tk_cnt
         got_tk_name = self.got_tk_name
-        
 
-
-        tk_count_msg = "parsing on token number %s on parse count: %s"
+        tk_count_msg = "parsed token %s out of %s tokens."
         tk_token_msg = "expected token: %s got token: %s"
         tk_val_msg = "expected tk_val %s but got tk_val: %s"
         tk_type_msg = "got tk_type: and expected tk_val: %s"
