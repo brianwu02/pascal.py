@@ -132,7 +132,8 @@ class Parser:
             # 1. increment global token counter
             # 2. if debug mode is on, print all token comparisons.
             if self.debug_mode_on:
-                self.token_debug()
+                self._display_message('debug')
+
 
         if tk.get_type() == tk_type:
             print("matched: %s with val: %s") % (
@@ -143,11 +144,6 @@ class Parser:
             self._get_next_token()
         else:
             self._token_err(tk_type)
-
-
-    def _token_debug(self, tk_type):
-        """ shows useful debug of all tokens recieved and expected."""
-        ""
 
     def _update_expected(self, exp_tk_type):
         """updates the class attributes that stores the expected
@@ -170,8 +166,12 @@ class Parser:
 
     def _display_message(self, msg_type):
         """builds different kinds of debug messages."""
+        accepted_message_types = [
+                'debug',
+                'tk_match_err'
+                ]
+
         expected_tk_type = self.expected_tk_type
-        
         total_tokens = len(self.tk_list) + 1
         current_tk_cnt = self.token_index + 1
 
@@ -186,8 +186,25 @@ class Parser:
         tk_type_msg = "got tk_type: and expected tk_val: %s"
         exp_tk_line = "expected token line = (%s, %s)"
         got_tk_type = "got token line = (%s, %s)"
-        
 
+        debug_msg = """
+        """
+        tk_match_err_msg = """
+        """
+
+        if msg_type == 'debug':
+            print(debug_msg)
+
+        if msg_type == 'tk_type_err':
+            raise Exception(tk_match_err_msg)
+
+        if msg_type not in accepted_message_types:
+            raise Exception("error type %s does not exist.") % (msg_type)
+
+
+
+        
+    # old method, not to be used. only here for reference
     def _token_err(self, tk_type):
         """expected token is not next token."""
         tk = self.tk_list[self.token_index]
