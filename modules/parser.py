@@ -12,6 +12,16 @@ class Parser:
         self.next_token = None
         self.stack = []
 
+        # state of current token and expected parsing token
+        self.expected_tk_type = None
+        self.got_tk_type = None
+        self.expected_tk_val = None
+        self.got_tk_val = None
+        self.expected_line_num = None
+        self.got_line_num = None
+        self.expected_tk_cnt = None
+        self.current_tk_cnt = None
+
     
     def run(self):
         """
@@ -61,23 +71,7 @@ class Parser:
         self._E()
         
         # write method to parse Statement, E() in class examples.
-        self._match("tk_semicolon")
-
-    def _assignment(self):
-        """
-        Assignment --> Designator ':=' Expression 
-        """
-        self._designator()
-        self._match("tk_assignment")
-        pass
-    
-    def _E():
-        """
-        E -> T E
-        """
-        self._T()
-        self._E1()
-
+        self._match("tk_semicolon"
     def _E1():
         """
         E1 -> empty | tk_plus T tk_plus E1 | tk_minus T tk_minus E1
@@ -106,8 +100,6 @@ class Parser:
         """
         pass
 
-
-
     def load_tokens(self, list_of_tokens):
         self.tk_list = list_of_tokens
         # initialize init vars
@@ -129,6 +121,22 @@ class Parser:
 
     def _get_next_token(self):
         self.token_index += 1
+
+    def _token_debug(self, tk_type):
+        """ shows useful debug of all tokens recieved and expected."""
+        ""
+
+    def _debug_message(self):
+        """the debug message itself."""
+        expected_tk_type = self.current_token.get_type()
+        got_tk_type =  
+        tk_count_msg = "parsing on token number %s on parse count: %s"
+        tk_token_msg = "got token: %s and expected token: %s"
+        tk_val_msg = "got tk_val: %s and expected tk_val %s"
+        tk_type_msg = "got tk_type: and expected tk_val: %s"
+        exp_tk_line = "expected token line = (%s, %s)"
+        got tk_type = "got token line = (%s, %s)"
+        
 
     def _token_err(self, tk_type):
         """expected token is not next token."""
