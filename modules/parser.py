@@ -31,12 +31,13 @@ class Parser:
         #self.expected_tk_val = None
         
         self.debug_mode_on = True
-        self.parse_state = None
+        self.state = None
 
     def run(self):
         """
         CompilationUnit --> ProgramModule 
         """
+        self.parse_state = 'run'
         self._program_module()
 
 
@@ -44,6 +45,7 @@ class Parser:
         """
         ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
         """
+        self.parse_state = 'program_module'
         self._match('TK_PROGRAM')
         self._match('TK_IDENTIFIER')
         
@@ -63,14 +65,15 @@ class Parser:
         """
         ProgramParameters --> '(' IdentList ')' 
         """
-        pass
+        self.parse_state = 'program_parameters'
+
 
     def _parse_identifier_list(self):
         """
         IdentList --> yident {',' yident} 
         """
+        self.parse_state = 'identifier_list'
         current_tk_type = self.current_token.get_type()
-
 
         self._match('TK_IDENTIFIER')
         
@@ -82,6 +85,7 @@ class Parser:
         """
         Block --> [Declarations] StatementSequence 
         """
+        self.parse_state = 'block'
         pass
 
     def _parse_declarations(self):
@@ -91,12 +95,14 @@ class Parser:
                      |  [VariableDeclBlock] 
                      |  [SubprogDeclList]   # not implemented yet.
         """
-        pass
+        self.parse_state = 'declarations'
+
 
     def _parse_variable_decl_block(self):
         """
         VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} 
         """
+        self.parse_state = 'variable_declaration_block'
         current_tk_type = self.current_token.get_type()
         
         self._match('TK_IDENTIFIER')
@@ -109,6 +115,7 @@ class Parser:
         """
         VariableDecl --> IdentList ':' Type 
         """
+        self.parse_state = 'variable_declaration'
         self._parse_variable_decl()
         
         self._match('TK_COLON')
@@ -123,6 +130,7 @@ class Parser:
                 | RecordType    # not implemented yet.
                 | SetType       # not implmeneted yet.
         """
+        self.parse_state = 'type'
         
         self._match('TK_IDENTIFIER')
         
@@ -130,6 +138,7 @@ class Parser:
         """
         StatementSequence --> ybegin Statement {';' Statement} yend 
         """
+        self.state = 'statement_sequence'
         self._match("tk_begin")
         self._E()
         
