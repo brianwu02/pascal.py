@@ -66,6 +66,12 @@ class Parser:
         ProgramParameters --> '(' IdentList ')' 
         """
         self.parse_state = 'program_parameters'
+        current_tk_type = self.current_token.get_type()
+        
+        if current_tk_type == 'TK_L_PAREN':
+            self._match('TK_L_PAREN')
+            self._parse_identifier_list()
+            self._match('TK_R_PAREN')
 
 
     def _parse_identifier_list(self):
@@ -86,6 +92,8 @@ class Parser:
         Block --> [Declarations] StatementSequence 
         """
         self.parse_state = 'block'
+        self._parse_declarations()
+
         pass
 
     def _parse_declarations(self):
@@ -96,7 +104,7 @@ class Parser:
                      |  [SubprogDeclList]   # not implemented yet.
         """
         self.parse_state = 'declarations'
-
+        self._parse_variable_decl_block()
 
     def _parse_variable_decl_block(self):
         """
@@ -104,8 +112,8 @@ class Parser:
         """
         self.parse_state = 'variable_declaration_block'
         current_tk_type = self.current_token.get_type()
-        
-        self._match('TK_IDENTIFIER')
+
+        self._match('TK_VAR')
 
         self._parse_variable_decl()
 
@@ -235,7 +243,6 @@ class Parser:
         if msg_type not in accepted_message_types:
             raise Exception("error type " + msg_type + " does not exist")
 
-
         expected_tk_type = self.expected_tk_type
         total_tokens = len(self.tk_list) + 1
         current_tk_cnt = self.token_index + 1
@@ -256,7 +263,6 @@ class Parser:
         value       : %s
         name        : %s
         line info   : %s
-
         """ % (
                 current_tk_cnt,
                 total_tokens,
