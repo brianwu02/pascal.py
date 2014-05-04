@@ -165,7 +165,7 @@ class Parser:
         self.token_index += 1
 
     def _current_tk_type(self):
-        return self.tk_list[self.token_index]
+        return self.current_token.get_type()
 
     def _update_expected(self, exp_tk_type):
         """updates the class attributes that stores the expected
