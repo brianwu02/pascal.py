@@ -43,12 +43,10 @@ class Parser:
         """
         ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
         """
-
         self._match('TK_PROGRAM')
         self._match('TK_IDENTIFIER')
         
-        # tokens parsed in _parse_program_paramters
-        # var a,b : Integer;
+        # ignoring program parameters for now, dont know what its used for.
         self._parse_program_parameters() 
 
         self._match('TK_SEMICOLON')
