@@ -55,6 +55,12 @@ RESERVED_WORD_DICT = {
         'writeln': 'TK_WRITELN'
         }
 
+TK_TYPE_DICT = {
+        'integer': 'TK_TYPE_INT',
+        'boolean': 'TK_TYPE_BOOL',
+        '
+        }
+
 OPERATOR_DICT = {
         ':=': ('TK_ASSIGNMENT_OP', 'assignment'),
         '+': ('TK_ADDITION_OP', 'addition'),
@@ -79,6 +85,7 @@ SYMBOLS_DICT = {
         ';': ('TK_SEMICOLON', 'semicolon'),
         ',': ('TK_COMMA', 'comma'),
         '.': ('TK_PERIOD', 'period')
+        ':': ('TK_COLON', 'colon')
         }
 
 
