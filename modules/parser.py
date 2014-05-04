@@ -1,3 +1,4 @@
+from collections import deque
 # Parsing: the process of syntax analysis. takes a series of
 # symbols as input where the syntax is context-free and runs 
 # the symbols through a grammar for verification.
@@ -153,10 +154,12 @@ class Parser:
 
     
     def load_tokens(self, list_of_tokens):
-        self.tk_list = list_of_tokens
+        self.tk_list = deque(list_of_tokens)
+        #self.tk_list = list_of_tokens
         # initialize init vars
-        self.current_token = self.tk_list[0]
-        self.next_token = self.tk_list[1]
+        self.current_token = self.tk_list.popleft()
+        #self.current_token = self.tk_list[0]
+        #self.next_token = self.tk_list[1]
 
     def _get_next_token(self):
         self.token_index += 1
