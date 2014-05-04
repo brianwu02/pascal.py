@@ -156,6 +156,7 @@ class Parser:
         self.got_tk_line = token.get_line_number()
         self.got_tk_l_index = token.get_line_index()
         self.got_tk_name = token.get_name()
+        self.got_tk_create_state = token.get_creation_state()
 
     def _match(self, tk_type):
         """matches the current token with an expected token."""
