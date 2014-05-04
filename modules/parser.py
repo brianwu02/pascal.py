@@ -71,10 +71,25 @@ class Parser:
 
     def _parse_block(self):
         """
+        Block --> [Declarations] StatementSequence 
+        """
+        pass
+
+    def _parse_declarations(self):
+        """
+        Declarations -> [ConstantDefBlock]  # not implemented yet.
+                     |  [TypeDefBlock]      # not implemented yet.
+                     |  [VariableDeclBlock] 
+                     |  [SubprogDeclList]   # not implemented yet.
+        """
+        pass
+
+    def _parse_variable_decl_block(self):
+        """
+        VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} 
         """
         pass
         
-
     def _statement_sequence(self):
         """
         StatementSequence --> ybegin Statement {';' Statement} yend 
@@ -132,7 +147,8 @@ class Parser:
     def _update_got(self):
         """updates the class attribute that stores the gotten
         tokens attributes."""
-        token = self.tk_list[self.token_index]
+        self.current_token = self.tk_list[self.token_index]
+        token = self.current_token
 
         self.got_tk_cnt = self.token_index
         self.got_tk_type = token.get_type()
@@ -227,37 +243,7 @@ class Parser:
 
         if msg_type == 'tk_match_err':
             raise Exception(tk_match_err_msg)
-
-
-        
-    # old method, not to be used. only here for reference
-    def _token_err(self, tk_type):
-        """expected token is not next token."""
-        tk = self.tk_list[self.token_index]
-        expected = tk_type
-        #actual = tk.get_type()
-        
-        msg = """
-                expected tk_type: %s. but got the following:
-                ----
-                tk_type:            %s
-                tk_val:             %s
-                tk_name:            %s
-                line number:        %s
-                line index number:  %s
-                creation state:     %s
-                ----
-        """ % (
-                expected,
-                tk.get_type(),
-                tk.get_value(),
-                tk.get_name(),
-                tk.get_line_number(),
-                tk.get_line_index(),
-                tk.get_creation_state()
-                )
-        raise Exception(msg)
-
+       
     def push(self, obj):
         """sugar"""
         self.stack.append(obj)
