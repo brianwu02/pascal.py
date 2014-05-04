@@ -124,7 +124,7 @@ class Parser:
         VariableDecl --> IdentList ':' Type 
         """
         self.parse_state = 'variable_declaration'
-        self._parse_variable_decl()
+        self._parse_identifier_list()
         
         self._match('TK_COLON')
 
