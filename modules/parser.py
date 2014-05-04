@@ -31,6 +31,7 @@ class Parser:
         #self.expected_tk_val = None
         
         self.debug_mode_on = True
+        self.parse_state = None
 
     def run(self):
         """
@@ -68,6 +69,14 @@ class Parser:
         """
         IdentList --> yident {',' yident} 
         """
+        current_tk_type = self.current_token.get_type()
+
+
+        self._match('TK_IDENTIFIER')
+        
+        if current_tk_type == 'TK_COMMA':
+            self._parse_identifier_list()
+
 
     def _parse_block(self):
         """
@@ -249,7 +258,7 @@ class Parser:
 
         tk_match_err_msg = """TK_MATCH_ERR
         ---tk_match_err on token %s out of %s----
-        --> expected type   : %s
+        --> expected match  : %s
         --> got type        : %s
         got value   : %s
         got name    : %s
