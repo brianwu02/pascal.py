@@ -248,6 +248,7 @@ class Parser:
         got_line = self.got_tk_line 
         got_l_ind = self.got_tk_l_index
         line_info = "(%s, %s)" % (got_line, got_l_ind)
+        parse_state = self.parse_state
 
         debug_msg = """
         ------- token %s out of %s parsed -------
@@ -267,7 +268,7 @@ class Parser:
 
         tk_match_err_msg = """TK_MATCH_ERR
         ---tk_match_err on token %s out of %s----
-        --> expected match  : %s
+        --> expected match  : %s in parse_state: %s
         --> got type        : %s
         got value   : %s
         got name    : %s
@@ -277,6 +278,7 @@ class Parser:
                 current_tk_cnt,
                 total_tokens,
                 expected_tk_type,
+                parse_state,
                 got_tk_type,
                 got_tk_val,
                 got_tk_name,
