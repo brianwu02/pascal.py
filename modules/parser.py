@@ -40,7 +40,6 @@ class Parser:
         self.parse_state = 'run'
         self._program_module()
 
-
     def _program_module(self):
         """
         ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
@@ -66,24 +65,23 @@ class Parser:
         ProgramParameters --> '(' IdentList ')' 
         """
         self.parse_state = 'program_parameters'
-        current_tk_type = self.current_token.get_type()
         
-        if current_tk_type == 'TK_L_PAREN':
+        if self._current_tk_type() == 'TK_L_PAREN':
             self._match('TK_L_PAREN')
             self._parse_identifier_list()
             self._match('TK_R_PAREN')
-
 
     def _parse_identifier_list(self):
         """
         IdentList --> yident {',' yident} 
         """
+        print self._current_tk_type()
         self.parse_state = 'identifier_list'
-        current_tk_type = self.current_token.get_type()
 
         self._match('TK_IDENTIFIER')
-        
-        if current_tk_type == 'TK_COMMA':
+
+        if self._current_tk_type() == 'TK_COMMA':
+            self._match('TK_COMMA')
             self._parse_identifier_list()
 
 
@@ -153,34 +151,7 @@ class Parser:
         # write method to parse Statement, E() in class examples.
         self._match("tk_semicolon")
 
-    def _E1():
-        """
-        E1 -> empty | tk_plus T tk_plus E1 | tk_minus T tk_minus E1
-        """
-        self._match('TK_PLUS')
-        self._T();
-        self.E1();
-        pass
-
-    def _T():
-        """
-        T -> F T1
-        """
-        pass
-
-    def _T1():
-        """
-        T1 -> empty | tk_mult F tk_mult T1 | tk_div F tk_div T1
-        """
-        pass
-
-    def _F():
-        """
-        F -> literal(down_arrow) | ident(down_arrow) | tk_minus F | tk_plus F | not F | '(' F ')
-        
-        """
-        pass
-
+    
     def load_tokens(self, list_of_tokens):
         self.tk_list = list_of_tokens
         # initialize init vars
@@ -190,6 +161,9 @@ class Parser:
     def _get_next_token(self):
         self.token_index += 1
 
+    def _current_tk_type(self):
+        return self.tk_list[self.token_index]
+
     def _update_expected(self, exp_tk_type):
         """updates the class attributes that stores the expected
         token type and token value."""
@@ -197,11 +171,12 @@ class Parser:
         self.expected_tk_type = exp_tk_type
         self.expected_tk_cnt = self.token_index
 
-    def _update_got(self):
+    def _update_got(self, token):
         """updates the class attribute that stores the gotten
         tokens attributes."""
-        self.current_token = self.tk_list[self.token_index]
-        token = self.current_token
+
+        #self.current_token = self.tk_list[self.token_index]
+        #token = self.current_token
 
         self.got_tk_cnt = self.token_index
         self.got_tk_type = token.get_type()
@@ -217,7 +192,7 @@ class Parser:
 
         # update the global state of expected token type & val
         self._update_expected(tk_type)
-        self._update_got()
+        self._update_got(tk)
 
         expected_type = self.expected_tk_type
         got_tk_type = self.got_tk_type
@@ -259,6 +234,7 @@ class Parser:
 
         debug_msg = """
         ------- token %s out of %s parsed -------
+        parse_state : %s
         type        : %s
         value       : %s
         name        : %s
@@ -266,6 +242,7 @@ class Parser:
         """ % (
                 current_tk_cnt,
                 total_tokens,
+                parse_state,
                 got_tk_type,
                 got_tk_val,
                 got_tk_name,
@@ -304,4 +281,35 @@ class Parser:
 
     def print_tokens(self):
         print(self.tk_list)
+
+    def _E1():
+        """
+        E1 -> empty | tk_plus T tk_plus E1 | tk_minus T tk_minus E1
+        """
+        self._match('TK_PLUS')
+        self._T();
+        self.E1();
+        pass
+
+    def _T():
+        """
+        T -> F T1
+        """
+        pass
+
+    def _T1():
+        """
+        T1 -> empty | tk_mult F tk_mult T1 | tk_div F tk_div T1
+        """
+        pass
+
+    def _F():
+        """
+        F -> literal(down_arrow) | ident(down_arrow) | tk_minus F | tk_plus F | not F | '(' F ')
+        
+        """
+        pass
+
+
+
 
