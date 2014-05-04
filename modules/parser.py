@@ -24,6 +24,7 @@ class Parser:
         self.got_tk_name = None
         self.got_tk_line = None
         self.got_tk_l_index = None
+        self.got_tk_create_state = None
         # Expected Token attributes
         #self.expected_tk_cnt = None
         self.expected_tk_type = None
@@ -121,8 +122,10 @@ class Parser:
     def _match(self, tk_type):
         """matches the current token with an expected token."""
         tk = self.tk_list[self.token_index]
+
         # update the global state of expected token type & val
         self._update_expected(tk_type)
+        self._update_got()
 
         expected_type = self.expected_tk_type
         got_tk_type = self.got_tk_type
@@ -134,16 +137,10 @@ class Parser:
             if self.debug_mode_on:
                 self._display_message('debug')
 
-
-        if tk.get_type() == tk_type:
-            print("matched: %s with val: %s") % (
-                    tk.get_type(),
-                    tk.get_value()
-                    )
             #self.match_success_count += 1
             self._get_next_token()
         else:
-            self._token_err(tk_type)
+            self._display_message('tk_match_err')
 
     def _update_expected(self, exp_tk_type):
         """updates the class attributes that stores the expected
@@ -155,7 +152,7 @@ class Parser:
     def _update_got(self):
         """updates the class attribute that stores the gotten
         tokens attributes."""
-        token = self.current_token[self.token_index]
+        token = self.tk_list[self.token_index]
 
         self.got_tk_cnt = self.token_index
         self.got_tk_type = token.get_type()
@@ -165,7 +162,7 @@ class Parser:
         self.got_tk_name = token.get_name()
 
     def _display_message(self, msg_type):
-        """builds different kinds of debug messages."""
+        """builds and displays error or debug messages."""
         accepted_message_types = [
                 'debug',
                 'tk_match_err'
@@ -179,18 +176,45 @@ class Parser:
         got_tk_val = self.got_tk_val
         got_tk_cnt = self.got_tk_cnt
         got_tk_name = self.got_tk_name
-
-        tk_count_msg = "parsed token %s out of %s tokens."
-        tk_token_msg = "expected token: %s got token: %s"
-        tk_val_msg = "expected tk_val %s but got tk_val: %s"
-        tk_type_msg = "got tk_type: and expected tk_val: %s"
-        exp_tk_line = "expected token line = (%s, %s)"
-        got_tk_type = "got token line = (%s, %s)"
+        got_tk_create_state = self.got_tk_create_state
+        got_line = self.got_tk_line 
+        got_l_ind = self.got_tk_l_index
+        line_info = "(%s, %s)" % (got_line, got_l_ind)
 
         debug_msg = """
-        """
+        ------- token %s out of %s parsed -------
+        type        : %s
+        value       : %s
+        name        : %s
+        line info   : %s
+
+        """ % (
+                current_tk_cnt,
+                total_tokens,
+                got_tk_type,
+                got_tk_val,
+                got_tk_name,
+                line_info
+                )
+
         tk_match_err_msg = """
-        """
+        ---tk_match_err on token %s out of %s----
+        --> expected type   : %s
+        --> got type        : %s
+        got value   : %s
+        got name    : %s
+        got line    : %s
+        create state: %s
+        """ % (
+                current_tk_cnt,
+                total_tokens,
+                expected_tk_type,
+                got_tk_type,
+                got_tk_val,
+                got_tk_name,
+                line_info,
+                got_tk_create_state
+                )
 
         if msg_type == 'debug':
             print(debug_msg)
