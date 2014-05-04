@@ -88,7 +88,34 @@ class Parser:
         """
         VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} 
         """
-        pass
+        current_tk_type = self.current_token.get_type()
+        
+        self._match('TK_IDENTIFIER')
+
+        self._parse_variable_decl()
+
+        self._match('TK_SEMICOLON')
+
+    def _parse_variable_decl(self):
+        """
+        VariableDecl --> IdentList ':' Type 
+        """
+        self._parse_variable_decl()
+        
+        self._match('TK_COLON')
+
+        self._parse_type()
+
+    def _parse_type(self):
+        """
+        Type    --> yident  
+                | ArrayType     # not implemented yet.
+                | PointerType   # not implemented yet.
+                | RecordType    # not implemented yet.
+                | SetType       # not implmeneted yet.
+        """
+        
+        self._match('TK_IDENTIFIER')
         
     def _statement_sequence(self):
         """
