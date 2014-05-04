@@ -66,6 +66,11 @@ class Parser:
         """
         pass
 
+    def _parse_identifier_list(self):
+        """
+        IdentList --> yident {',' yident} 
+        """
+
     def _parse_block(self):
         """
         """
@@ -119,6 +124,25 @@ class Parser:
     def _get_next_token(self):
         self.token_index += 1
 
+    def _update_expected(self, exp_tk_type):
+        """updates the class attributes that stores the expected
+        token type and token value."""
+        # ehh, good habit to do this i guess.
+        self.expected_tk_type = exp_tk_type
+        self.expected_tk_cnt = self.token_index
+
+    def _update_got(self):
+        """updates the class attribute that stores the gotten
+        tokens attributes."""
+        token = self.tk_list[self.token_index]
+
+        self.got_tk_cnt = self.token_index
+        self.got_tk_type = token.get_type()
+        self.got_tk_val = token.get_value()
+        self.got_tk_line = token.get_line_number()
+        self.got_tk_l_index = token.get_line_index()
+        self.got_tk_name = token.get_name()
+
     def _match(self, tk_type):
         """matches the current token with an expected token."""
         tk = self.tk_list[self.token_index]
@@ -142,31 +166,15 @@ class Parser:
         else:
             self._display_message('tk_match_err')
 
-    def _update_expected(self, exp_tk_type):
-        """updates the class attributes that stores the expected
-        token type and token value."""
-        # ehh, good habit to do this i guess.
-        self.expected_tk_type = exp_tk_type
-        self.expected_tk_cnt = self.token_index
-
-    def _update_got(self):
-        """updates the class attribute that stores the gotten
-        tokens attributes."""
-        token = self.tk_list[self.token_index]
-
-        self.got_tk_cnt = self.token_index
-        self.got_tk_type = token.get_type()
-        self.got_tk_val = token.get_value()
-        self.got_tk_line = token.get_line_number()
-        self.got_tk_l_index = token.get_line_index()
-        self.got_tk_name = token.get_name()
-
     def _display_message(self, msg_type):
         """builds and displays error or debug messages."""
         accepted_message_types = [
                 'debug',
                 'tk_match_err'
                 ]
+        if msg_type not in accepted_message_types:
+            raise Exception("error type " + msg_type + " does not exist")
+
 
         expected_tk_type = self.expected_tk_type
         total_tokens = len(self.tk_list) + 1
@@ -197,7 +205,7 @@ class Parser:
                 line_info
                 )
 
-        tk_match_err_msg = """
+        tk_match_err_msg = """TK_MATCH_ERR
         ---tk_match_err on token %s out of %s----
         --> expected type   : %s
         --> got type        : %s
@@ -219,12 +227,8 @@ class Parser:
         if msg_type == 'debug':
             print(debug_msg)
 
-        if msg_type == 'tk_type_err':
+        if msg_type == 'tk_match_err':
             raise Exception(tk_match_err_msg)
-
-        if msg_type not in accepted_message_types:
-            raise Exception("error type %s does not exist.") % (msg_type)
-
 
 
         
