@@ -7,15 +7,8 @@ class Parser:
     def __init__(self):
         self.tk_list = None
         self.token_index = 0
-
-        #self.current_token = self.tk_list[self.token_index]
-        #self.next_token = self.tk_list[self.token_index + 1]
+        self.token_list_length = None
         self.current_token = None
-        self.next_token = None
-        self.stack = []
-
-        # number of times a successful tk_match has occured
-        self.match_success_count = 0
 
         # state of current token and expected parsing token
         # Current Token Attributes
@@ -27,24 +20,19 @@ class Parser:
         self.got_tk_l_index = None
         self.got_tk_create_state = None
         # Expected Token attributes
-        #self.expected_tk_cnt = None
+
         self.expected_tk_type = None
-        #self.expected_tk_val = None
         
         self.debug_mode_on = True
         self.state = None
 
     def run(self):
-        """
-        CompilationUnit --> ProgramModule 
-        """
+        """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
 
     def _program_module(self):
-        """
-        ProgramModule --> yprogram yident ProgramParameters ';' Block '.' 
-        """
+        """ ProgramModule --> yprogram yident ProgramParameters ';' Block '.' """
         self.parse_state = 'program_module'
         self._match('TK_PROGRAM')
         self._match('TK_IDENTIFIER')
@@ -62,9 +50,7 @@ class Parser:
         print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
 
     def _parse_program_parameters(self):
-        """
-        ProgramParameters --> '(' IdentList ')' 
-        """
+        """ ProgramParameters --> '(' IdentList ')' """
         self.parse_state = 'program_parameters'
         
         if self._current_tk_type() == 'TK_L_PAREN':
@@ -73,10 +59,7 @@ class Parser:
             self._match('TK_R_PAREN')
 
     def _parse_identifier_list(self):
-        """
-        IdentList --> yident {',' yident} 
-        """
-        print self._current_tk_type()
+        """IdentList --> yident {',' yident}"""
         self.parse_state = 'identifier_list'
 
         self._match('TK_IDENTIFIER')
@@ -87,9 +70,7 @@ class Parser:
 
 
     def _parse_block(self):
-        """
-        Block --> [Declarations] StatementSequence 
-        """
+        """ Block --> [Declarations] StatementSequence """
         self.parse_state = 'block'
         self._parse_declarations()
 
@@ -106,9 +87,7 @@ class Parser:
         self._parse_variable_decl_block()
 
     def _parse_variable_decl_block(self):
-        """
-        VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} 
-        """
+        """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
         self.parse_state = 'variable_declaration_block'
         current_tk_type = self.current_token.get_type()
 
@@ -119,9 +98,7 @@ class Parser:
         self._match('TK_SEMICOLON')
 
     def _parse_variable_decl(self):
-        """
-        VariableDecl --> IdentList ':' Type 
-        """
+        """ VariableDecl --> IdentList ':' Type """
         self.parse_state = 'variable_declaration'
         self._parse_identifier_list()
         
@@ -130,21 +107,18 @@ class Parser:
         self._parse_type()
 
     def _parse_type(self):
-        """
-        Type    --> yident  
-                | ArrayType     # not implemented yet.
-                | PointerType   # not implemented yet.
-                | RecordType    # not implemented yet.
-                | SetType       # not implmeneted yet.
+        """ Type    --> yident  
+                    | ArrayType     # not implemented yet.
+                    | PointerType   # not implemented yet.
+                    | RecordType    # not implemented yet.
+                    | SetType       # not implmeneted yet.
         """
         self.parse_state = 'type'
         
         self._match('TK_IDENTIFIER')
         
     def _statement_sequence(self):
-        """
-        StatementSequence --> ybegin Statement {';' Statement} yend 
-        """
+        """ StatementSequence --> ybegin Statement {';' Statement} yend """
         self.state = 'statement_sequence'
         self._match("tk_begin")
         self._E()
@@ -155,13 +129,11 @@ class Parser:
     
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
-        #self.tk_list = list_of_tokens
-        # initialize init vars
         self.current_token = self.tk_list.popleft()
-        #self.current_token = self.tk_list[0]
-        #self.next_token = self.tk_list[1]
+        self.token_list_length = len(self.tk_list) + 1
 
     def _get_next_token(self):
+        self.current_token = self.tk_list.popleft()
         self.token_index += 1
 
     def _current_tk_type(self):
@@ -191,7 +163,8 @@ class Parser:
 
     def _match(self, tk_type):
         """matches the current token with an expected token."""
-        tk = self.tk_list[self.token_index]
+        #tk = self.tk_list[self.token_index]
+        tk = self.current_token
 
         # update the global state of expected token type & val
         self._update_expected(tk_type)
@@ -206,11 +179,10 @@ class Parser:
             # 2. if debug mode is on, print all token comparisons.
             if self.debug_mode_on:
                 self._display_message('debug')
-
-            #self.match_success_count += 1
-            self._get_next_token()
         else:
             self._display_message('tk_match_err')
+        
+        self._get_next_token()
 
     def _display_message(self, msg_type):
         """builds and displays error or debug messages."""
@@ -222,8 +194,8 @@ class Parser:
             raise Exception("error type " + msg_type + " does not exist")
 
         expected_tk_type = self.expected_tk_type
-        total_tokens = len(self.tk_list) + 1
-        current_tk_cnt = self.token_index + 1
+        total_tokens = self.token_list_length
+        current_tk_cnt = self.token_index
 
         got_tk_type = self.got_tk_type
         got_tk_val = self.got_tk_val
