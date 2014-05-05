@@ -99,6 +99,34 @@ class Token:
     def get_creation_state(self):
         return self.creation_state
 
+    def is_unary_operator(self):
+        """ UnaryOperator --> '+' | '-' """
+        accepted = ['+', '-']
+        if self.tk_value in accepted:
+            return True
+        return False
+
+    def is_mult_operator(self):
+        """  MultOperator --> '*' | '/' | div | mod | and """
+        accepted = ['*', '/', 'div', 'mod', 'and']
+        if self.tk_value in accepted:
+            return True
+        return False
+
+    def is_add_operator(self):
+        """  AddOperator --> '+' | '-' | or """
+        accepted = ['+', '-', 'or']
+        if self.tk_value in accepted:
+            return True
+        return False
+
+    def is_relation_operator(self):
+        """ Relation --> '=' | '<>' | '<' | '>' | '<=' | '>=' | in """
+        accepted = ['=', '<>', '<', '>', '<=', '>=', 'in']
+        if self.tk_value in accepted:
+            return True
+        return False
+
     def __repr__(self):
         """ prety print the token here. do not need extra dbug info, hurst my eyes"""
         """
