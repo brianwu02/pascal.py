@@ -1,12 +1,14 @@
 from collections import deque
+#from debugger import DebugPrinter
 # Parsing: the process of syntax analysis. takes a series of
 # symbols as input where the syntax is context-free and runs 
 # the symbols through a grammar for verification.
 
 class Parser:
     def __init__(self):
+        #self.debugger = DebugPrinter()
         self.tk_list = None
-        self.token_index = 0
+        self.token_index = 1
         self.token_list_length = None
         self.current_token = None
 
@@ -68,13 +70,11 @@ class Parser:
             self._match('TK_COMMA')
             self._parse_identifier_list()
 
-
     def _parse_block(self):
         """ Block --> [Declarations] StatementSequence """
         self.parse_state = 'block'
         self._parse_declarations()
-
-        pass
+        self._parse_statement_sequence()
 
     def _parse_declarations(self):
         """
@@ -117,14 +117,28 @@ class Parser:
         
         self._match('TK_IDENTIFIER')
         
-    def _statement_sequence(self):
+    def _parse_statement_sequence(self):
         """ StatementSequence --> ybegin Statement {';' Statement} yend """
         self.state = 'statement_sequence'
-        self._match("tk_begin")
-        self._E()
-        
-        # write method to parse Statement, E() in class examples.
-        self._match("tk_semicolon")
+        self._match('TK_BEGIN')
+        self._parse_statement()
+        self._match('TK_SEMICOLON')
+        self._match('TK_END')
+
+    def _parse_statement(self):
+        """ Statement --> Assignment            #implemented
+                        | ProcedureCall 
+                        | IfStatement     
+                        | CaseStatement 
+                        | WhileStatement  
+                        | RepeatStatement 
+                        | ForStatement    
+                        | IOStatement 
+                        | MemoryStatement 
+                        | StatementSequence 
+                        | empty
+        """
+        self._parse_assignment()
 
     
     def load_tokens(self, list_of_tokens):
@@ -192,6 +206,25 @@ class Parser:
                 ]
         if msg_type not in accepted_message_types:
             raise Exception("error type " + msg_type + " does not exist")
+
+        # send this dictionary of current state to DebugPrinter
+        parser_state = {
+                'expected_tk_type': self.expected_tk_type,
+                'total_tokens': self.token_list_length,
+                'current_tk_count': self.token_index,
+                'got_tk_val': self.got_tk_val,
+                'got_tk_type': self.got_tk_type,
+                'got_tk_cnt': self.got_tk_cnt,
+                'got_tk_name': self.got_tk_name,
+                'got_tk_creation_state': self.got_tk_create_state,
+                'got_line': self.got_tk_line,
+                'got_l_ind': self.got_tk_l_index,
+                'line_info': "(%s, %s)" % (self.got_tk_line, self.got_tk_l_index),
+                'parse_state': self.parse_state
+                }
+
+        #if self.debug_mode_on:
+        #    self.debugger.print_debug(parser_state)
 
         expected_tk_type = self.expected_tk_type
         total_tokens = self.token_list_length
