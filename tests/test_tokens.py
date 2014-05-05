@@ -27,49 +27,49 @@ class TestTokenAttributes(unittest.TestCase):
         pass
 
     def test_tk_add_is_unary(self):
-        pass
+        self.assertTrue(self.tk_add.is_unary_operator())
 
     def test_tk_add_is_mult(self):
-        pass
-
+        self.assertFalse(self.tk_add.is_mult_operator())
+    
     def test_tk_add_is_add(self):
-        pass
+        self.assertTrue(self.tk_add.is_add_operator())
 
     def test_tk_add_is_relation(self):
-        pass
+        self.assertFalse(self.tk_add.is_relation_operator())
 
     def test_tk_sub_is_unary(self):
-        pass
+        self.assertTrue(self.tk_sub.is_unary_operator())
     
     def test_tk_sub_is_mult(self):
-        pass
+        self.assertFalse(self.tk_sub.is_mult_operator())
 
     def test_tk_sub_is_add(self):
-        pass
+        self.assertTrue(self.tk_sub.is_add_operator())
 
     def test_tk_sub_is_relation(self):
-        pass
+        self.assertFalse(self.tk_sub.is_relation_operator())
 
     def test_tk_mult_is_unary(self):
-        pass
+        self.assertFalse(self.tk_mult.is_unary_operator())
 
     def test_tk_mult_is_mult(self):
-        pass
+        self.assertTrue(self.tk_mult.is_mult_operator())
 
     def test_tk_mult_is_add(self):
-        pass
+        self.assertFalse(self.tk_mult.is_add_operator())
 
-    def test_tk_div_is_relation(self):
-        pass
+    def test_tk_mult_is_relation(self):
+        self.assertFalse(self.tk_mult.is_relation_operator())
 
     def test_tk_div_is_unary(self):
-        pass
-
+        self.assertFalse(self.tk_div.is_unary_operator())
+            
     def test_tk_div_is_mult(self):
-        pass
+        self.assertTrue(self.tk_div.is_mult_operator())
 
     def test_tk_div_is_add(self):
-        pass
+        self.assertFalse(self.tk_div.is_add_operator())
 
     def test_tk_div_is_relation(self):
-        pass
+        self.assertFalse(self.tk_div.is_relation_operator())
