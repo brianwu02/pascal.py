@@ -61,7 +61,6 @@ use LL parser style.
 
 class Token:
     """ A token object"""
-
     def __init__(self, tk_val, tk_type, line_num, line_index, state, name):
         """all tokens must have these values"""
         
@@ -99,12 +98,6 @@ class Token:
 
     def get_creation_state(self):
         return self.creation_state
-
-    # what does even mean? What was I thinking when I wrote this?
-    # Line column where the token is found? Delete this method sometime later.
-    def get_current_column(self):
-        """returns the current column of the token"""
-        return str(self.current_column)
 
     def __repr__(self):
         """ prety print the token here. do not need extra dbug info, hurst my eyes"""
