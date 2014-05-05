@@ -163,6 +163,35 @@ class Parser:
         self._parse_mult_operator()
         self._parse_factor()
 
+    def _parse_factor(self):
+        """
+        Factor --> ynumber 
+        | ystring | ytrue | yfalse | ynil 
+        | Designator 
+        | '(' Expression ')' 
+        | ynot Factor 
+        | Setvalue      # not implemented
+        | FunctionCall  # not implemented
+        """
+        current_tk_type = self._current_tk_type()
+
+        if current_tk_type == 'TK_INT_LITERAL':
+            self._match('TK_INT_LITERAL')
+        elif current_tk_type == 'TK_STRING_LITERAL':
+            self._match('TK_STRING_LITERAL')
+        elif current_tk_type == 'TK_TRUE':
+            self._match('TK_TRUE')
+        elif current_tk_type == 'TK_NIL':
+            self._match('TK_NIL')
+        elif current_tk_type == 'TK_L_PAREN':
+            self._match('TK_L_PAREN')
+            self._parse_expression()
+            self._match('TK_R_PAREN')
+        elif current_tk_type == 'TK_NOT':
+            self._match('TK_NOT')
+            self._parse_factor()
+
+
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
         self.current_token = self.tk_list.popleft()
@@ -284,7 +313,7 @@ class Parser:
 
         if msg_type == 'tk_match_err':
             raise Exception(tk_match_err_msg)
-       
+    
     def push(self, obj):
         """sugar"""
         self.stack.append(obj)
