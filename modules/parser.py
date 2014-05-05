@@ -38,23 +38,17 @@ class Parser:
         self.parse_state = 'program_module'
         self._match('TK_PROGRAM')
         self._match('TK_IDENTIFIER')
-        
         # ignoring program parameters for now, dont know what its used for.
         self._parse_program_parameters() 
-
         self._match('TK_SEMICOLON')
-
         # parse tokens betwen tk_begin and tk_end
         self._parse_block()
-
         self._match('TK_PERIOD')
-
         print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
 
     def _parse_program_parameters(self):
         """ ProgramParameters --> '(' IdentList ')' """
         self.parse_state = 'program_parameters'
-        
         if self._current_tk_type() == 'TK_L_PAREN':
             self._match('TK_L_PAREN')
             self._parse_identifier_list()
@@ -63,9 +57,7 @@ class Parser:
     def _parse_identifier_list(self):
         """IdentList --> yident {',' yident}"""
         self.parse_state = 'identifier_list'
-
         self._match('TK_IDENTIFIER')
-
         if self._current_tk_type() == 'TK_COMMA':
             self._match('TK_COMMA')
             self._parse_identifier_list()
@@ -90,20 +82,15 @@ class Parser:
         """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
         self.parse_state = 'variable_declaration_block'
         current_tk_type = self.current_token.get_type()
-
         self._match('TK_VAR')
-
         self._parse_variable_decl()
-
         self._match('TK_SEMICOLON')
 
     def _parse_variable_decl(self):
         """ VariableDecl --> IdentList ':' Type """
         self.parse_state = 'variable_declaration'
         self._parse_identifier_list()
-        
         self._match('TK_COLON')
-
         self._parse_type()
 
     def _parse_type(self):
@@ -139,6 +126,37 @@ class Parser:
                         | empty
         """
         self._parse_assignment()
+
+    def _parse_assignment(self):
+        """ Assignment --> Designator ':=' Expression """
+        self._parse_designator()
+        self._match('TK_ASSIGNMENT')
+        self._parse_expression()
+
+    def _parse_designator(self):
+        """ Designator --> yident [ DesignatorStuff ] """
+        self._match('TK_IDENTIFIER')
+
+    def _parse_expression(self):
+        """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
+        self._parse_simple_expression()
+
+    def _parse_simple_expression(self):
+        """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
+        self._parse_unary_operator()
+        self._parse_term()
+        
+        if _current_tk_type() == 'TK_ADDITION':
+            self._parse_add_operator()
+            self._parse_term()
+
+    def _parse_unary_operator(self):
+        """ UnaryOperator --> '+' | '-' """
+        if self._current_tk_type() == 'TK_ADDITION':
+            self._match('TK_ADDITION')
+        if self._current_tk_type() == 'TK_SUBTRACTION':
+            self._match('TK_SUBTRACTION')
+
 
     
     def load_tokens(self, list_of_tokens):
