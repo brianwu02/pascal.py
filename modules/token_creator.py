@@ -1,4 +1,4 @@
-from token import Token 
+from pascal_token import Token 
 from constants import SYMBOLS 
 from constants import SYMBOLS_DICT
 from constants import OPERATOR_DICT
