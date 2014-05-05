@@ -58,19 +58,18 @@ RESERVED_WORD_DICT = {
 TK_TYPE_DICT = {
         'integer': 'TK_TYPE_INT',
         'boolean': 'TK_TYPE_BOOL',
-        '
         }
 
 OPERATOR_DICT = {
-        ':=': ('TK_ASSIGNMENT_OP', 'assignment'),
-        '+': ('TK_ADDITION_OP', 'addition'),
-        '-': ('TK_SUBTRACTION_OP', 'subtraction'),
-        '*': ('TK_MULTIPLICATION_OP', 'multiplication'),
-        '/': ('TK_DIVISION_OP', 'division'),
-        '=': ('TK_EQUALS_OP', 'equals'),
-        '>': ('TK_GREATER_THAN_OP', 'greater_than'),
-        '<': ('TK_LESS_THAN_OP', 'less_than'),
-        '<>': ('TK_UNEQUAL_OP', 'unequal'),
+        ':=': ('TK_ASSIGNMENT', 'assignment'),
+        '+': ('TK_ADDITION', 'addition'),
+        '-': ('TK_SUBTRACTION', 'subtraction'),
+        '*': ('TK_MULTIPLICATION', 'multiplication'),
+        '/': ('TK_DIVISION', 'division'),
+        '=': ('TK_EQUALS', 'equals'),
+        '>': ('TK_GREATER_THAN', 'greater_than'),
+        '<': ('TK_LESS_THAN', 'less_than'),
+        '<>': ('TK_UNEQUAL', 'unequal'),
         '<=': ('TK_LTOE', 'less_than_or_equals'),
         '>=': ('TK_GTOE', 'greater_than_or_equals')
         }
@@ -84,7 +83,7 @@ SYMBOLS_DICT = {
         '}': ('TK_R_COMMENT_BRACE', 'brace'),
         ';': ('TK_SEMICOLON', 'semicolon'),
         ',': ('TK_COMMA', 'comma'),
-        '.': ('TK_PERIOD', 'period')
+        '.': ('TK_PERIOD', 'period'),
         ':': ('TK_COLON', 'colon')
         }
 
