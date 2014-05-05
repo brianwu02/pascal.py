@@ -101,15 +101,16 @@ class Parser:
                     | SetType       # not implmeneted yet.
         """
         self.parse_state = 'type'
-        
         self._match('TK_IDENTIFIER')
         
     def _parse_statement_sequence(self):
         """ StatementSequence --> ybegin Statement {';' Statement} yend """
         self.state = 'statement_sequence'
         self._match('TK_BEGIN')
+
         self._parse_statement()
         self._match('TK_SEMICOLON')
+
         self._match('TK_END')
 
     def _parse_statement(self):
@@ -125,33 +126,59 @@ class Parser:
                         | StatementSequence 
                         | empty
         """
+        self.state = 'parse_statement'
         self._parse_assignment()
+
+    def _parse_if_statement(self):
+        """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
+        pass
+
+    def _parse_case_statement(self):
+        """ CaseStatement --> ycase Expression yof Case {';' Case} yend """
+        pass
+
+    def _parse_while_statement(self):
+        """ WhileStatement --> ywhile Expression ydo Statement """
+        pass
+    
+    def _parse_io_statement(self):
+        """ IOStatement --> yread '(' DesignatorList ')' 
+            | yreadln [ '(' DesignatorList ')' ] 
+            | ywrite '(' ExpList ')' 
+            | ywriteln [ '(' ExpList ')' ]
+        """
+        pass
 
     def _parse_assignment(self):
         """ Assignment --> Designator ':=' Expression """
+        self.state = 'parse_assignment'
         self._parse_designator()
         self._match('TK_ASSIGNMENT')
         self._parse_expression()
 
     def _parse_designator(self):
-        """ Designator --> yident [ DesignatorStuff ] """
+        """ Designator --> yident [DesignatorStuff] """
+        self.state = 'parse_designator'
         self._match('TK_IDENTIFIER')
 
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
+        self.state = 'parse_expression'
         self._parse_simple_expression()
 
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
+        self.state = 'parse_simple_exression'
         self._parse_unary_operator()
         self._parse_term()
         
-        if _current_tk_type() == 'TK_ADDITION':
+        if self._current_tk_type() == 'TK_ADDITION':
             self._parse_add_operator()
             self._parse_term()
 
     def _parse_unary_operator(self):
         """ UnaryOperator --> '+' | '-' """
+        self.state = 'parse_unary_operator'
         if self._current_tk_type() == 'TK_ADDITION':
             self._match('TK_ADDITION')
         if self._current_tk_type() == 'TK_SUBTRACTION':
@@ -159,9 +186,23 @@ class Parser:
 
     def _parse_term(self):
         """ Term --> Factor {MultOperator Factor} """
+        self.state = 'parse_term'
         self._parse_factor()
-        self._parse_mult_operator()
-        self._parse_factor()
+
+        if self.current_token.is_mult_operator():
+            self._parse_mult_operator()
+            self._parse_factor()
+
+    def _parse_mult_operator(self):
+        """ MultOperator --> '*' | '/' | div | mod | and """
+        self.state = 'parse_mult_operator'
+        tk_type = self._current_tk_type()
+        if tk_type == 'TK_MULTIPLICATION':
+            self._match('TK_MULTIPLICATION')
+        elif tk_type == 'TK_DIVISION':
+            self._match('TK_DIVISION')
+        elif tk_type == 'TK_DIV':   # not implemented.
+            self._match('TK_DIV')
 
     def _parse_factor(self):
         """
@@ -173,6 +214,7 @@ class Parser:
         | Setvalue      # not implemented
         | FunctionCall  # not implemented
         """
+        self.state = 'parse_factor'
         current_tk_type = self._current_tk_type()
 
         if current_tk_type == 'TK_INT_LITERAL':
