@@ -1,12 +1,12 @@
 from collections import deque
-#from debugger import DebugPrinter
+from debugger import DebugPrinter
 # Parsing: the process of syntax analysis. takes a series of
 # symbols as input where the syntax is context-free and runs 
 # the symbols through a grammar for verification.
 
 class Parser:
     def __init__(self):
-        #self.debugger = DebugPrinter()
+        self.debugger = DebugPrinter()
         self.tk_list = None
         self.token_index = 1
         self.token_list_length = None
@@ -156,7 +156,13 @@ class Parser:
             self._match('TK_ADDITION')
         if self._current_tk_type() == 'TK_SUBTRACTION':
             self._match('TK_SUBTRACTION')
-    
+
+    def _parse_term(self):
+        """ Term --> Factor {MultOperator Factor} """
+        self._parse_factor()
+        self._parse_mult_operator()
+        self._parse_factor()
+
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
         self.current_token = self.tk_list.popleft()
@@ -239,8 +245,8 @@ class Parser:
                 'parse_state': self.parse_state
                 }
 
-        #if self.debug_mode_on:
-        #    self.debugger.print_debug(parser_state)
+        if self.debug_mode_on:
+            self.debugger.print_debug(parser_state)
 
         expected_tk_type = self.expected_tk_type
         total_tokens = self.token_list_length
@@ -255,23 +261,6 @@ class Parser:
         got_l_ind = self.got_tk_l_index
         line_info = "(%s, %s)" % (got_line, got_l_ind)
         parse_state = self.parse_state
-
-        debug_msg = """
-        ------- token %s out of %s parsed -------
-        parse_state : %s
-        type        : %s
-        value       : %s
-        name        : %s
-        line info   : %s
-        """ % (
-                current_tk_cnt,
-                total_tokens,
-                parse_state,
-                got_tk_type,
-                got_tk_val,
-                got_tk_name,
-                line_info
-                )
 
         tk_match_err_msg = """TK_MATCH_ERR
         ---tk_match_err on token %s out of %s----
@@ -292,9 +281,6 @@ class Parser:
                 line_info,
                 got_tk_create_state
                 )
-
-        if msg_type == 'debug':
-            print(debug_msg)
 
         if msg_type == 'tk_match_err':
             raise Exception(tk_match_err_msg)
