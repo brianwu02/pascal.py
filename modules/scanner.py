@@ -29,7 +29,6 @@ class Scanner:
     """This is the Lexical Analyzer.
     It takes characters as input and outputs a stream of tokens.
     """
-
     def __init__(self, source_file):
         self.tokenizer = Tokenizer(source_file)
         self.token_creator = TokenCreator()
@@ -58,8 +57,10 @@ class Scanner:
         # an iterator and the tokenizer object will not return any more elements.
 
     def print_tokens(self):
+        i = 1
         for s in self.token_list:
-            print s
+            print "%s %s" % (i, s)
+            i += 1
 
     def get_tokens(self):
         """returns internal list of token objects. used by parser"""
