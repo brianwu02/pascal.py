@@ -12,7 +12,7 @@ class TestTokenAttributes(unittest.TestCase):
         tk_add_tuple = ('+', 0, 0, 'handle_symbol')
         tk_sub_tuple = ('-', 0, 0, 'handle_symbol')
         tk_mult_tuple = ('*', 0, 0, 'handle_symbol')
-        tk_division_tuple = ('+', 0, 0, 'handle_symbol')
+        tk_division_tuple = ('/', 0, 0, 'handle_symbol')
         #tk_div = ('+', 0, 0, 'handle_symbol')
         #tk_mod = ('+', 0, 0, 'handle_symbol')
         #tk_and = ('+', 0, 0, 'handle_symbol')
