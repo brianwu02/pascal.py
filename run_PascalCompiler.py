@@ -9,7 +9,6 @@ from modules.parser import Parser
 # Parsing  => Syntax Analysis: takes symbols as input where the syntax is context free.
 
 class PascalCompiler:
-
     def __init__(self):
         self.source_file = None
         self.scanner = None
@@ -26,11 +25,23 @@ class PascalCompiler:
 
     def run(self):
         """imports all required modules and runs the compiler."""
+        scanner = self.scanner # because, self
+        parser = self.parser
         assert self.source_file is not None
-        assert self.scanner is not None
-        assert self.parser is not None
-        #self.scanner.debug_scan()
-        self.scanner.debug_token_list()
+        assert scanner is not None
+        assert parser is not None
+        
+        # scan & print tokens
+        scanner.scan()
+        scanner.print_tokens()
+        
+        # return list of parsed tokens
+        token_list = scanner.get_tokens()
+
+        # load tokens in to parser.
+        parser.load_tokens(token_list)
+        #parser.print_tokens()
+        parser.run()
 
     def test_run(self):
         pass
