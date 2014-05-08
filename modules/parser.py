@@ -51,9 +51,9 @@ class Parser:
         """IdentList --> yident {',' yident}"""
         self.parse_state = 'identifier_list'
         self._match('TK_IDENTIFIER')
-        if self._current_tk_type() == 'TK_COMMA':
+        while self._current_tk_type() == 'TK_COMMA':
             self._match('TK_COMMA')
-            self._parse_identifier_list()
+            self._match('TK_IDENTIFIER')
 
     def _parse_block(self):
         """ Block --> [Declarations] StatementSequence """
