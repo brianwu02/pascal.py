@@ -17,17 +17,6 @@ class Parser:
         self.token_list_length = None
         self.current_token = None
         self.next_token = None
-        # state of current token and expected parsing token
-        # Current Token Attributes
-        self.got_tk_type = None
-        self.got_tk_val = None
-        self.got_tk_cnt = None
-        self.got_tk_name = None
-        self.got_tk_line = None
-        self.got_tk_l_index = None
-        self.got_tk_create_state = None
-        # Expected Token attributes
-        self.expected_tk_type = None
         # debug stuff
         self.debug_mode_on = True
         self.state = None
@@ -185,7 +174,6 @@ class Parser:
         self.state = 'parse_designator'
         self._match('TK_IDENTIFIER')
 
-
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
         self.state = 'parse_expression'
@@ -208,7 +196,6 @@ class Parser:
             self._match('TK_ADDITION')
         if self._current_tk_type() == 'TK_SUBTRACTION':
             self._match('TK_SUBTRACTION')
-
 
     def _parse_term(self):
         """ Term --> Factor {MultOperator Factor} """
@@ -259,42 +246,17 @@ class Parser:
             self._match('TK_NOT')
             self._parse_factor()
 
-
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
         self.current_token = self.tk_list.popleft()
         self.token_list_length = len(self.tk_list) + 1
 
-    
     def _current_tk_type(self):
         return self.current_token.get_type()
-
-    def _update_expected(self, exp_tk_type):
-        """updates the class attributes that stores the expected
-        token type and token value."""
-        # ehh, good habit to do this i guess.
-        self.expected_tk_type = exp_tk_type
-        self.expected_tk_cnt = self.token_index
-
-    def _update_got(self, token):
-        """updates the class attribute that stores the gotten
-        tokens attributes."""
-
-        #self.current_token = self.tk_list[self.token_index]
-        #token = self.current_token
-
-        self.got_tk_cnt = self.token_index
-        self.got_tk_type = token.get_type()
-        self.got_tk_val = token.get_value()
-        self.got_tk_line = token.get_line_number()
-        self.got_tk_l_index = token.get_line_index()
-        self.got_tk_name = token.get_name()
-        self.got_tk_create_state = token.get_creation_state()
 
     def _get_next_token(self):
         self.current_token = self.tk_list.popleft()
         self.token_index += 1
-        print("Got next token")
 
     def _match(self, expected_tk_type):
         """matches the current token with an expected token."""
@@ -302,8 +264,6 @@ class Parser:
         debugger = self.debugger
         current_token = self.current_token
         # update the global state of expected token type & val
-        self._update_expected(expected_tk_type)
-        self._update_got(current_token)
 
         if (expected_tk_type == current_token.get_type()):
             # pass token to debuggger and print debug statement
