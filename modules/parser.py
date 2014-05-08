@@ -1,8 +1,13 @@
 from collections import deque
 from debugger import DebugPrinter
-# Parsing: the process of syntax analysis. takes a series of
-# symbols as input where the syntax is context-free and runs 
-# the symbols through a grammar for verification.
+# Parsing: the process of syntax analysis. takes a series of symbols as input 
+# where the syntax is context-free and runs the symbols through a grammar for
+# verification.
+# 
+# Bar |: you must have one of the two items it seperates
+#  { } : having zero or more items
+#  [ ] : optional, zero or one item.
+
 
 class Parser:
     def __init__(self):
@@ -11,7 +16,6 @@ class Parser:
         self.token_index = 1
         self.token_list_length = None
         self.current_token = None
-
         # state of current token and expected parsing token
         # Current Token Attributes
         self.got_tk_type = None
@@ -22,9 +26,8 @@ class Parser:
         self.got_tk_l_index = None
         self.got_tk_create_state = None
         # Expected Token attributes
-
         self.expected_tk_type = None
-        
+        # debug stuff
         self.debug_mode_on = True
         self.state = None
 
@@ -77,6 +80,20 @@ class Parser:
         """
         self.parse_state = 'declarations'
         self._parse_variable_decl_block()
+    
+    def _parse_statement_sequence(self):
+        """ StatementSequence --> ybegin Statement {';' Statement} yend """
+        self.state = 'statement_sequence'
+
+        self._match('TK_BEGIN')
+        self._parse_statement()
+
+        while self._current_tk_type() == 'TK_SEMICOLON':
+            self._match('TK_SEMICOLON')
+            self._parse_statement()
+
+        self._match('TK_END')
+
 
     def _parse_variable_decl_block(self):
         """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
@@ -103,31 +120,23 @@ class Parser:
         self.parse_state = 'type'
         self._match('TK_IDENTIFIER')
         
-    def _parse_statement_sequence(self):
-        """ StatementSequence --> ybegin Statement {';' Statement} yend """
-        self.state = 'statement_sequence'
-        self._match('TK_BEGIN')
-
-        self._parse_statement()
-        self._match('TK_SEMICOLON')
-
-        self._match('TK_END')
-
     def _parse_statement(self):
-        """ Statement --> Assignment            #implemented
+        """ Statement --> Assignment            # implemented
                         | ProcedureCall 
-                        | IfStatement     
-                        | CaseStatement 
-                        | WhileStatement  
+                        | IfStatement           # implemented
+                        | CaseStatement         # partial
+                        | WhileStatement        # partial
                         | RepeatStatement 
                         | ForStatement    
-                        | IOStatement 
+                        | IOStatement           # implemented
                         | MemoryStatement 
                         | StatementSequence 
                         | empty
         """
         self.state = 'parse_statement'
         self._parse_assignment()
+
+        self._parse_io_statement()
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -143,11 +152,25 @@ class Parser:
     
     def _parse_io_statement(self):
         """ IOStatement --> yread '(' DesignatorList ')' 
-            | yreadln [ '(' DesignatorList ')' ] 
-            | ywrite '(' ExpList ')' 
-            | ywriteln [ '(' ExpList ')' ]
+                        | yreadln [ '(' DesignatorList ')' ] 
+                        | ywrite '(' ExpList ')' 
+                        | ywriteln [ '(' ExpList ')' ]
         """
-        pass
+        self.state = 'parse_io_statement'
+
+        if self._current_tk_type() == 'TK_READ':
+            self._match('TK_L_PAREN')
+            self._parse_designator_list()   # not implemented
+            self._match('TK_R_PAREN')
+        elif self._current_tk_type() == 'TK_READLN':
+            self._match('TK_READLN')
+            # incomplete.
+        elif self._current_tk_type() == 'TK_WRITELN':
+            self._match('TK_WRITELN')
+            if self.current_tk_type() == 'TK_L_PAREN':
+                self._match('TK_L_PAREN')
+                self._parse_exp_list()
+                self._match('TK_R_PAREN')
 
     def _parse_assignment(self):
         """ Assignment --> Designator ':=' Expression """
@@ -160,6 +183,7 @@ class Parser:
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
         self._match('TK_IDENTIFIER')
+
 
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
@@ -183,6 +207,7 @@ class Parser:
             self._match('TK_ADDITION')
         if self._current_tk_type() == 'TK_SUBTRACTION':
             self._match('TK_SUBTRACTION')
+
 
     def _parse_term(self):
         """ Term --> Factor {MultOperator Factor} """
@@ -242,6 +267,7 @@ class Parser:
     def _get_next_token(self):
         self.current_token = self.tk_list.popleft()
         self.token_index += 1
+        print("Got next token")
 
     def _current_tk_type(self):
         return self.current_token.get_type()
@@ -281,15 +307,15 @@ class Parser:
         got_tk_type = self.got_tk_type
 
         if (expected_type == got_tk_type):
-            # after a successful token match,
-            # 1. increment global token counter
-            # 2. if debug mode is on, print all token comparisons.
-            if self.debug_mode_on:
-                self._display_message('debug')
+            pass
         else:
             self._display_message('tk_match_err')
         
         self._get_next_token()
+        if self.debug_mode_on:
+            self._display_message('debug')
+
+        print(len(self.tk_list))
 
     def _display_message(self, msg_type):
         """builds and displays error or debug messages."""
