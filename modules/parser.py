@@ -8,7 +8,6 @@ from debugger import DebugPrinter
 #  { } : having zero or more items
 #  [ ] : optional, zero or one item.
 
-
 class Parser:
     def __init__(self):
         self.debugger = DebugPrinter()
@@ -131,7 +130,7 @@ class Parser:
         if self.current_token.get_type() == 'TK_IDENTIFIER':
             self._parse_assignment()
 
-        #self._parse_io_statement()
+        self._parse_io_statement()
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -257,10 +256,18 @@ class Parser:
             # incomplete.
         elif self._current_tk_type() == 'TK_WRITELN':
             self._match('TK_WRITELN')
-            if self.current_tk_type() == 'TK_L_PAREN':
+            if self._current_tk_type() == 'TK_L_PAREN':
                 self._match('TK_L_PAREN')
                 self._parse_exp_list()
                 self._match('TK_R_PAREN')
+    
+    def _parse_exp_list(self):
+        """ExpList --> Expression { ',' Expression }"""
+        self._parse_expression()
+        
+        while self._current_tk_type() == 'TK_COLON':
+            self._match('TK_COLON')
+            self._parse_expression()
 
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
