@@ -257,8 +257,11 @@ class Parser:
         return self.current_token.get_type()
 
     def _get_next_token(self):
-        self.current_token = self.tk_list.popleft()
-        self.token_index += 1
+        try:
+            self.current_token = self.tk_list.popleft()
+            self.token_index += 1
+        except IndexError:
+            print("all tokens popped. finished loading all tokens.")
 
     def _match(self, expected_tk_type):
         """matches the current token with an expected token."""
