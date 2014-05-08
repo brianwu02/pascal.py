@@ -71,20 +71,6 @@ class Parser:
         self.parse_state = 'declarations'
         self._parse_variable_decl_block()
     
-    def _parse_statement_sequence(self):
-        """ StatementSequence --> ybegin Statement {';' Statement} yend """
-        self.state = 'statement_sequence'
-
-        self._match('TK_BEGIN')
-        self._parse_statement()
-
-        while self._current_tk_type() == 'TK_SEMICOLON':
-            self._match('TK_SEMICOLON')
-            self._parse_statement()
-
-        self._match('TK_END')
-
-
     def _parse_variable_decl_block(self):
         """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
         self.parse_state = 'variable_declaration_block'
@@ -109,6 +95,19 @@ class Parser:
         """
         self.parse_state = 'type'
         self._match('TK_IDENTIFIER')
+
+    def _parse_statement_sequence(self):
+        """ StatementSequence --> ybegin Statement {';' Statement} yend """
+        self.state = 'statement_sequence'
+
+        self._match('TK_BEGIN')
+        self._parse_statement()
+
+        while self._current_tk_type() == 'TK_SEMICOLON':
+            self._match('TK_SEMICOLON')
+            self._parse_statement()
+
+        self._match('TK_END')
         
     def _parse_statement(self):
         """ Statement --> Assignment            # implemented
@@ -124,9 +123,10 @@ class Parser:
                         | empty
         """
         self.state = 'parse_statement'
-        self._parse_assignment()
+        if self.current_token.get_type() == 'TK_IDENTIFIER':
+            self._parse_assignment()
 
-        self._parse_io_statement()
+        #self._parse_io_statement()
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -140,28 +140,6 @@ class Parser:
         """ WhileStatement --> ywhile Expression ydo Statement """
         pass
     
-    def _parse_io_statement(self):
-        """ IOStatement --> yread '(' DesignatorList ')' 
-                        | yreadln [ '(' DesignatorList ')' ] 
-                        | ywrite '(' ExpList ')' 
-                        | ywriteln [ '(' ExpList ')' ]
-        """
-        self.state = 'parse_io_statement'
-
-        if self._current_tk_type() == 'TK_READ':
-            self._match('TK_L_PAREN')
-            self._parse_designator_list()   # not implemented
-            self._match('TK_R_PAREN')
-        elif self._current_tk_type() == 'TK_READLN':
-            self._match('TK_READLN')
-            # incomplete.
-        elif self._current_tk_type() == 'TK_WRITELN':
-            self._match('TK_WRITELN')
-            if self.current_tk_type() == 'TK_L_PAREN':
-                self._match('TK_L_PAREN')
-                self._parse_exp_list()
-                self._match('TK_R_PAREN')
-
     def _parse_assignment(self):
         """ Assignment --> Designator ':=' Expression """
         self.state = 'parse_assignment'
@@ -245,6 +223,30 @@ class Parser:
         elif current_tk_type == 'TK_NOT':
             self._match('TK_NOT')
             self._parse_factor()
+
+    def _parse_io_statement(self):
+        """ IOStatement --> yread '(' DesignatorList ')' 
+                        | yreadln [ '(' DesignatorList ')' ] 
+                        | ywrite '(' ExpList ')' 
+                        | ywriteln [ '(' ExpList ')' ]
+        """
+        self.state = 'parse_io_statement'
+
+        if self._current_tk_type() == 'TK_READ':
+            self._match('TK_L_PAREN')
+            self._parse_designator_list()   # not implemented
+            self._match('TK_R_PAREN')
+        elif self._current_tk_type() == 'TK_READLN':
+            self._match('TK_READLN')
+            # incomplete.
+        elif self._current_tk_type() == 'TK_WRITELN':
+            self._match('TK_WRITELN')
+            if self.current_tk_type() == 'TK_L_PAREN':
+                self._match('TK_L_PAREN')
+                self._parse_exp_list()
+                self._match('TK_R_PAREN')
+
+
 
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
