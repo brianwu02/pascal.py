@@ -76,10 +76,13 @@ class Parser:
     def _parse_variable_decl_block(self):
         """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
         self.parse_state = 'variable_declaration_block'
-        current_tk_type = self.current_token.get_type()
         self._match('TK_VAR')
         self._parse_variable_decl()
         self._match('TK_SEMICOLON')
+        while self._current_tk_type() == 'TK_VAR':
+            self._match('TK_VAR')
+            self._parse_variable_decl()
+            self._match('TK_SEMICOLON')
 
     def _parse_variable_decl(self):
         """ VariableDecl --> IdentList ':' Type """
