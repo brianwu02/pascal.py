@@ -160,11 +160,18 @@ class Parser:
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
         self.state = 'parse_simple_exression'
-        self._parse_unary_operator()
+        if self.current_token.is_unary_operator():
+            self._parse_unary_operator()
         self._parse_term()
         
-        if self._current_tk_type() == 'TK_ADDITION':
-            self._parse_add_operator()
+        #while self._current_tk_type() == 'TK_ADDITION':
+        while self.current_token.is_add_operator():
+            if self._current_tk_type() == 'TK_ADDITION':
+                self._match('TK_ADDITION')
+            if self._current_tk_type() == 'TK_SUBTRACTION':
+                self._match('TK_SUBTRACTION')
+            if self._current_tk_type() == 'TK_OR':
+                self._match('TK_OR')
             self._parse_term()
 
     def _parse_unary_operator(self):
@@ -245,8 +252,6 @@ class Parser:
                 self._match('TK_L_PAREN')
                 self._parse_exp_list()
                 self._match('TK_R_PAREN')
-
-
 
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)
