@@ -16,6 +16,7 @@ class Parser:
         self.token_index = 1
         self.token_list_length = None
         self.current_token = None
+        self.next_token = None
         # state of current token and expected parsing token
         # Current Token Attributes
         self.got_tk_type = None
@@ -264,11 +265,7 @@ class Parser:
         self.current_token = self.tk_list.popleft()
         self.token_list_length = len(self.tk_list) + 1
 
-    def _get_next_token(self):
-        self.current_token = self.tk_list.popleft()
-        self.token_index += 1
-        print("Got next token")
-
+    
     def _current_tk_type(self):
         return self.current_token.get_type()
 
@@ -294,94 +291,37 @@ class Parser:
         self.got_tk_name = token.get_name()
         self.got_tk_create_state = token.get_creation_state()
 
-    def _match(self, tk_type):
+    def _get_next_token(self):
+        self.current_token = self.tk_list.popleft()
+        self.token_index += 1
+        print("Got next token")
+
+    def _match(self, expected_tk_type):
         """matches the current token with an expected token."""
         #tk = self.tk_list[self.token_index]
-        tk = self.current_token
-
+        debugger = self.debugger
+        current_token = self.current_token
         # update the global state of expected token type & val
-        self._update_expected(tk_type)
-        self._update_got(tk)
+        self._update_expected(expected_tk_type)
+        self._update_got(current_token)
 
-        expected_type = self.expected_tk_type
-        got_tk_type = self.got_tk_type
-
-        if (expected_type == got_tk_type):
-            pass
+        if (expected_tk_type == current_token.get_type()):
+            # pass token to debuggger and print debug statement
+            debugger.print_debug(
+                    current_token,
+                    self.token_index,
+                    self.token_list_length
+                    )
         else:
-            self._display_message('tk_match_err')
-        
+            debugger.raise_match_tk_err(
+                    current_token, 
+                    self.token_index,
+                    self.token_list_length,
+                    expected_tk_type,
+                    current_token.get_type()
+                    )
         self._get_next_token()
-        if self.debug_mode_on:
-            self._display_message('debug')
 
-        print(len(self.tk_list))
-
-    def _display_message(self, msg_type):
-        """builds and displays error or debug messages."""
-        accepted_message_types = [
-                'debug',
-                'tk_match_err'
-                ]
-        if msg_type not in accepted_message_types:
-            raise Exception("error type " + msg_type + " does not exist")
-
-        # send this dictionary of current state to DebugPrinter
-        parser_state = {
-                'expected_tk_type': self.expected_tk_type,
-                'total_tokens': self.token_list_length,
-                'current_tk_count': self.token_index,
-                'got_tk_val': self.got_tk_val,
-                'got_tk_type': self.got_tk_type,
-                'got_tk_cnt': self.got_tk_cnt,
-                'got_tk_name': self.got_tk_name,
-                'got_tk_creation_state': self.got_tk_create_state,
-                'got_line': self.got_tk_line,
-                'got_l_ind': self.got_tk_l_index,
-                'line_info': "(%s, %s)" % (self.got_tk_line, self.got_tk_l_index),
-                'parse_state': self.parse_state
-                }
-
-        if self.debug_mode_on:
-            self.debugger.print_debug(parser_state)
-
-        expected_tk_type = self.expected_tk_type
-        total_tokens = self.token_list_length
-        current_tk_cnt = self.token_index
-
-        got_tk_type = self.got_tk_type
-        got_tk_val = self.got_tk_val
-        got_tk_cnt = self.got_tk_cnt
-        got_tk_name = self.got_tk_name
-        got_tk_create_state = self.got_tk_create_state
-        got_line = self.got_tk_line 
-        got_l_ind = self.got_tk_l_index
-        line_info = "(%s, %s)" % (got_line, got_l_ind)
-        parse_state = self.parse_state
-
-        tk_match_err_msg = """TK_MATCH_ERR
-        ---tk_match_err on token %s out of %s----
-        --> expected match  : %s in parse_state: %s
-        --> got type        : %s
-        got value   : %s
-        got name    : %s
-        got line    : %s
-        create state: %s
-        """ % (
-                current_tk_cnt,
-                total_tokens,
-                expected_tk_type,
-                parse_state,
-                got_tk_type,
-                got_tk_val,
-                got_tk_name,
-                line_info,
-                got_tk_create_state
-                )
-
-        if msg_type == 'tk_match_err':
-            raise Exception(tk_match_err_msg)
-    
     def push(self, obj):
         """sugar"""
         self.stack.append(obj)
