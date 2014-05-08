@@ -129,8 +129,10 @@ class Parser:
         self.state = 'parse_statement'
         if self.current_token.get_type() == 'TK_IDENTIFIER':
             self._parse_assignment()
-
-        self._parse_io_statement()
+        
+        if self.current_token.is_io_operator():
+            self._parse_io_statement()
+        # since there is a EMPTY, we do not need to raise exception.
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -169,8 +171,10 @@ class Parser:
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
         self.state = 'parse_simple_exression'
+
         if self.current_token.is_unary_operator():
             self._parse_unary_operator()
+
         self._parse_term()
         
         while self.current_token.is_add_operator():
@@ -202,12 +206,11 @@ class Parser:
     def _parse_mult_operator(self):
         """ MultOperator --> '*' | '/' | div | mod | and """
         self.state = 'parse_mult_operator'
-        tk_type = self._current_tk_type()
-        if tk_type == 'TK_MULTIPLICATION':
+        if self._current_tk_type() == 'TK_MULTIPLICATION':
             self._match('TK_MULTIPLICATION')
-        elif tk_type == 'TK_DIVISION':
+        elif self._current_tk_type() == 'TK_DIVISION':
             self._match('TK_DIVISION')
-        elif tk_type == 'TK_DIV':   # not implemented.
+        elif self._current_tk_type() == 'TK_DIV':   # not implemented.
             self._match('TK_DIV')
 
     def _parse_factor(self):
