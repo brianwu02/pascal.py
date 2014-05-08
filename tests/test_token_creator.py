@@ -24,7 +24,7 @@ class TestTokenCreator(unittest.TestCase):
         line_number = 8
         line_index = 6
         state = 'handle_symbol'
-        tk_type = 'TK_ASSIGNMENT_OP'
+        tk_type = 'TK_ASSIGNMENT'
         tk_name = 'assignment'
 
         tk_tuple = (':=', 8, 6, 'handle_symbol')
@@ -47,7 +47,7 @@ class TestTokenCreator(unittest.TestCase):
         line_number = 8
         line_index = 11
         state = 'handle_symbol'
-        tk_type = 'TK_ADDITION_OP'
+        tk_type = 'TK_ADDITION'
         tk_name = 'addition'
 
         token = self.tokenCreator.create(tk_tuple)
@@ -66,7 +66,7 @@ class TestTokenCreator(unittest.TestCase):
         line_number = 0
         line_index = 0
         state = 'handle_symbol'
-        tk_type = 'TK_SUBTRACTION_OP'
+        tk_type = 'TK_SUBTRACTION'
         tk_name = 'subtraction'
 
         token = self.tokenCreator.create(tk_tuple)
