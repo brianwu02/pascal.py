@@ -1,7 +1,10 @@
 # Brian Wu
 # Pascal Compiler written in Python
 # brianwu0@gmail.com 
+
+
 # module that pre-processes the source file.
+# check that you have correct order of code, headers, functions prototypes
 
 class PreProcess():
     """Pre-processes source file."""
