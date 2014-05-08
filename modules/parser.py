@@ -58,7 +58,9 @@ class Parser:
     def _parse_block(self):
         """ Block --> [Declarations] StatementSequence """
         self.parse_state = 'block'
-        self._parse_declarations()
+        # only variable declarations are currently implemented so this works.
+        if self._current_tk_type() == 'TK_VAR':
+            self._parse_declarations()
         self._parse_statement_sequence()
 
     def _parse_declarations(self):
