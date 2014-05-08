@@ -263,6 +263,8 @@ class Parser:
                 self._match('TK_L_PAREN')
                 self._parse_exp_list()
                 self._match('TK_R_PAREN')
+        else:
+            raise Exception('no match in _parse_io_statement')
     
     def _parse_exp_list(self):
         """ExpList --> Expression { ',' Expression }"""
