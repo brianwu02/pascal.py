@@ -157,6 +157,9 @@ class Parser:
         self.state = 'parse_expression'
         self._parse_simple_expression()
 
+        if self.current_token.is_relation_operator():
+            self._parse_simple_expression()
+
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
         self.state = 'parse_simple_exression'
@@ -164,7 +167,6 @@ class Parser:
             self._parse_unary_operator()
         self._parse_term()
         
-        #while self._current_tk_type() == 'TK_ADDITION':
         while self.current_token.is_add_operator():
             if self._current_tk_type() == 'TK_ADDITION':
                 self._match('TK_ADDITION')
