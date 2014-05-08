@@ -151,6 +151,8 @@ class Parser:
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
         self._match('TK_IDENTIFIER')
+        if self._current_tk_type() == 'TK_PERIOD':
+            self._parse_designator_stuff()
 
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
