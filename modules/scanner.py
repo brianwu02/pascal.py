@@ -1,4 +1,4 @@
-from tokenizer import Tokenizer
+from character_scanner import CharacterScanner
 from token_creator import TokenCreator
 
 # REMEMBER:
@@ -30,7 +30,7 @@ class Scanner:
     It takes characters as input and outputs a stream of tokens.
     """
     def __init__(self, source_file):
-        self.tokenizer = Tokenizer(source_file)
+        self.character_scanner = CharacterScanner(source_file)
         self.token_creator = TokenCreator()
         self.token_list = []
         
@@ -41,7 +41,7 @@ class Scanner:
         Reads the string values from tokenizer and attempts to create a token object.
         """
 
-        tokenizer = self.tokenizer
+        character_scanner = self.character_scanner
         tk_creator = self.token_creator
         tk_list = self.token_list
 
@@ -50,7 +50,7 @@ class Scanner:
         #for tuple_val in tokenizer:
         #    tk_list.append(tk_creator.create(tuple_val))
 
-        [tk_list.append(tk_creator.create(tuple_val)) for tuple_val in tokenizer]
+        [tk_list.append(tk_creator.create(tuple_val)) for tuple_val in character_scanner]
 
         # currently runs as a side-effect but i guess thats the only
         # easy way to write this, this cannot be run twice as it uses
