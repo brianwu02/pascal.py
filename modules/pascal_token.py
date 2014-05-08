@@ -127,6 +127,13 @@ class Token:
             return True
         return False
 
+    def is_io_operator(self):
+        """ read, readln, write, writeln"""
+        accepted = ['TK_READ', 'TK_READLN', 'TK_WRITELN', 'TK_WRITE']
+        if self.tk_type in accepted: # fix this later to value? dunno.
+            return True
+        return False
+
     def __repr__(self):
         """ prety print the token here. do not need extra dbug info, hurst my eyes"""
         """
