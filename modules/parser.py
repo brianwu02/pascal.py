@@ -195,7 +195,7 @@ class Parser:
         self.state = 'parse_term'
         self._parse_factor()
 
-        if self.current_token.is_mult_operator():
+        while self.current_token.is_mult_operator():
             self._parse_mult_operator()
             self._parse_factor()
 
@@ -221,23 +221,26 @@ class Parser:
         | FunctionCall  # not implemented
         """
         self.state = 'parse_factor'
-        current_tk_type = self._current_tk_type()
 
-        if current_tk_type == 'TK_INT_LITERAL':
+        if self._current_tk_type() == 'TK_INT_LITERAL':
             self._match('TK_INT_LITERAL')
-        elif current_tk_type == 'TK_STRING_LITERAL':
+        elif self._current_tk_type() == 'TK_STRING_LITERAL':
             self._match('TK_STRING_LITERAL')
-        elif current_tk_type == 'TK_TRUE':
+        elif self._current_tk_type()  == 'TK_TRUE':
             self._match('TK_TRUE')
-        elif current_tk_type == 'TK_NIL':
+        elif self._current_tk_type() == 'TK_NIL':
             self._match('TK_NIL')
-        elif current_tk_type == 'TK_L_PAREN':
+        elif self._current_tk_type() == 'TK_L_PAREN':
             self._match('TK_L_PAREN')
             self._parse_expression()
             self._match('TK_R_PAREN')
-        elif current_tk_type == 'TK_NOT':
+        elif self._current_tk_type() == 'TK_NOT':
             self._match('TK_NOT')
             self._parse_factor()
+        elif self._current_tk_type() == 'TK_IDENTIFIER':
+            self._parse_designator()
+        else:
+            raise Exception('no matches in _parse_factor')
 
     def _parse_io_statement(self):
         """ IOStatement --> yread '(' DesignatorList ')' 
