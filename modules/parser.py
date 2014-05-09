@@ -136,7 +136,14 @@ class Parser:
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
-        pass
+        if self._current_tk_type() == 'TK_IF':
+            self._match('TK_IF')
+            self._parse_expression()
+            self._match('TK_THEN')
+            self._parse_expression()
+            if self._current_tk_type() == 'TK_ELSE':
+                self._match('TK_ELSE')
+                self._parse_statement()
 
     def _parse_case_statement(self):
         """ CaseStatement --> ycase Expression yof Case {';' Case} yend """
@@ -350,7 +357,4 @@ class Parser:
         
         """
         pass
-
-
-
 
