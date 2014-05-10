@@ -171,8 +171,11 @@ class Parser:
 
     def _parse_while_statement(self):
         """ WhileStatement --> ywhile Expression ydo Statement """
-        pass
-    
+        self._match('TK_WHILE')
+        self._parse_expression()
+        self._match('TK_DO')
+        self._parse_statement()
+
     def _parse_assignment(self):
         """ Assignment --> Designator ':=' Expression """
         self.state = 'parse_assignment'
