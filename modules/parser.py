@@ -157,6 +157,18 @@ class Parser:
         
         self._match('TK_END')
 
+    def _parse_case(self):
+        """ Case --> CaseLabelList ':' Statement """
+        self._parse_case_label_list()
+        self._match('TK_COLON')
+        self._parse_statement()
+
+    def _parse_case_label_List(self):
+        """CaseLabelList --> ConstExpression {',' ConstExpression } """
+        self._parse_const_expression() # not implemented yet.
+        while self._current_tk_type() == 'TK_COMMA':
+            self._parse_const_expression() # again, not implemented yet.
+
     def _parse_while_statement(self):
         """ WhileStatement --> ywhile Expression ydo Statement """
         pass
