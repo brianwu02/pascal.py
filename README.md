@@ -1,4 +1,4 @@
-A Pascal Compiler written in Python
+A Pascal LL(1) Compiler written in Python
 
 #### Problems with this compiler:
 
