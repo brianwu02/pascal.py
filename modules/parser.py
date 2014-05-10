@@ -147,7 +147,15 @@ class Parser:
 
     def _parse_case_statement(self):
         """ CaseStatement --> ycase Expression yof Case {';' Case} yend """
-        pass
+        self._match('TK_CASE')
+        self._parse_expression()
+        self._match('TK_OF')
+        self._parse_case()
+
+        while self._current_tk_type() == 'TK_SEMICOLON':
+            self._parse_case()
+        
+        self._match('TK_END')
 
     def _parse_while_statement(self):
         """ WhileStatement --> ywhile Expression ydo Statement """
