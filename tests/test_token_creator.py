@@ -1,6 +1,6 @@
 import unittest
-from ..modules.token_creator import TokenCreator
-from ..modules.pascal_token import Token
+from modules.token_creator import TokenCreator
+from modules.pascal_token import Token
 
 default_source = 'pascal_sample_code/addition.ps'
 
