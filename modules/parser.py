@@ -74,7 +74,6 @@ class Parser:
     
     def _parse_variable_decl_block(self):
         """ VariableDeclBlock --> yvar VariableDecl ';' {VariableDecl ';'} """
-        self.parse_state = 'variable_declaration_block'
         self._match('TK_VAR')
         self._parse_variable_decl()
         self._match('TK_SEMICOLON')
@@ -130,9 +129,13 @@ class Parser:
         if self.current_token.get_type() == 'TK_IDENTIFIER':
             self._parse_assignment()
         
+        if self.current_token.get_type() == 'TK_IF':
+            self._parse_if_statement()
+
         if self.current_token.is_io_operator():
             self._parse_io_statement()
         # since there is a EMPTY, we do not need to raise exception.
+
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -196,7 +199,18 @@ class Parser:
         self._parse_simple_expression()
 
         if self.current_token.is_relation_operator():
+            self._parse_relation()
             self._parse_simple_expression()
+
+    def _parse_relation(self):
+        """ Relation --> '=' | '<>' | '<' | '>' | '<=' | '>=' | in """
+        if self._current_tk_type() == 'TK_EQUALS':
+            self._match('TK_EQUALS')
+        elif self._current_tk_type() == 'TK_GREATER_THAN':
+            self._match('TK_GREATER_THAN')
+        elif self._current_tk_type() == 'TK_LESS_THAN':
+            self._match('TK_LESS_THAN')
+        
 
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
@@ -273,6 +287,7 @@ class Parser:
         elif self._current_tk_type() == 'TK_IDENTIFIER':
             self._parse_designator()
         else:
+            print self.current_token.get_type()
             raise Exception('no matches in _parse_factor')
 
     def _parse_io_statement(self):
