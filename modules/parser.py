@@ -23,11 +23,14 @@ class Parser:
 
         #initialize symbol table
         self.symbol_table = SymbolTable()
+        self.temp_symbol = []
 
     def run(self):
         """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
+        print(self.temp_symbol)
+        self.symbol_table.print_table()
 
     def _program_module(self):
         """ ProgramModule --> yprogram yident ProgramParameters ';' Block '.' """
@@ -49,15 +52,7 @@ class Parser:
             self._match('TK_L_PAREN')
             self._parse_identifier_list()
             self._match('TK_R_PAREN')
-
-    def _parse_identifier_list(self):
-        """IdentList --> yident {',' yident}"""
-        self.parse_state = 'identifier_list'
-        self._match('TK_IDENTIFIER')
-        while self._current_tk_type() == 'TK_COMMA':
-            self._match('TK_COMMA')
-            self._match('TK_IDENTIFIER')
-
+    
     def _parse_block(self):
         """ Block --> [Declarations] StatementSequence """
         self.parse_state = 'block'
@@ -67,11 +62,10 @@ class Parser:
         self._parse_statement_sequence()
 
     def _parse_declarations(self):
-        """
-        Declarations -> [ConstantDefBlock]  # not implemented yet.
-                     |  [TypeDefBlock]      # not implemented yet.
-                     |  [VariableDeclBlock] 
-                     |  [SubprogDeclList]   # not implemented yet.
+        """Declarations -> [ConstantDefBlock]  # not implemented yet.
+                        |  [TypeDefBlock]      # not implemented yet.
+                        |  [VariableDeclBlock] # implemented
+                        |  [SubprogDeclList]   # not implemented yet.
         """
         self.parse_state = 'declarations'
         self._parse_variable_decl_block()
@@ -92,6 +86,22 @@ class Parser:
         self._parse_identifier_list()
         self._match('TK_COLON')
         self._parse_type()
+    
+    def _parse_identifier_list(self):
+        """IdentList --> yident {',' yident}"""
+        self.parse_state = 'identifier_list'
+        self.temp_symbol.append(self.current_token)
+        self._match('TK_IDENTIFIER')
+        while self._current_tk_type() == 'TK_COMMA':
+            self._match('TK_COMMA')
+            self.temp_symbol.append(self.current_token)
+            self._match('TK_IDENTIFIER')
+
+    def _parse_constant_def_block(self):
+        pass
+
+    def _parse_type_def_block(self):
+        pass
 
     def _parse_type(self):
         """ Type    --> yident  
@@ -101,6 +111,10 @@ class Parser:
                     | SetType       # not implmeneted yet.
         """
         self.parse_state = 'type'
+        self.temp_symbol.append(self.current_token)
+        self.symbol_table.parse_variable_declaration(self.temp_symbol)
+        # clear the temp symbol buffer after this iteration
+        self.temp_symbol = []
         self._match('TK_IDENTIFIER')
 
     def _parse_statement_sequence(self):
