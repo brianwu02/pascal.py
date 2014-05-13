@@ -143,7 +143,7 @@ class Parser:
             self._match('TK_IF')
             self._parse_expression()
             self._match('TK_THEN')
-            self._parse_expression()
+            self._parse_statement()
             if self._current_tk_type() == 'TK_ELSE':
                 self._match('TK_ELSE')
                 self._parse_statement()
@@ -210,7 +210,6 @@ class Parser:
             self._match('TK_GREATER_THAN')
         elif self._current_tk_type() == 'TK_LESS_THAN':
             self._match('TK_LESS_THAN')
-        
 
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
@@ -287,8 +286,9 @@ class Parser:
         elif self._current_tk_type() == 'TK_IDENTIFIER':
             self._parse_designator()
         else:
-            print self.current_token.get_type()
-            raise Exception('no matches in _parse_factor')
+            pass
+            #print self.current_token.get_type()
+            #raise Exception('no matches in _parse_factor')
 
     def _parse_io_statement(self):
         """ IOStatement --> yread '(' DesignatorList ')' 
