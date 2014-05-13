@@ -25,13 +25,11 @@ class SymbolTable:
                 # the way it's coded, the last element in array MUST be the type or something breaks.
                 ident_type = token.get_value()
             else:
-                identifiers.append(token)
+                identifiers.append(token.get_value())
 
         # loop over identifiers and add them to the symbol table
         for ident in identifiers:
             self.table[ident] = {'type': ident_type }
-
-
 
     def add(self, token):
         """adds identifier to symbol table"""
