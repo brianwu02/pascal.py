@@ -3,7 +3,10 @@
 
 # name -> variable and labels, parameter, constant, record, recordfield, procedure, array & file
 
-
+# lookup table that determines how many bytes to allocate for an identifier.
+MEM_LOOKUP = {
+        'integer': 4
+        }
 
 class SymbolTable:
     def __init__(self):
@@ -12,6 +15,7 @@ class SymbolTable:
         #    'type'
         #   }
         self.table = {}
+        self.mem_addr = 0
 
     def parse_variable_declaration(self, symbol_array):
         """pretty hacky. sends over a list of tokens where (first, last-1) are
@@ -29,32 +33,29 @@ class SymbolTable:
 
         # loop over identifiers and add them to the symbol table
         for ident in identifiers:
-            self.table[ident] = {'type': ident_type }
+            self.table[ident] = {
+                    'type': ident_type,
+                    'address': self._allocate_memory(ident_type)
+                    }
 
-    def add(self, token):
-        """adds identifier to symbol table"""
-        ident_name = token.get_value()
-        token_type = token.get_type()
-
-        if token_type != 'TK_IDENTIFIER':
-            raise Exception('SymbolTable got wrong TokenType')
-
-        if self.table.has_key(ident_name):
-            raise Exception('ident with name already exists.')
-        
         # add entire token to symboltable
-        self.table[ident_name] = token
+        # self.table[ident_name] = token
         
-    def lookup_(self, ident_name):
+    def lookup(self, ident_name):
         """returns value of identifier"""
-        pass
-
-    def update(self):
-        pass
+        # let it throw KeyError if the key doesnt exist. means i messed up.
+        return self.table[ident_name]
 
     def print_table(self):
         for key, value in self.table.iteritems():
             print (key, value)
-            
+
+    def _allocate_memory(self, ident_type):
+        """determine how much memory should be allocated for indent."""
+        alloc_size = MEM_LOOKUP[ident_type]
+        memory_addr = self.mem_addr 
+        self.mem_addr += alloc_size # increment address by amount offset by allocation
+        return memory_addr
+        
 
 
