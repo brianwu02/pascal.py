@@ -206,6 +206,11 @@ class Parser:
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
         self._match('TK_IDENTIFIER')
+        print('here')
+
+        # attempt to append 
+        #self.temp_store.append(self.curren_token)
+
         if self._current_tk_type() == 'TK_PERIOD':
             self._parse_designator_stuff()
 
@@ -256,7 +261,8 @@ class Parser:
     def _parse_term(self):
         """ Term --> Factor {MultOperator Factor} """
         self.state = 'parse_term'
-        self._parse_factor()
+        
+        tk_type = self._parse_factor()
 
         while self.current_token.is_mult_operator():
             self._parse_mult_operator()
@@ -284,22 +290,24 @@ class Parser:
         """
         self.state = 'parse_factor'
 
-        if self._current_tk_type() == 'TK_INT_LITERAL':
+        tk_type = self._current_tk_type()
+
+        if tk_type == 'TK_INT_LITERAL':
             self._match('TK_INT_LITERAL')
-        elif self._current_tk_type() == 'TK_STRING_LITERAL':
+        elif tk_type == 'TK_STRING_LITERAL':
             self._match('TK_STRING_LITERAL')
-        elif self._current_tk_type()  == 'TK_TRUE':
+        elif tk_type == 'TK_TRUE':
             self._match('TK_TRUE')
-        elif self._current_tk_type() == 'TK_NIL':
+        elif tk_type == 'TK_NIL':
             self._match('TK_NIL')
-        elif self._current_tk_type() == 'TK_L_PAREN':
+        elif tk_type == 'TK_L_PAREN':
             self._match('TK_L_PAREN')
             self._parse_expression()
             self._match('TK_R_PAREN')
-        elif self._current_tk_type() == 'TK_NOT':
+        elif tk_type == 'TK_NOT':
             self._match('TK_NOT')
             self._parse_factor()
-        elif self._current_tk_type() == 'TK_IDENTIFIER':
+        elif tk_type == 'TK_IDENTIFIER':
             self._parse_designator()
         else:
             pass
