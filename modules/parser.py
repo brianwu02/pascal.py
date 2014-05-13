@@ -1,6 +1,7 @@
 from collections import deque
 from debugger import DebugPrinter
 from symbol_table import SymbolTable
+from stack_machine import StackMachine
 # Parsing: the process of syntax analysis. takes a series of symbols as input 
 # where the syntax is context-free and runs the symbols through a grammar for
 # verification.
@@ -21,9 +22,12 @@ class Parser:
         self.debug_mode_on = True
         self.state = None
 
-        #initialize symbol table
+        # initialize symbol table
         self.symbol_table = SymbolTable()
         self.temp_store = []
+
+        # initialize stack machine
+        self.stack_machine = StackMachine()
 
     def run(self):
         """ CompilationUnit --> ProgramModule """
@@ -235,38 +239,47 @@ class Parser:
     def _parse_simple_expression(self):
         """ SimpleExpression --> [UnaryOperator] Term {AddOperator Term} """
         self.state = 'parse_simple_exression'
-
+        op = None
         if self.current_token.is_unary_operator():
-            self._parse_unary_operator()
+            op = self._parse_unary_operator()
 
-        self._parse_term()
+        t1 = self._parse_term()
         
         while self.current_token.is_add_operator():
             if self._current_tk_type() == 'TK_ADDITION':
+                op = self.current_token.get_type()
                 self._match('TK_ADDITION')
             if self._current_tk_type() == 'TK_SUBTRACTION':
                 self._match('TK_SUBTRACTION')
             if self._current_tk_type() == 'TK_OR':
                 self._match('TK_OR')
-            self._parse_term()
+            t2 = self._parse_term()
+            t1 = self.stack_machine.generate(self.state, op, t1, t2)
+        return t1
 
     def _parse_unary_operator(self):
         """ UnaryOperator --> '+' | '-' """
         self.state = 'parse_unary_operator'
         if self._current_tk_type() == 'TK_ADDITION':
+            op = self.current_token.get_type()
             self._match('TK_ADDITION')
+            return op
         if self._current_tk_type() == 'TK_SUBTRACTION':
+            op = self.current_token.get_type()
             self._match('TK_SUBTRACTION')
+            return op
 
     def _parse_term(self):
         """ Term --> Factor {MultOperator Factor} """
         self.state = 'parse_term'
         
-        tk_type = self._parse_factor()
+        f1 = self._parse_factor()
 
         while self.current_token.is_mult_operator():
-            self._parse_mult_operator()
-            self._parse_factor()
+            op = self._parse_mult_operator()
+            f2 = self._parse_factor()
+            #f1 = self.stack_machine.generate(self.state, op, f1, f2)
+        return f1
 
     def _parse_mult_operator(self):
         """ MultOperator --> '*' | '/' | div | mod | and """
@@ -293,7 +306,9 @@ class Parser:
         tk_type = self._current_tk_type()
 
         if tk_type == 'TK_INT_LITERAL':
+            val = self.current_token.get_value()
             self._match('TK_INT_LITERAL')
+            return val
         elif tk_type == 'TK_STRING_LITERAL':
             self._match('TK_STRING_LITERAL')
         elif tk_type == 'TK_TRUE':
