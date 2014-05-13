@@ -1,5 +1,6 @@
 from collections import deque
 from debugger import DebugPrinter
+from symbol_table import SymbolTable
 # Parsing: the process of syntax analysis. takes a series of symbols as input 
 # where the syntax is context-free and runs the symbols through a grammar for
 # verification.
@@ -19,6 +20,9 @@ class Parser:
         # debug stuff
         self.debug_mode_on = True
         self.state = None
+
+        #initialize symbol table
+        self.symbol_table = SymbolTable()
 
     def run(self):
         """ CompilationUnit --> ProgramModule """
@@ -135,7 +139,6 @@ class Parser:
         if self.current_token.is_io_operator():
             self._parse_io_statement()
         # since there is a EMPTY, we do not need to raise exception.
-
 
     def _parse_if_statement(self):
         """ IfStatement --> yif Expression ythen Statement [yelse Statement] """
@@ -339,10 +342,8 @@ class Parser:
 
     def _match(self, expected_tk_type):
         """matches the current token with an expected token."""
-        #tk = self.tk_list[self.token_index]
         debugger = self.debugger
         current_token = self.current_token
-        # update the global state of expected token type & val
 
         if (expected_tk_type == current_token.get_type()):
             # pass token to debuggger and print debug statement
@@ -360,13 +361,6 @@ class Parser:
                     current_token.get_type()
                     )
         self._get_next_token()
-
-    def push(self, obj):
-        """sugar"""
-        self.stack.append(obj)
-
-    def print_tokens(self):
-        print(self.tk_list)
 
     def _E1():
         """
