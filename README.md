@@ -5,6 +5,46 @@ A Pascal LL(1) Compiler written in Python
 1. the scanner & character scanner aren't properly tested. They've only been
 print statement tested. So far works with fairly simple code.
 
+this parses correcty...
+
+```
+program addNumbers;
+
+Var a,b : Integer;
+Var c: Integer;
+
+begin
+    a := 1 + 1;
+    if (a > 0) then
+        writeln(a)
+    else
+        b := a + 1;
+        c := a + b;
+end.
+```
+
+but this doesn't..  grammar doesn't have those begin/ends. dunno if grammar is wrong.
+
+
+```
+program addNumbers;
+
+Var a,b : Integer;
+Var c: Integer;
+
+begin
+    a := 1 + 1;
+    if (a > 0) then
+        writeln(a)
+    else
+        begin
+            b := a + 1;
+            c := a + b;
+    end;
+end.
+```
+
+both of them are correctly compiled by fpc.
 
 ### Todo
 
