@@ -23,13 +23,12 @@ class Parser:
 
         #initialize symbol table
         self.symbol_table = SymbolTable()
-        self.temp_symbol = []
+        self.temp_store = []
 
     def run(self):
         """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
-        print(self.temp_symbol)
         self.symbol_table.print_table()
 
     def _program_module(self):
@@ -90,11 +89,11 @@ class Parser:
     def _parse_identifier_list(self):
         """IdentList --> yident {',' yident}"""
         self.parse_state = 'identifier_list'
-        self.temp_symbol.append(self.current_token)
+        self.temp_store.append(self.current_token)
         self._match('TK_IDENTIFIER')
         while self._current_tk_type() == 'TK_COMMA':
             self._match('TK_COMMA')
-            self.temp_symbol.append(self.current_token)
+            self.temp_store.append(self.current_token)
             self._match('TK_IDENTIFIER')
 
     def _parse_constant_def_block(self):
@@ -111,10 +110,10 @@ class Parser:
                     | SetType       # not implmeneted yet.
         """
         self.parse_state = 'type'
-        self.temp_symbol.append(self.current_token)
-        self.symbol_table.parse_variable_declaration(self.temp_symbol)
+        self.temp_store.append(self.current_token)
+        self.symbol_table.parse_variable_declaration(self.temp_store)
         # clear the temp symbol buffer after this iteration
-        self.temp_symbol = []
+        self.temp_store = []
         self._match('TK_IDENTIFIER')
 
     def _parse_statement_sequence(self):
