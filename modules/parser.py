@@ -278,18 +278,24 @@ class Parser:
         while self.current_token.is_mult_operator():
             op = self._parse_mult_operator()
             f2 = self._parse_factor()
-            #f1 = self.stack_machine.generate(self.state, op, f1, f2)
+            f1 = self.stack_machine.generate(self.state, op, f1, f2)
         return f1
 
     def _parse_mult_operator(self):
         """ MultOperator --> '*' | '/' | div | mod | and """
         self.state = 'parse_mult_operator'
         if self._current_tk_type() == 'TK_MULTIPLICATION':
+            op = self.current_token.get_value()
             self._match('TK_MULTIPLICATION')
+            return op
         elif self._current_tk_type() == 'TK_DIVISION':
+            op = self.current_token.get_value()
             self._match('TK_DIVISION')
+            return op
         elif self._current_tk_type() == 'TK_DIV':   # not implemented.
+            op = self.current_token.get_value()
             self._match('TK_DIV')
+            return op
 
     def _parse_factor(self):
         """
