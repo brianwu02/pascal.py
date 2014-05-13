@@ -46,6 +46,7 @@ RESERVED_WORDS = [
 RESERVED_WORD_DICT = {
         'if': 'TK_IF',
         'else': 'TK_ELSE',
+        'then': 'TK_THEN',
         'for': 'TK_FOR',
         'while': 'TK_WHILE',
         'begin': 'TK_BEGIN',
@@ -85,6 +86,11 @@ SYMBOLS_DICT = {
         ',': ('TK_COMMA', 'comma'),
         '.': ('TK_PERIOD', 'period'),
         ':': ('TK_COLON', 'colon')
+        }
+# Relation --> '=' | '<>' | '<' | '>' | '<=' | '>=' | in
+RELATIONS_DICT = {
+
+
         }
 
 
