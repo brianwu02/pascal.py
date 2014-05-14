@@ -1,3 +1,4 @@
+import pprint
 # list of stack machine operations
 # OP_PUSH
 # OP_POP
@@ -20,6 +21,9 @@
 # m_bp; base pointer
 
 ## INTEGER 4 BYTES
+
+pp = pprint.PrettyPrinter(indent=1)
+
 class StackMachine:
     def __init__(self, symbol_table):
         self.stack = []
@@ -36,23 +40,44 @@ class StackMachine:
         """
         pass
 
+    def gen_debug(self, args):
+        self._gen_instruction(args)
+
     def generate(self, state, op_type, op1=None, op2=None):
-        print state, op_type, op1, op2
+        #print state, op_type, op1, op2
+        if op1 == "TK_INT_LITERAL" and op2 == "TK_INT_LITERAL":
+            instruction = 'OP_ADD'
+        else:
+            instruction = 'OP_ADD'
+
+        self._gen_instruction(instruction)
 
     def generate_pushi(self, token):
-        """generates the pushi instruction and pushes the instruction
+        """generates the op_pushi instruction and pushes the instruction
         to the instruction_list list. [pushi, {val}]"""
         # hardcode instruction w/ no validation for now.
-        instruction = 'op_pushi, %s' % (token.get_value())
-        self._push_instruction(instruction)
-        print instruction
+        instruction = 'OP_PUSHI, %s' % (token.get_value())
+        self._gen_instruction(instruction)
+        #print instruction
 
-    def _push_instruction(self, instruction):
+    def generate_pop(self):
+        """generates the op_pop instruction."""
+        pass
+
+    def generate_halt(self):
+        """generate the OP_HALT instruction."""
+        instruction = 'OP_HALT'
+        self._gen_instruction(instruction)
+
+    def _gen_instruction(self, instruction):
         """pushes instruction to internal instruction list"""
         instruction = "%s. %s" % (self.instruction_number, instruction)
         self.instruction_list.append(instruction)
-        self.instruction_number += 1
+        self.instruction_number += 1 
 
     def print_instruction_list(self):
+        print("---")
         for instruction in self.instruction_list:
-            print instruction
+            pp.pprint(instruction)
+        #print self.instruction_list
+        #pp.pprint(self.instruction_list)
