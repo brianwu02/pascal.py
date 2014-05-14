@@ -60,9 +60,12 @@ class StackMachine:
         self._gen_instruction(instruction)
         #print instruction
 
-    def generate_pop(self):
+    def generate_pop(self, identifier):
         """generates the op_pop instruction."""
-        pass
+        # lookup memory address in symbol table.
+        mem_addr = self.symbol_table.lookup_addr(identifier)
+        instruction = '%s, %s' % ('OP_POP', mem_addr)
+        self._gen_instruction(instruction)
 
     def generate_halt(self):
         """generate the OP_HALT instruction."""

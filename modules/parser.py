@@ -203,15 +203,16 @@ class Parser:
     def _parse_assignment(self):
         """ Assignment --> Designator ':=' Expression """
         self.state = 'parse_assignment'
-        self._parse_designator()
+        identifier = self._parse_designator()
         self._match('TK_ASSIGNMENT')
         self._parse_expression()
-        self.stack_machine.gen_debug('OP_POP')
+        self.stack_machine.generate_pop(identifier)
 
     def _parse_designator(self):
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
         print self.current_token.get_value()
+        identifier = self.current_token.get_value()
         self._match('TK_IDENTIFIER')
         #print(self.current_token.get_value())
         #self.stack_machine.gen_debug('here')
@@ -221,6 +222,8 @@ class Parser:
 
         if self._current_tk_type() == 'TK_PERIOD':
             self._parse_designator_stuff()
+
+        return identifier
 
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
