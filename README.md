@@ -57,6 +57,22 @@ both of them are correctly compiled by fpc.
 
     4. DONE. write tests that ensure token object has all correct correspoding attributes 
 
+    5. get machine instruction generation working for simple expression, if statements, while statements.
+
+```
+x := 1 + 2;
+``` 
+
+should generate
+
+```
+op_pushi, 1
+op_pushi, 2
+op_add
+op_pop, 0
+op_halt
+```
+
 ### File dependency list
 
 too lazy, just look at files.
