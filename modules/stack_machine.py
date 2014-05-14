@@ -39,10 +39,12 @@ class StackMachine:
         print state, op_type, op1, op2
 
     def generate_pushi(self, token):
-        print token
+        """generates the pushi instruction and pushes the instruction
+        to the instruction_list list. [pushi, {val}]"""
+        # hardcode instruction w/ no validation for now.
+        instruction = 'op_pushi, %s' % (token.get_value())
+        print instruction
 
-    def op_assign(self):
-        """
-
-        """
-
+    def print_instruction_list(self):
+        for instruction in self.instruction_list:
+            print instruction
