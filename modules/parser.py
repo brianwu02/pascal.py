@@ -27,13 +27,14 @@ class Parser:
         self.temp_store = []
 
         # initialize stack machine
-        self.stack_machine = StackMachine()
+        self.stack_machine = StackMachine(self.symbol_table)
 
     def run(self):
         """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
         self.symbol_table.print_table()
+        self.stack_machine.print_instruction_list()
 
     def _program_module(self):
         """ ProgramModule --> yprogram yident ProgramParameters ';' Block '.' """
@@ -46,7 +47,7 @@ class Parser:
         # parse tokens betwen tk_begin and tk_end
         self._parse_block()
         self._match('TK_PERIOD')
-        print("HOPEFULLY THIS STATEMENT RUNS BECAUSE IT MEANS IT WORKS!")
+        self.stack_machine.generate_halt()
 
     def _parse_program_parameters(self):
         """ ProgramParameters --> '(' IdentList ')' """
@@ -205,15 +206,18 @@ class Parser:
         self._parse_designator()
         self._match('TK_ASSIGNMENT')
         self._parse_expression()
+        self.stack_machine.gen_debug('OP_POP')
 
     def _parse_designator(self):
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
+        print self.current_token.get_value()
         self._match('TK_IDENTIFIER')
-        print('here')
+        #print(self.current_token.get_value())
+        #self.stack_machine.gen_debug('here')
 
         # attempt to append 
-        #self.temp_store.append(self.curren_token)
+        # self.temp_store.append(self.current_token)
 
         if self._current_tk_type() == 'TK_PERIOD':
             self._parse_designator_stuff()
@@ -310,9 +314,11 @@ class Parser:
         self.state = 'parse_factor'
 
         tk_type = self._current_tk_type()
+        #print self.current_token
 
         if tk_type == 'TK_INT_LITERAL':
-            val = self.current_token.get_value()
+            val = self.current_token.get_type()
+            self.stack_machine.generate_pushi(self.current_token)
             self._match('TK_INT_LITERAL')
             return val
         elif tk_type == 'TK_STRING_LITERAL':
@@ -380,7 +386,7 @@ class Parser:
             self.current_token = self.tk_list.popleft()
             self.token_index += 1
         except IndexError:
-            print("all tokens popped. finished loading all tokens.")
+            print("Finished parsing all tokens.\n")
 
     def _match(self, expected_tk_type):
         """matches the current token with an expected token."""
