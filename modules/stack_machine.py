@@ -20,13 +20,12 @@
 # m_bp; base pointer
 
 ## INTEGER 4 BYTES
-
-
 class StackMachine:
-    def __init__(self):
+    def __init__(self, symbol_table):
         self.stack = []
         # for debugging etc. shows list of pushed instructions.
         self.instruction_list = []
+        self.symbol_table = symbol_table
 
     def op_add(self):
         """
@@ -38,6 +37,9 @@ class StackMachine:
 
     def generate(self, state, op_type, op1=None, op2=None):
         print state, op_type, op1, op2
+
+    def generate_pushi(self, token):
+        print token
 
     def op_assign(self):
         """
