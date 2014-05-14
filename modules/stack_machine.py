@@ -26,6 +26,7 @@ class StackMachine:
         # for debugging etc. shows list of pushed instructions.
         self.instruction_list = []
         self.symbol_table = symbol_table
+        self.instruction_number = 0
 
     def op_add(self):
         """
@@ -43,7 +44,14 @@ class StackMachine:
         to the instruction_list list. [pushi, {val}]"""
         # hardcode instruction w/ no validation for now.
         instruction = 'op_pushi, %s' % (token.get_value())
+        self._push_instruction(instruction)
         print instruction
+
+    def _push_instruction(self, instruction):
+        """pushes instruction to internal instruction list"""
+        instruction = "%s. %s" % (self.instruction_number, instruction)
+        self.instruction_list.append(instruction)
+        self.instruction_number += 1
 
     def print_instruction_list(self):
         for instruction in self.instruction_list:
