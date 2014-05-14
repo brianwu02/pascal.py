@@ -44,13 +44,18 @@ class StackMachine:
         self._gen_instruction(args)
 
     def generate(self, state, op_type, op1=None, op2=None):
-        #print state, op_type, op1, op2
-        if op1 == "TK_INT_LITERAL" and op2 == "TK_INT_LITERAL":
-            instruction = 'OP_ADD'
-        else:
-            instruction = 'OP_ADD'
-
-        self._gen_instruction(instruction)
+        print state, op_type, op1, op2
+        if op_type == 'TK_ADDITION':
+            if op1 == "TK_REAL_LITERAL" or op2 == "TK_REAL_LITERAL":
+                instruction = 'OP_FADD'
+            elif op1 == "TK_INT_LITERAL" or op2 == "TK_INT_LITERAL":
+                instruction = 'OP_ADD'
+            else:
+                raise Exception('some error here')
+            self._gen_instruction(instruction)
+        elif op_type == "TK_SUBTRACTION":
+            instruction = 'OP_SUB'
+            self._gen_instruction(instruction)
 
     def generate_pushi(self, token):
         """generates the op_pushi instruction and pushes the instruction

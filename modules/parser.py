@@ -257,6 +257,7 @@ class Parser:
                 op = self.current_token.get_type()
                 self._match('TK_ADDITION')
             if self._current_tk_type() == 'TK_SUBTRACTION':
+                op = self.current_token.get_type()
                 self._match('TK_SUBTRACTION')
             if self._current_tk_type() == 'TK_OR':
                 self._match('TK_OR')
