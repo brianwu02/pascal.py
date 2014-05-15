@@ -14,8 +14,6 @@ from debugger import DebugPrinter
 pp = pprint.PrettyPrinter(indent=4)
 
 # write this in python first, then write in C. 
-
-
 class VirtualRunTime:
     def __init__(self):
         self.instructions = []
@@ -32,43 +30,78 @@ class VirtualRunTime:
     def run_dat_code(self):
         """initializes the data stack and starts executing op instructions."""
         self._initialize_data_segment_and_op_lookup()
-        op_code = self._get_next_instruction()
+        op_code = ""
+
+        print("starting execution of intermediate code\n")
 
         while op_code != 'OP_HALT':
-            pass
+            instruction = self._get_next_instruction()
+            op_code = instruction[0]
+
+            if op_code == 'OP_PUSHI':
+                self._op_pushi(instruction[1])
+                continue
+
+            if op_code == 'OP_POP':
+                self._op_pop(instruction[1])
+                continue
+            
+            if op_code == 'OP_ADD':
+                self._op_add()
+                continue
+
+            if op_code == 'OP_MULT':
+                self._op_mult()
+
+            if op_code == 'OP_SUB':
+                self._op_sub()
+                continue
+
+            if op_code == 'OP_WRITELN':
+                self._op_writeln(instruction[1])
+                continue
+
+        self._print_data_segment()
+
 
     def _push(self, arg):
         pass
 
-    def _pushi(self, val):
+    def _op_pushi(self, val):
         """push an immediate value on top of the stack"""
+        print("pushing %s onto the stack") % val
         self.v_stack.append(val)
 
-    def _pop(self, address):
+    def _op_pop(self, address):
         """pop top value off the stack and push to data segment address"""
         val = self.v_stack.pop()
+        print("popping %s off the stack and pushing to %s") % (val, address)
         self.v_data_seg[address] = val
 
     def _op_add(self):
         """pop top two values off the stack, add them together and push
         it back onto the stack. sorta cheating since im not popping to a register"""
         val1, val2 = self.v_stack.pop(), self.v_stack.pop()
-        val1 = val1 + val2
+        val1 = int(val1) + int(val2)
         self.v_stack.append(val1)
 
     def _op_sub(self):
         """pop two values off the stack. subtract them. push back onto stack"""
         val1 = self.v_stack.pop()
         val2 = self.v_stack.pop()
-        val1 = val2 - val1
-        self.v_stack.append(val2)
+        val1 = int(val2) - int(val1)
+        self.v_stack.append(val1)
 
-    def _op_tk_writeln(self, address):
+    def _op_writeln(self, address):
         """prints the contents of address"""
         print(self.v_data_seg[address])
     
     def _op_mult(self):
-        pass
+        """pop top two values off stack, multiply them and push back onto stack"""
+        val1 = self.v_stack.pop()
+        val2 = self.v_stack.pop()
+        val1 = int(val1) * int(val2)
+        self.v_stack.append(val1)
 
     def _initialize_data_segment_and_op_lookup(self):
         """reads the symbol table and allocates memory for variables.
@@ -79,7 +112,6 @@ class VirtualRunTime:
         for k, v in table.iteritems():
             # initialize data segment to null where it has been initialized
             self.v_data_seg[v['address']] = 'NULL'
-        print self.v_data_seg
 
     def _get_next_instruction(self):
         instruction = self.instructions[self.instruction_counter]
@@ -97,6 +129,11 @@ class VirtualRunTime:
     def print_instructions(self):
         for instruction in self.instructions:
             pp.pprint(instruction)
+
+    def _print_data_segment(self):
+        print("\nprinting memory segment\n")
+        for num, val in enumerate(self.v_data_seg):
+            print "[%s]: %s" % (num, val)
 
 
 
