@@ -31,6 +31,10 @@ class VirtualRunTime:
         """loads set of instructions"""
         self.instructions = instructions
 
+    def load_symbol_table(self, symbol_table):
+        self.symbol_table = symbol_table
+        self.symbol_table.print_table()
+
     def print_instructions(self):
         print self.instructions
 

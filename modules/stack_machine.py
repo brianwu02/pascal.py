@@ -95,3 +95,6 @@ class StackMachine:
             pp.pprint(instruction)
         #print self.instruction_list
         #pp.pprint(self.instruction_list)
+
+    def export_instructions(self):
+        return self.instruction_list

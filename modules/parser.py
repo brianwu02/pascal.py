@@ -36,7 +36,7 @@ class Parser:
         """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
-        self.symbol_table.print_table()
+        # self.symbol_table.print_table()
         # self.stack_machine.print_instruction_list()
         # get list of instructions to be sent to VirtualRunTime module.
         self.instructions = self.stack_machine.export_instructions()
@@ -421,6 +421,12 @@ class Parser:
 
     def get_instructions(self):
         return self.instructions
+
+    def get_symbol_table(self):
+        """reaches in to symbol table and returns data segment.
+        probably shouldn't return the entire symbol table but idk, screw it."""
+        return self.symbol_table 
+
 
     def _E1():
         """

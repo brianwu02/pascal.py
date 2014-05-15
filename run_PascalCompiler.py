@@ -34,11 +34,9 @@ class PascalCompiler:
         4. send intermediate code to virtual run time.
         5. profit?
         """
-        scanner = self.scanner # because, self
+        scanner = self.scanner # because, self.
         parser = self.parser
-        assert self.source_file is not None
-        assert scanner is not None
-        assert parser is not None
+        v_runtime = self.v_runtime
         
         # scan & print tokens
         scanner.scan()
@@ -52,10 +50,12 @@ class PascalCompiler:
         #parser.print_tokens()
         parser.run()
 
-        # pass instructions to runtime
+        # pass instructions & symbol table to runtime
         instructions = parser.get_instructions()
-        self.v_runtime.load_instructions(instructions)
-        self.v_runtime.print_instructions()
+        symbol_table = parser.get_symbol_table()
+        v_runtime.load_instructions(instructions)
+        v_runtime.load_symbol_table(symbol_table)
+        v_runtime.print_instructions()
         
 
     def test_run(self):

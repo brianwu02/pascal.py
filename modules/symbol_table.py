@@ -5,7 +5,8 @@
 
 # lookup table that determines how many bytes to allocate for an identifier.
 MEM_LOOKUP = {
-        'integer': 4
+        'integer': 4,
+        'real': 4
         }
 
 class SymbolTable:
@@ -46,6 +47,9 @@ class SymbolTable:
         # let it throw KeyError if the key doesnt exist. means i messed up.
         return self.table[ident_name]
 
+    def lookup_addr(self, ident_name):
+        return self.table[ident_name]['address']
+
     def print_table(self):
         for key, value in self.table.iteritems():
             print (key, value)
@@ -56,6 +60,7 @@ class SymbolTable:
         memory_addr = self.mem_addr 
         self.mem_addr += alloc_size # increment address by amount offset by allocation
         return memory_addr
+
         
 
 
