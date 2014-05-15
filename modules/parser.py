@@ -382,10 +382,7 @@ class Parser:
                 val = self._parse_exp_list()
                 self.stack_machine.generate_writeln(val)
                 self._match('TK_R_PAREN')
-            if self._current_tk_type() == 'TK_L_PAREN':
-                self._match('TK_L_PAREN')
-                self._parse_exp_list()
-                self._match('TK_R_PAREN')
+
         else:
             raise Exception('no match in _parse_io_statement')
     
