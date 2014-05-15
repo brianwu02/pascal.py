@@ -2,6 +2,7 @@ import os
 import sys
 from modules.scanner import Scanner
 from modules.parser import Parser
+from modules.runtime import VirtualRunTime
 
 # The main component of the Pascal compiler written in Python.
 
@@ -13,10 +14,12 @@ class PascalCompiler:
         self.source_file = None
         self.scanner = None
         self.parser = None
+        self.v_runtime = None
 
     def _initialize_all_modules(self):
         self.scanner = Scanner(self.source_file)
         self.parser = Parser()
+        self.v_runtime = VirtualRunTime()
 
     def load(self, f):
         """assumes the input is a character array."""
@@ -42,6 +45,12 @@ class PascalCompiler:
         parser.load_tokens(token_list)
         #parser.print_tokens()
         parser.run()
+        instructions = parser.get_instructions()
+
+        # pass instructions to runtime
+        self.v_runtime.load_instructions(instructions)
+        self.v_runtime.print_instructions()
+        
 
     def test_run(self):
         pass

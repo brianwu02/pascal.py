@@ -29,12 +29,17 @@ class Parser:
         # initialize stack machine
         self.stack_machine = StackMachine(self.symbol_table)
 
+        # machine instructions
+        self.instructions = None
+
     def run(self):
         """ CompilationUnit --> ProgramModule """
         self.parse_state = 'run'
         self._program_module()
         self.symbol_table.print_table()
-        self.stack_machine.print_instruction_list()
+        # self.stack_machine.print_instruction_list()
+        # get list of instructions to be sent to VirtualRunTime module.
+        self.instructions = self.stack_machine.export_instructions()
 
     def _program_module(self):
         """ ProgramModule --> yprogram yident ProgramParameters ';' Block '.' """
@@ -413,6 +418,9 @@ class Parser:
                     current_token.get_type()
                     )
         self._get_next_token()
+
+    def get_instructions(self):
+        return self.instructions
 
     def _E1():
         """

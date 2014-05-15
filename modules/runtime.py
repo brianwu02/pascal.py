@@ -7,6 +7,7 @@ from debugger import DebugPrinter
 
 class VirtualRunTime:
     def __init__(self):
+        self.instructions = []
         self.v_stack = []
         self.v_data_seg = []
         self.debugger = DebugPrinter()
@@ -26,7 +27,11 @@ class VirtualRunTime:
     def op_mult(self):
         pass
 
+    def load_instructions(self, instructions):
+        """loads set of instructions"""
+        self.instructions = instructions
 
-
+    def print_instructions(self):
+        print self.instructions
 
 
