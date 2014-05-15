@@ -39,26 +39,27 @@ class StackMachine:
         print state, op_type, op1, op2
         if op_type == 'TK_ADDITION':
             if op1 == "TK_REAL_LITERAL" or op2 == "TK_REAL_LITERAL":
-                instruction = 'OP_FADD'
+                instruction = ['OP_FADD']
             elif op1 == "TK_INT_LITERAL" or op2 == "TK_INT_LITERAL":
-                instruction = 'OP_ADD'
+                instruction = ['OP_ADD']
             else:
                 raise Exception('some error here')
             self._gen_instruction(instruction)
 
         elif op_type == "TK_SUBTRACTION":
-            instruction = 'OP_SUB'
+            instruction = ['OP_SUB']
             self._gen_instruction(instruction)
 
         elif op_type == "TK_MULTIPLICATION":
-            instruction = 'OP_MULT'
+            instruction = ['OP_MULT']
             self._gen_instruction(instruction)
 
     def generate_pushi(self, token):
         """generates the op_pushi instruction and pushes the instruction
         to the instruction_list list. [pushi, {val}]"""
         # hardcode instruction w/ no validation for now.
-        instruction = 'OP_PUSHI, %s' % (token.get_value())
+        #instruction = ['OP_PUSHI, %s' % (token.get_value())]
+        instruction = ['OP_PUSHI', token.get_value()]
         self._gen_instruction(instruction)
         #print instruction
 
@@ -66,18 +67,18 @@ class StackMachine:
         """generates the op_pop instruction."""
         # lookup memory address in symbol table.
         mem_addr = self.symbol_table.lookup_addr(identifier)
-        instruction = '%s, %s' % ('OP_POP', mem_addr)
+        instruction = ['OP_POP', mem_addr]
         self._gen_instruction(instruction)
 
     def generate_halt(self):
         """generate the OP_HALT instruction."""
-        instruction = 'OP_HALT'
+        instruction = ['OP_HALT']
         self._gen_instruction(instruction)
 
     def generate_writeln(self, identifier):
         """generates the writeln statement for identifier(s)"""
         mem_addr = self.symbol_table.lookup_addr(identifier)
-        instruction = "OP_WRITELN, %s" % (mem_addr)
+        instruction = ['OP_WRITELN', mem_addr]
         self._gen_instruction(instruction)
 
     def _gen_instruction(self, instruction):
