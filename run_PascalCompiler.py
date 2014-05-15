@@ -27,7 +27,13 @@ class PascalCompiler:
         self._initialize_all_modules()
 
     def run(self):
-        """imports all required modules and runs the compiler."""
+        """imports all required modules and runs the compiler.
+        1. scan input file and create tokens.
+        2. pass token stream to parser.
+        3. parse token stream & generate intermediate code.
+        4. send intermediate code to virtual run time.
+        5. profit?
+        """
         scanner = self.scanner # because, self
         parser = self.parser
         assert self.source_file is not None
@@ -45,9 +51,9 @@ class PascalCompiler:
         parser.load_tokens(token_list)
         #parser.print_tokens()
         parser.run()
-        instructions = parser.get_instructions()
 
         # pass instructions to runtime
+        instructions = parser.get_instructions()
         self.v_runtime.load_instructions(instructions)
         self.v_runtime.print_instructions()
         
