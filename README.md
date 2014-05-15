@@ -1,5 +1,13 @@
 A Pascal LL(1) Compiler written in Python
 
+#### gist
+
+1. Compiler initializes all the necessary components(scanner, parser, runtime)
+2. Scanner reads input file as character array & does all the dirty text parsing work and returns a list of tokens. (lexical analysis)
+3. Parser parses series of input tokens. since this is a LL(1) compiler, it generates intermediate code same time tokens are being parsed (syntax analysis)
+4. Intermediate code is fed to the virtual runtime where instructions are interpreted and executed in python via stack machine. should probably
+change the name of StackMachine class since it isn't a stack machine but a stack machine code generator. the v_runtime is the actual stack machine.
+
 #### Problems with this compiler:
 
 1. the scanner & character scanner aren't properly tested. They've only been
