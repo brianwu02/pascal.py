@@ -4,9 +4,10 @@
 # name -> variable and labels, parameter, constant, record, recordfield, procedure, array & file
 
 # lookup table that determines how many bytes to allocate for an identifier.
+# since this is python, just keep it as 1..
 MEM_LOOKUP = {
-        'integer': 4,
-        'real': 4
+        'integer': 1,
+        'real': 1,
         }
 
 class SymbolTable:
@@ -60,6 +61,9 @@ class SymbolTable:
         memory_addr = self.mem_addr 
         self.mem_addr += alloc_size # increment address by amount offset by allocation
         return memory_addr
+
+    def return_table(self):
+        return self.table
 
         
 
