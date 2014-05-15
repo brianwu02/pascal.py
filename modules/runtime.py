@@ -1,5 +1,4 @@
 import pprint
-from collections import deque
 from debugger import DebugPrinter
 
 # should probably really write this in C... would be less work..
@@ -22,8 +21,9 @@ class VirtualRunTime:
         self.instructions = []
         self.v_stack = []
         self.v_data_seg = []
-        self.debugger = DebugPrinter()
         self.op_lookup = {}
+        self.instruction_counter = 0
+        self.debugger = DebugPrinter()
 
     def _op_lookup(self, op_code):
         """Because I hate writing if/elses so much and python has no case statements,
@@ -31,28 +31,41 @@ class VirtualRunTime:
 
     def run_dat_code(self):
         """initializes the data stack and starts executing op instructions."""
-        self._initialize_data_segment()
+        self._initialize_data_segment_and_op_lookup()
+        op_code = self._get_next_instruction()
 
-        """runs da code."""
         while op_code != 'OP_HALT':
-            # run until OP_HALT is seen.
             pass
-        pass
 
     def _push(self, arg):
         pass
 
-    def _pushi(self, arg):
-        pass
+    def _pushi(self, val):
+        """push an immediate value on top of the stack"""
+        self.v_stack.append(val)
 
-    def _pop(self, arg):
-        pass
+    def _pop(self, address):
+        """pop top value off the stack and push to data segment address"""
+        val = self.v_stack.pop()
+        self.v_data_seg[address] = val
 
     def _op_add(self):
-        pass
+        """pop top two values off the stack, add them together and push
+        it back onto the stack. sorta cheating since im not popping to a register"""
+        val1, val2 = self.v_stack.pop(), self.v_stack.pop()
+        val1 = val1 + val2
+        self.v_stack.append(val1)
 
     def _op_sub(self):
-        pass
+        """pop two values off the stack. subtract them. push back onto stack"""
+        val1 = self.v_stack.pop()
+        val2 = self.v_stack.pop()
+        val1 = val2 - val1
+        self.v_stack.append(val2)
+
+    def _op_tk_writeln(self, address):
+        """prints the contents of address"""
+        print(self.v_data_seg[address])
     
     def _op_mult(self):
         pass
@@ -60,7 +73,18 @@ class VirtualRunTime:
     def _initialize_data_segment_and_op_lookup(self):
         """reads the symbol table and allocates memory for variables.
         since this is python...going to simply initialize the data segment as
-        a hash table... yes this is bad but who cares!"""
+        a hash table... yes this is bad and super inefficient but who cares!"""
+        table = self.symbol_table.return_table()
+        self.v_data_seg = len(table.keys()) * [None]
+        for k, v in table.iteritems():
+            # initialize data segment to null where it has been initialized
+            self.v_data_seg[v['address']] = 'NULL'
+        print self.v_data_seg
+
+    def _get_next_instruction(self):
+        instruction = self.instructions[self.instruction_counter]
+        self.instruction_counter += 1
+        return instruction
 
     def load_instructions(self, instructions):
         """loads set of instructions"""
