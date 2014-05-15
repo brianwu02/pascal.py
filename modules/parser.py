@@ -293,7 +293,7 @@ class Parser:
         """ MultOperator --> '*' | '/' | div | mod | and """
         self.state = 'parse_mult_operator'
         if self._current_tk_type() == 'TK_MULTIPLICATION':
-            op = self.current_token.get_value()
+            op = self.current_token.get_type()
             self._match('TK_MULTIPLICATION')
             return op
         elif self._current_tk_type() == 'TK_DIVISION':
