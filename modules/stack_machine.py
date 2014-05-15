@@ -53,9 +53,15 @@ class StackMachine:
             else:
                 raise Exception('some error here')
             self._gen_instruction(instruction)
+
         elif op_type == "TK_SUBTRACTION":
             instruction = 'OP_SUB'
             self._gen_instruction(instruction)
+
+        elif op_type == "TK_MULTIPLICATION":
+            instruction = 'OP_MULT'
+            self._gen_instruction(instruction)
+
 
     def generate_pushi(self, token):
         """generates the op_pushi instruction and pushes the instruction
