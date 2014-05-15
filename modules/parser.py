@@ -216,6 +216,7 @@ class Parser:
     def _parse_designator(self):
         """ Designator --> yident [DesignatorStuff] """
         self.state = 'parse_designator'
+        print('desig')
         print self.current_token.get_value()
         identifier = self.current_token.get_value()
         self._match('TK_IDENTIFIER')
@@ -233,11 +234,14 @@ class Parser:
     def _parse_expression(self):
         """ Expression --> SimpleExpression [ Relation SimpleExpression ] """
         self.state = 'parse_expression'
-        self._parse_simple_expression()
+        val = self._parse_simple_expression()
 
         if self.current_token.is_relation_operator():
             self._parse_relation()
             self._parse_simple_expression()
+        
+        print("the val is", val)
+        return val
 
     def _parse_relation(self):
         """ Relation --> '=' | '<>' | '<' | '>' | '<=' | '>=' | in """
@@ -321,6 +325,7 @@ class Parser:
         | FunctionCall  # not implemented
         """
         self.state = 'parse_factor'
+        val = None
 
         tk_type = self._current_tk_type()
         #print self.current_token
@@ -344,7 +349,9 @@ class Parser:
             self._match('TK_NOT')
             self._parse_factor()
         elif tk_type == 'TK_IDENTIFIER':
-            self._parse_designator()
+            print("in parse_factor")
+            val = self._parse_designator()
+            return val
         else:
             pass
             #print self.current_token.get_type()
@@ -362,11 +369,19 @@ class Parser:
             self._match('TK_L_PAREN')
             self._parse_designator_list()   # not implemented
             self._match('TK_R_PAREN')
+
         elif self._current_tk_type() == 'TK_READLN':
             self._match('TK_READLN')
             # incomplete.
+
         elif self._current_tk_type() == 'TK_WRITELN':
             self._match('TK_WRITELN')
+
+            if self._current_tk_type() == 'TK_L_PAREN':
+                self._match('TK_L_PAREN')
+                val = self._parse_exp_list()
+                self.stack_machine.generate_writeln(val)
+                self._match('TK_R_PAREN')
             if self._current_tk_type() == 'TK_L_PAREN':
                 self._match('TK_L_PAREN')
                 self._parse_exp_list()
@@ -376,11 +391,13 @@ class Parser:
     
     def _parse_exp_list(self):
         """ExpList --> Expression { ',' Expression }"""
-        self._parse_expression()
+        val = self._parse_expression()
         
-        while self._current_tk_type() == 'TK_COLON':
-            self._match('TK_COLON')
+        while self._current_tk_type() == 'TK_COMMA':
+            self._match('TK_COMMA')
             self._parse_expression()
+
+        return val
 
     def load_tokens(self, list_of_tokens):
         self.tk_list = deque(list_of_tokens)

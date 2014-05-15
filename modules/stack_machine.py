@@ -32,14 +32,6 @@ class StackMachine:
         self.symbol_table = symbol_table
         self.instruction_number = 0
 
-    def op_add(self):
-        """
-        s1 = int(stack.pop())
-        s2 = int(stack.pop())
-        stack.push(s1 + s2) # is this wrong?
-        """
-        pass
-
     def gen_debug(self, args):
         self._gen_instruction(args)
 
@@ -62,7 +54,6 @@ class StackMachine:
             instruction = 'OP_MULT'
             self._gen_instruction(instruction)
 
-
     def generate_pushi(self, token):
         """generates the op_pushi instruction and pushes the instruction
         to the instruction_list list. [pushi, {val}]"""
@@ -83,11 +74,17 @@ class StackMachine:
         instruction = 'OP_HALT'
         self._gen_instruction(instruction)
 
+    def generate_writeln(self, identifier):
+        """generates the writeln statement for identifier(s)"""
+        mem_addr = self.symbol_table.lookup_addr(identifier)
+        instruction = "OP_WRITELN, %s" % (mem_addr)
+        self._gen_instruction(instruction)
+
     def _gen_instruction(self, instruction):
         """pushes instruction to internal instruction list"""
-        instruction = "%s. %s" % (self.instruction_number, instruction)
+        #instruction = "%s. %s" % (self.instruction_number, instruction)
         self.instruction_list.append(instruction)
-        self.instruction_number += 1 
+        #self.instruction_number += 1 
 
     def print_instruction_list(self):
         print("---")
