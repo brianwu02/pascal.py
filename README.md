@@ -65,7 +65,9 @@ both of them are correctly compiled by fpc.
 
     4. DONE. write tests that ensure token object has all correct correspoding attributes 
 
-    5. get machine instruction generation working for simple expression, if statements, while statements.
+    5. DONE. get machine instruction generation working for simple expression.
+    
+    6. if statements, while statements.
 
 ```
 x := 1 + 2;
