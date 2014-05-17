@@ -306,11 +306,11 @@ class Parser:
             self._match('TK_MULTIPLICATION')
             return op
         elif self._current_tk_type() == 'TK_DIVISION':
-            op = self.current_token.get_value()
+            op = self.current_token.get_type()
             self._match('TK_DIVISION')
             return op
         elif self._current_tk_type() == 'TK_DIV':   # not implemented.
-            op = self.current_token.get_value()
+            op = self.current_token.get_type()
             self._match('TK_DIV')
             return op
 
