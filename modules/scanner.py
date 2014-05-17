@@ -35,10 +35,8 @@ class Scanner:
         # an iterator and the tokenizer object will not return any more elements.
 
     def print_tokens(self):
-        i = 1
-        for s in self.token_list:
-            print "%s %s" % (i, s)
-            i += 1
+        for i, s in enumerate(self.token_list):
+            print "%s %s" % (i+1, s)
 
     def get_tokens(self):
         """returns internal list of token objects. used by parser"""
