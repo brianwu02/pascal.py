@@ -8,8 +8,9 @@ from debugger import DebugPrinter
 # OP_PUSHI
 # OP_POP
 # OP_ADD
-# OP_SUBTRACT
-# OP_MULTIPLY
+# OP_SUB
+# OP_MULT
+# OP_DIV
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -42,24 +43,32 @@ class VirtualRunTime:
                 self._op_pushi(instruction[1])
                 continue
 
-            if op_code == 'OP_POP':
+            elif op_code == 'OP_POP':
                 self._op_pop(instruction[1])
                 continue
             
-            if op_code == 'OP_ADD':
+            elif op_code == 'OP_ADD':
                 self._op_add()
                 continue
 
-            if op_code == 'OP_MULT':
+            elif op_code == 'OP_DIV':
+                self._op_div()
+                continue
+
+            elif op_code == 'OP_MULT':
                 self._op_mult()
 
-            if op_code == 'OP_SUB':
+            elif op_code == 'OP_SUB':
                 self._op_sub()
                 continue
 
-            if op_code == 'OP_WRITELN':
+            elif op_code == 'OP_WRITELN':
                 self._op_writeln(instruction[1])
                 continue
+            
+            else:
+                if op_code != 'OP_HALT':
+                    raise Exception("something went wrong")
 
         self._print_data_segment()
 
@@ -93,7 +102,9 @@ class VirtualRunTime:
         self.v_stack.append(val1)
 
     def _op_writeln(self, address):
-        """prints the contents of address"""
+        """prints the contents of address. This is incorrectly implemented.
+        This only works if we are printing an identifier. This should work
+        while printing expressions e.g. writeln(1+1); """
         print(self.v_data_seg[address])
     
     def _op_mult(self):
@@ -105,8 +116,8 @@ class VirtualRunTime:
 
     def _initialize_data_segment_and_op_lookup(self):
         """reads the symbol table and allocates memory for variables.
-        since this is python...going to simply initialize the data segment as
-        a hash table... yes this is bad and super inefficient but who cares!"""
+        since this is written in python, im cheating and each data segment 
+        will correspond to a list index value."""
         table = self.symbol_table.return_table()
         self.v_data_seg = len(table.keys()) * [None]
         for k, v in table.iteritems():
@@ -114,6 +125,7 @@ class VirtualRunTime:
             self.v_data_seg[v['address']] = 'NULL'
 
     def _get_next_instruction(self):
+        """increments the 'program counter' and returns the instruction."""
         instruction = self.instructions[self.instruction_counter]
         self.instruction_counter += 1
         return instruction
