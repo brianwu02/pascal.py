@@ -4,10 +4,15 @@ from modules.scanner import Scanner
 from modules.parser import Parser
 from modules.runtime import VirtualRunTime
 
-# The main component of the Pascal compiler written in Python.
-
+# Some terminology
 # Scanning => Lexical Analysis: takes characters as input where the syntax is regular.
+# Symbols => may refer to the symbol table which stores identifiers and reference to their corresponding values
+# or a legal lexical character for example " ' , : ; etc.
+# Token => an abstract symbol representing a lexical unit. they are input to the parser.
 # Parsing  => Syntax Analysis: takes symbols as input where the syntax is context free.
+
+# USAGE:
+# python run_PascalCompiler [pascal-file-path]. if no path is provided, a default path is used instead.
 
 class PascalCompiler:
     def __init__(self):
@@ -32,7 +37,8 @@ class PascalCompiler:
         2. pass token stream to parser.
         3. parse token stream & generate intermediate code.
         4. send intermediate code to virtual run time.
-        5. profit?
+        5. execute.
+        6. profit?
         """
         scanner = self.scanner # because, self.
         parser = self.parser
@@ -56,11 +62,8 @@ class PascalCompiler:
         v_runtime.load_instructions(instructions)
         v_runtime.load_symbol_table(symbol_table)
         v_runtime.print_instructions()
+        v_runtime.run_dat_code()
         
-
-    def test_run(self):
-        pass
-
 if __name__ == "__main__":
 
     def read(path):
