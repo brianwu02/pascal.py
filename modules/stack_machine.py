@@ -43,7 +43,10 @@ class StackMachine:
             elif op1 == "TK_INT_LITERAL" or op2 == "TK_INT_LITERAL":
                 instruction = ['OP_ADD']
             else:
-                raise Exception('some error here')
+                # this works so far...
+                instruction = ['OP_ADD']
+                #print(op_type, op1, op2)
+                #raise Exception('some error here')
             self._gen_instruction(instruction)
 
         elif op_type == "TK_SUBTRACTION":
@@ -80,6 +83,9 @@ class StackMachine:
         mem_addr = self.symbol_table.lookup_addr(identifier)
         instruction = ['OP_WRITELN', mem_addr]
         self._gen_instruction(instruction)
+
+    def generate_div(self):
+        pass
 
     def _gen_instruction(self, instruction):
         """pushes instruction to internal instruction list"""
