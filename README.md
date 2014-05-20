@@ -8,6 +8,11 @@ A Pascal LL(1) Compiler written in Python
 4. Intermediate code is fed to the virtual runtime where instructions are interpreted and executed in python via stack machine. should probably
 change the name of StackMachine class since it isn't a stack machine but a stack machine code generator. the v_runtime is the actual stack machine.
 
+#### how to run 
+1. git clone git@github.com:brianwu02/pascal.py.git
+2. python runPascalCompiler.py *optional-filename*.
+3. as of now, no control structure instructions are implemented, only assignment and expressions using + - * /.
+
 #### Problems with this compiler:
 
 1. the scanner & character scanner aren't properly tested. They've only been
