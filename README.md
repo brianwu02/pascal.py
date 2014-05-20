@@ -10,12 +10,13 @@ change the name of StackMachine class since it isn't a stack machine but a stack
 
 #### how to run 
 1.
-
 ```
 git clone git@github.com:brianwu02/pascal.py.git
 ```
-
-2. python runPascalCompiler.py *optional-filename*.
+2.
+```
+python runPascalCompiler.py *optional-filename*.
+```
 3. as of now, no control structure instructions are implemented, only assignment and expressions using + - * /.
 
 #### Problems with this compiler:
