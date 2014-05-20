@@ -9,7 +9,12 @@ A Pascal LL(1) Compiler written in Python
 change the name of StackMachine class since it isn't a stack machine but a stack machine code generator. the v_runtime is the actual stack machine.
 
 #### how to run 
-1. git clone git@github.com:brianwu02/pascal.py.git
+1.
+
+```
+git clone git@github.com:brianwu02/pascal.py.git
+```
+
 2. python runPascalCompiler.py *optional-filename*.
 3. as of now, no control structure instructions are implemented, only assignment and expressions using + - * /.
 
