@@ -7,11 +7,11 @@ import pprint
 pp = pprint.PrettyPrinter(indent=1)
 
 class CharacterScanner:
-    """Everytime Tokenizer is called, it should return the next token.
+    """Everytime CharacterScanner is called, it should return the next token.
     This class is written as an iterator. Each time the __next() function
     is called, most likely by a for loop, it should return the next token.
     Justification: Even though this is should be a one pass compiler, we may
-    need to pause execution of the tokenizer. Writing tokenizer as an iterator
+    need to pause execution. Writing CharacterScanner as an iterator
     will prevent us from writing complicated for loop logic. """
 
     def __init__(self, source_file):
