@@ -1,9 +1,10 @@
 program addNumbers;
 
-Var a, b, c : Integer;
+Var var_one, var_two, var_three, var_four : Integer;
 
 begin
-    a := (1 + 2) * (3 - 2);
-    b := ((2 * 2 * 2) + (2 * 2 * 2)) + 2; 
-    c := (1 * 2) + (1 + 1) - (10 * 2);
+    var_one := 1 + 2 * 3;
+    var_two := (1 + 2) * 3;
+    var_three := 1 + 2 * 3 + 4 - 5;
+    var_four := (1 + 2) * (3 + 4) - 5;
 end.
